@@ -10,6 +10,8 @@ BSI *Hinweise zur Bereitstellung der Referenzdokumente im Rahmen der Zertifizier
 
 The table below records the supplied baseline mapping, not a completed independent verification. TASK-001 review on 2026-11-06 could not retrieve the official PDF (HTTP 403). Exact appendix labels, content coverage and page references remain unverified; the certification lead must confirm these against an accessible official copy and record the applicable edition before this mapping is accepted. English content summaries are paraphrases, not quotations. In particular, confirm the detailed asset examples and connection/provider scope rather than treating them as verbatim BSI requirements.
 
+TASK-002 update (2026-11-07): public BSI indexed appendix text supports the eight labels below (A.1.1–A.1.4 on printed page 10, A.1.5–A.1.8 on printed page 11). Indexed Prüfgrundlage v4.7 / 01.02.2025 lists reference-document version 2.1. This supersedes the earlier absence of indexed evidence, but direct PDF access still returns HTTP 403. Prüfgrundlage v4.7 is an identified historical version, not necessarily the latest applicable edition. Full section 2.2/content verification and the final normative baseline remain pending authoritative confirmation. See `docs/sprint-0-review.md`, TASK-002 evidence register, for public source links and limits.
+
 | Ref. | Official appendix label | Content from BSI section 2.2 | Verification target |
 |---|---|---|---|
 | A.1.1 | Abgrenzung des Informationsverbunds | Definition des Untersuchungsgegenstands; Integration des Untersuchungsgegenstands in das Gesamtunternehmen | Scope + organization profile and significance |

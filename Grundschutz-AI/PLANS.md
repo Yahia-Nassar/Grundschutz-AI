@@ -18,12 +18,14 @@ A stage is complete only when the Product Owner reviews the deliverables and acc
 
 - [ ] Confirm the exact BSI standard/edition required by the target certification process.
 - [ ] Install Git and VS Code; select Codex extension or CLI.
-- [ ] Install Python 3.12 and confirm `py -3.12 --version`.
-- [ ] Initialize a local-only Git repository; make the first checkpoint.
-- [ ] Read/review the 8 A.1 output sections and 9 information themes.
+- [x] Confirm Python 3.12: `py -3.12 --version` returned 3.12.6 in TASK-001; no installation needed.
+- [x] Confirm existing repository root `Y:/Grundschutz-AI` and checkpoint `884c0ba`; TASK-002 read-only Git checks succeeded. Working tree was clean before remediation; no automatic commit.
+- [x] Review the 8 A.1 output sections and 9 information themes; indexed evidence supports the 8 appendix labels, while authoritative content/applicability confirmation remains open.
 - [ ] Capture CPU model, available disk space, available RAM under typical load.
 - [ ] Decide on source-document access permissions and review ownership.
 - [ ] Approve the proposed Stage 1 hardware benchmark.
+
+TASK-002 (2026-11-07): user-confirmed AMD Ryzen 5 1600 (6 cores, 12 threads), Windows 11, 16 GB RAM, AMD RX 580 8 GB VRAM, approximately 2.9 GiB available system RAM at measurement. CPU/configuration and supplied RAM snapshot are recorded; free disk and benchmark-workload RAM/budget remain pending. Git is operational; VS Code/Codex operational/sign-in confirmation remains open after the earlier diagnostic. See `docs/sprint-0-review.md` for exact remaining S1 blockers. No installation or Sprint 1 execution is authorized by this update.
 
 ## Definition of Done for S0
 
