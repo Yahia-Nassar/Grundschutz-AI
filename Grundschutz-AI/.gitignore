@@ -1,0 +1,42 @@
+# Local company information: NEVER COMMIT
+/data/raw/
+/data/company/
+/data/private/
+/private/
+/secrets/
+/outputs/
+/exports/
+/reports/private/
+*.db
+*.sqlite
+*.sqlite3
+*.key
+*.pem
+*.p12
+*.pfx
+*.env
+.env.*
+!.env.example
+
+# Python and tooling
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Local caches and models
+/cache/
+/models/
+/ollama-models/
+/tmp/
+/temp/
+
+# Editor/system
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
