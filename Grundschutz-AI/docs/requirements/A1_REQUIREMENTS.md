@@ -6,7 +6,9 @@ BSI *Hinweise zur Bereitstellung der Referenzdokumente im Rahmen der Zertifizier
 
 **Important numbering distinction:** Section 2.2 specifies **nine information themes**, but the appendix lists **eight A.1 reference-document positions (A.1.1–A.1.8)**. Scope definition and integration into the wider organization are both covered by A.1.1 (Abgrenzung des Informationsverbunds). Do not create A.1.9 as an official annex.
 
-## Source-backed deliverables
+## Baseline mapping — pending primary-source verification
+
+The table below records the supplied baseline mapping, not a completed independent verification. TASK-001 review on 2026-11-06 could not retrieve the official PDF (HTTP 403). Exact appendix labels, content coverage and page references remain unverified; the certification lead must confirm these against an accessible official copy and record the applicable edition before this mapping is accepted. English content summaries are paraphrases, not quotations. In particular, confirm the detailed asset examples and connection/provider scope rather than treating them as verbatim BSI requirements.
 
 | Ref. | Official appendix label | Content from BSI section 2.2 | Verification target |
 |---|---|---|---|

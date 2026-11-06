@@ -27,7 +27,7 @@
 3. **Retrieval:** start with SQLite full-text search; introduce vectors only if evaluation demonstrates a benefit.
 4. **Local generation:** swappable runtime / model; CPU-first given Windows 11, 16 GB and RX 580; never couple application schema to a model.
 5. **Validation:** deterministic completeness and referential-integrity checks; no confidence-only approval.
-6. **Human review:** candidate/approved/rejected states with attribution and revision history.
+6. **Human review:** `proposed`, `approved`, `rejected`, `needs_clarification` states with attribution and revision history, matching the requirements register.
 7. **Rendering:** DOCX first, with tables and export of missing/uncertain information; PDF conversion later.
 8. **UI:** local server/desktop interface after the command-line pipeline is trustworthy.
 
