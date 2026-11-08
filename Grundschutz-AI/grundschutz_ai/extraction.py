@@ -140,6 +140,12 @@ class OllamaClient:
 
 @dataclass(frozen=True)
 class Candidate:
+    """Unapproved extraction data with provenance and validation status.
+
+    When needs_clarification, fields are untrusted diagnostic data only.
+    Downstream rendering must never export them as approved facts; proposed
+    candidates also require explicit human approval before such export.
+    """
     source_id: str
     source_sha256: str
     extracted_at: str
@@ -182,7 +188,7 @@ def extract_inventory(
         source_id=source_id,
         source_sha256=hashlib.sha256(source_text.encode("utf-8")).hexdigest(),
         extracted_at=datetime.now(timezone.utc).isoformat(),
-        extraction_method="ollama.generate+bounded-synthetic-validation/v2",
+        extraction_method="ollama.generate+bounded-synthetic-validation/v3",
         model=client.config.model,
         generation_config=asdict(client.config),
         prompt_sha256=hashlib.sha256(SYSTEM_PROMPT.encode("utf-8")).hexdigest(),

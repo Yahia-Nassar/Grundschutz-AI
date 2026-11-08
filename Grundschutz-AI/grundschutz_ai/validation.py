@@ -7,6 +7,10 @@ from typing import Any
 
 
 FIELDS = ("system_id", "standort", "anwendung_id")
+SOURCE_COVERAGE_ERROR = (
+    "Source must contain exactly one supported inventory assertion with only surrounding whitespace; "
+    "additional or unsupported source content requires clarification"
+)
 EXTRACTION_SCHEMA = {
     "type": "object",
     "properties": {
@@ -81,10 +85,10 @@ def _quote_covers(
 def validate_response(response: str, source: str) -> ValidationResult:
     """Validate one candidate; never repair model output or invent evidence.
 
-    Semantic support is limited to one initial explicit assertion of the
-    documented synthetic grammar; unsupported forms/multiple recognized
-    assertions require clarification. Arbitrary trailing prose is not parsed
-    for every possible conflict, and source authorship is not authenticated.
+    Exactly one assertion must cover every non-whitespace source character.
+    Unparsed content, including comments and instructions, fails closed.
+    This checks the documented synthetic grammar, not real-world truth or
+    source authorship. Invalid fields remain untrusted diagnostics only.
     """
     try:
         data = strict_json_loads(response)
@@ -99,11 +103,12 @@ def validate_response(response: str, source: str) -> ValidationResult:
 
     matches = list(_ASSERTION.finditer(source))
     assertion = matches[0] if len(matches) == 1 else None
-    if source.strip() and assertion is None:
-        errors.append("Source is outside supported grammar or has ambiguous inventory assertions")
-    if assertion is not None and source[:assertion.start()].strip():
-        errors.append("Inventory assertion must start the source; prefixed prose requires clarification")
-        assertion = None
+    if (
+        assertion is None
+        or source[:assertion.start()].strip()
+        or source[assertion.end():].strip()
+    ):
+        errors.append(SOURCE_COVERAGE_ERROR)
 
     for name in FIELDS:
         field = data.get(name)
