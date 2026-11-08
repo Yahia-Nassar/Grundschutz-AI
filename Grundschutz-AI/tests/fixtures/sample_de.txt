@@ -1,0 +1,1 @@
+Der Server SRV-001 befindet sich im Rechenzentrum Rostock und betreibt die Anwendung ERP-01.
