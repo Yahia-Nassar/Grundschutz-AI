@@ -1,12 +1,14 @@
 """Immutable inventory records. These are engineering rules, not BSI rulings."""
 
-from dataclasses import InitVar, asdict, dataclass
+from dataclasses import InitVar, asdict, dataclass, field
 from datetime import datetime
 from enum import StrEnum
 import hashlib
 import json
 import re
 from typing import ClassVar
+
+from .support import AffirmativeSupport, assess_source
 
 
 class ReviewState(StrEnum):
@@ -104,6 +106,9 @@ class Evidence:
     provenance: Provenance
     source_text: InitVar[str]
     revision: int = 1
+    relationship_support: AffirmativeSupport | None = field(default=None, init=False, repr=False)
+    quote_before: str = field(default="", init=False, repr=False)
+    quote_after: str = field(default="", init=False, repr=False)
 
     def __post_init__(self, source_text):
         require_id(self.id, "EVD")
@@ -119,6 +124,9 @@ class Evidence:
             raise ValueError("Source content does not match its SHA-256")
         if self.locator.end > len(source_text) or source_text[self.locator.start:self.locator.end] != self.quote:
             raise ValueError("Evidence quote does not match the exact source position")
+        object.__setattr__(self, "relationship_support", assess_source(source_text, self.locator.start, self.locator.end))
+        object.__setattr__(self, "quote_before", source_text[max(0, self.locator.start - 1):self.locator.start])
+        object.__setattr__(self, "quote_after", source_text[self.locator.end:self.locator.end + 1])
 
 
 @dataclass(frozen=True, slots=True)

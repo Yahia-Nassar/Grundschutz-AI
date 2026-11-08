@@ -1,6 +1,8 @@
-# TASK-004 — A.1 structured data model
+# TASK-004 / TASK-004.1 — A.1 structured data model
 
 Date: 2026-11-09 (Europe/Bucharest). Baseline confirmed by read-only Git: `c6f7a56` (`fix: enforce fail-closed extraction validation`), with a clean initial working tree. Scope: standard-library domain modeling and synthetic offline tests. No BSI baseline approval, production-readiness or certification claim is made.
+
+The original TASK-004 sections retain historical evidence. The final TASK-004.1 section supersedes their earlier substring/co-occurrence support rules and test counts. It records the hardening against baseline `f8cb1a1` and documents source-store prerequisites without implementing persistence.
 
 ## Files created
 
@@ -122,3 +124,97 @@ Final read-only verification: HEAD remains `c6f7a56`; no tracked modifications; 
 ?? Grundschutz-AI/grundschutz_ai/inventory.py
 ?? Grundschutz-AI/tests/test_domain.py
 ```
+
+## TASK-004.1 — Evidence support hardening
+
+Date: 2026-11-09 (Europe/Bucharest). Read-only Git confirmed a clean initial working tree at baseline `f8cb1a1` (`feat: add validated A1 inventory domain model`). Scope: the two reproduced support weaknesses and their regression coverage. No dependency, model, external service, company document, database or TASK-005 implementation.
+
+### Reproductions and root causes
+
+Before editing the implementation, both workflows were reproduced with actual domain objects and explicit synthetic ReviewRecords for Evidence, system, application and relationship. The baseline reported:
+
+```text
+negated-hosts: approved
+partial-identifiers: approved
+```
+
+The negative source was exactly `Der Server SRV-001 betreibt die Anwendung ERP-01 nicht.`. Relationship validation checked only whether both endpoint names occurred in a quote; it never required the quote to affirm the `hosts` predicate. The partial-ID source was `Der Server SRV-0012 betreibt die Anwendung ERP-010.`; Python substring matching wrongly allowed `SRV-001` and `ERP-01` as different entity names. A reviewer identity/dependency approval could not repair either support defect because the same insufficient check ran again at approval.
+
+Review also identified a related clipping bypass: evidence quoting only `SRV-001` out of `SRV-0012` hides the continuation if boundaries are checked only inside the quote. New tests cover both quote edges and prohibit completing a quoted name from adjacent context.
+
+### Files and changes
+
+- Added `grundschutz_ai/support.py`: a small pure helper for complete-name matching and full-source affirmative support. It imports only standard-library dataclasses/regular expressions and is independent of Ollama, cloud services and domain/extraction implementations.
+- Updated `grundschutz_ai/domain.py`: Evidence derives immutable `relationship_support`, `quote_before` and `quote_after` metadata while its checked InitVar source is available. These init=False fields cannot be supplied by the ordinary constructor or `dataclasses.replace`. Original text still is not retained. Hash, quote/locator, provenance and revision validation remain intact.
+- Updated `grundschutz_ai/inventory.py`: replaces substring checks with original-context complete-name checks. All supporting relationship citations must affirm the exact predicate and endpoint values. A refused addition/revision/approval raises `EvidenceSupportError` (a ValueError) with `review_state=needs_clarification`; no invalid proposal is inserted. Existing records with newly unsupported evidence report clarification and cannot be reapproved or returned as approved. Explicit current-revision rejections remain `rejected`. Derived support and `inventory-affirmative/v1` policy metadata bind the revision fingerprint.
+- Updated `tests/test_domain.py`: preserves the original 41 domain tests and adds 20 focused regressions. Existing extraction tests and implementation were not edited.
+- Updated `docs/decisions/0003-domain-inventory.md`: records bounded support policy and trustworthy source-store prerequisites.
+- Updated `docs/tasks/TASK-004-RESULTS.md`: this evidence and actual final results.
+
+No existing test assertion/expected result was weakened or removed. Three legitimate positive fixtures previously prefixed their sentences with ad hoc `FIKTIV.` / `FIKTIVER KONFLIKT.` banners. Those banners now use the same exact declared synthetic header already used by the main fixture. Their actual affirmative statements, entities, relationships and expected conflict/review behavior did not change. This makes their support explicit under the full-source rule instead of adding a general exception that silently discards arbitrary source prose.
+
+### Bounded behavior and approval constraints
+
+Complete-name matching is literal and case-sensitive. Word/hyphen characters may not extend either side in the original source, so `SRV-0012`, `XSRV-001`, `SRV-001-A` and `SRV-001_2` cannot support `SRV-001`. A name must be fully inside its quote; it cannot borrow characters from boundary metadata. Metadata is derived from the original verified source, not from model output.
+
+The two accepted relationship sentence forms are documented in ADR-0003. They use the exact affirmative `betreibt die Anwendung` wording, optionally preceded by `befindet sich im Rechenzentrum ... und`. Captured IDs/location must equal the referenced domain object's full name in the correct predicate role. Place/room syntax is deliberately restricted; it does not interpret general German location descriptions. Negated sentences, unsupported wording, missing/ambiguous locations, unparsed prefixes/suffixes, multiple assertions and contradictory updates do not establish support.
+
+The whole source is checked, not just the selected quote. The quote must cover the whole affirmative assertion. The only non-assertion content allowed is surrounding whitespace and the exact known fictitious header with its newline. Short field-name quotes remain usable as name mentions but cannot establish a relationship. A citation set containing both positive and negative/unsupported sources cannot be accepted by selecting just the positive source.
+
+On rejection, raw evidence may be retained as a faithful source artifact: a negative quote can be authentic evidence of what was written. Approving that artifact or the names it mentions is not approval of an affirmative `hosts`/`located_at` claim. The regression tests explicitly approve artifact/endpoints and still demonstrate refusal of the negative relationship. When valid evidence is revised to negative/partial-ID content, existing relationship/affected-entity records require clarification and an attempted fresh human approval is refused. Historical decisions are kept; an explicit rejection of the current revision remains visible as `rejected`.
+
+All four review states, frozen records, stable IDs, increasing revisions, unique identifiers, provenance, source registrations, fingerprints, dependency approvals and append-only histories remain. The support-policy/derived-data change intentionally changes fingerprints; approvals must not be migrated as valid without source revalidation and human review. Nothing automatically grants approval.
+
+### Actual test results and reproduction
+
+After the initial support change, the original 99 offline tests passed (`Ran 99 tests in 0.135s`, `OK`). After all additional regression and quote-boundary/rejection-state checks, the final command was:
+
+```powershell
+Set-Location Y:/Grundschutz-AI/Grundschutz-AI
+py -3.12 -m unittest tests.test_domain tests.test_extraction.ClientTests tests.test_extraction.ValidationTests -v
+```
+
+Observed final result: `Ran 119 tests in 0.171s`, `OK`: **119 passed, 0 failed, 0 skipped**. This is all original **99** offline tests plus **20** new regressions; the existing **58** extraction tests remain unchanged and passing. There are no unresolved offline test failures. No live model/external service was called; no inference implementation changed. Previously documented live model-quality limitations are not reclassified as passing.
+
+New tests cover negative hosting and location statements, affirmative hosting with explicit reviews, exact endpoint/predicate roles, longer-ID entity refusal, identifier extensions, quote clipping at both ends, name completion from context, unparsed/ambiguous/instruction text, positive quotes hiding negation/location updates, unsupported short quotes, conflicting cited sources, negative/partial evidence revisions, blocked reapproval, preserved explicit rejection/history, immutable derived metadata and exact header/locator/hash behavior.
+
+Focused independent reproductions after the change:
+
+```powershell
+py -3.12 -m unittest tests.test_domain.EvidenceSupportTests.test_negative_hosting_cannot_enter_inventory_for_human_approval tests.test_domain.EvidenceSupportTests.test_longer_identifiers_cannot_support_shorter_entities -v
+```
+
+Both are part of the passing final suite. Against the old support rules, their required refusal assertions fail because the old implementation accepts the records; the pre-change approval workflow above independently demonstrated the downstream effect.
+
+### TASK-005 preparation — original source retention
+
+Preparation is documentation only. `Evidence.source_text` remains an InitVar. The content hash, quote, boundary characters and derived support do not reconstruct the source or establish trusted authorship. A future loader must resolve an authorized immutable local source version, verify the exact source hash and quote locator, and reconstruct Evidence with that source so support is recomputed. Serialized support caches or approval flags are never authoritative.
+
+ADR-0003 describes the required trustworthy local store: source ID/version/hash → controlled local reference; exact text/encoding/line-ending and character-position contract; dual original-file/text hashes and parser mappings if later ingestion creates text; permission/retention/backup rules; authenticated source registration/review; append-only revision bindings. Missing, inaccessible, truncated or hash-mismatched sources must fail closed and block approval. Old bytes returning must not restore previous approvals automatically. No SQLite schema, source-store implementation, persistence loader or migration was created.
+
+### Remaining limitations and next review
+
+This is a narrow syntactic support check, not a general German semantic parser or a truth/authorship verifier. It conservatively rejects legitimate prose outside the two accepted forms, other physical location types, unsupported place/room formats and additional commentary. Exact syntactic support can still describe a false real-world claim; human review and authenticated source handling remain necessary. Complete-name occurrence supports a name mention, not independent proof that an entity exists or every description is correct.
+
+The inventory checks all cited sources and the full context of each assessed source. It does not discover or automatically correlate unreferenced contradictory documents. A trusted future adapter/reviewer must expose those conflicts and record clarification instead of silently omitting known contrary evidence. Review IDs/provenance are supplied by trusted application code; this remains an in-memory prototype without authentication, secure shared persistence or tamper-proof storage.
+
+Source-context/affirmative caches prevent the tested runtime bypasses but cannot substitute for the trustworthy retained source in a future persistence round-trip. No production readiness, general prompt-injection prevention or fully verified BSI certification requirements are claimed. No normative baseline was changed, no automatic commit occurred and TASK-005 was not started.
+
+Next suggested action: human review of the bounded support policy and documented source-retention contract before separately authorizing persistence work.
+
+### TASK-004.1 Git verification
+
+Initial read-only checks confirmed HEAD `f8cb1a1` and a clean working tree. No ownership/security settings were changed; Git was inspected under the normal user with approval. Final modified/untracked file status and checks are recorded below.
+
+Final read-only inspection: HEAD remains `f8cb1a1`; five tracked files are modified and one helper is untracked, listed below. `git diff --check` passed for tracked files (only LF-to-CRLF conversion notices); the separate standard-library whitespace check passed for all six changed/new files. Code diffs and the new helper were inspected. This verification note was then added to the same report; no implementation or additional file changed.
+
+```text
+ M Grundschutz-AI/docs/decisions/0003-domain-inventory.md
+ M Grundschutz-AI/docs/tasks/TASK-004-RESULTS.md
+ M Grundschutz-AI/grundschutz_ai/domain.py
+ M Grundschutz-AI/grundschutz_ai/inventory.py
+ M Grundschutz-AI/tests/test_domain.py
+?? Grundschutz-AI/grundschutz_ai/support.py
+```
+
+No staging or commit was performed.

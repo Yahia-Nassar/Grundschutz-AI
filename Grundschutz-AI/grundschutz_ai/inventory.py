@@ -11,6 +11,13 @@ from .domain import (
     Record, RECORD_TYPES, Relationship, ReviewRecord, ReviewState,
     digest_data, record_data,
 )
+from .support import SUPPORT_POLICY, complete_name_occurs
+
+
+class EvidenceSupportError(ValueError):
+    """Refused proposal/approval: retain diagnostics outside approved inventory."""
+
+    review_state = ReviewState.NEEDS_CLARIFICATION
 
 
 @dataclass(frozen=True, slots=True)
@@ -61,18 +68,25 @@ class Inventory:
             expected_type = ITApplication if record.predicate is Predicate.HOSTS else Location
             if not isinstance(subject, ITSystem) or not isinstance(target, expected_type):
                 raise ValueError("Relationship endpoint types do not match its predicate")
-            if not any(
-                subject.name in self.get(identifier).quote and target.name in self.get(identifier).quote
+            if not all(
+                (support := self.get(identifier).relationship_support) is not None
+                and support.supports(record.predicate.value, subject.name, target.name)
                 for identifier in record.evidence_ids
             ):
-                raise ValueError("Relationship evidence must quote both endpoint names")
+                raise EvidenceSupportError("Affirmative support for the exact predicate/endpoints is required; clarification needed")
             for existing in self.records:
                 if isinstance(existing, Relationship) and existing.id != record.id and (
                     existing.subject_id, existing.predicate, existing.object_id
                 ) == (record.subject_id, record.predicate, record.object_id):
                     raise ValueError("Duplicate relationship triple; revise its evidence references instead")
-        elif not any(record.name in self.get(identifier).quote for identifier in record.evidence_ids):
-            raise ValueError("Object name must occur in its supporting evidence")
+        elif not any(
+            complete_name_occurs(
+                (evidence := self.get(identifier)).quote, record.name,
+                before=evidence.quote_before, after=evidence.quote_after,
+            )
+            for identifier in record.evidence_ids
+        ):
+            raise EvidenceSupportError("A complete name must occur in supporting evidence; clarification needed")
 
     def add(self, record: Record) -> "Inventory":
         self._validate_record(record)
@@ -100,6 +114,7 @@ class Inventory:
         return {
             **record_data(evidence), "current_source_sha256": current.source_sha256,
             "source_registration": (current.id, current.revision),
+            "support_policy": SUPPORT_POLICY,
         }
 
     def _object_data(self, record: Record) -> dict:
@@ -157,6 +172,12 @@ class Inventory:
         if isinstance(record, Evidence) and record.source_sha256 != self._current_source(record.source_id).source_sha256:
             return ReviewState.NEEDS_CLARIFICATION
         decision = self._decision(identifier)
+        if decision is not None and decision.state is ReviewState.REJECTED:
+            return ReviewState.REJECTED
+        try:
+            self._validate_record(record)
+        except EvidenceSupportError:
+            return ReviewState.NEEDS_CLARIFICATION
         if decision is None:
             return ReviewState.PROPOSED
         if decision.state is ReviewState.APPROVED and any(
