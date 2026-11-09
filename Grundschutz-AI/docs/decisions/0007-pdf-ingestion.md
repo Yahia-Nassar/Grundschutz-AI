@@ -1,6 +1,8 @@
 # ADR-0007: Synthetic PDF feasibility and security contract
 
-**Status:** Proposed architecture for human review in TASK-006C.0. No PDF parser, renderer, dependency or persistence change is implemented or authorized by this ADR. TASK-006C.1 requires a separate instruction.
+**Status:** Implemented for TASK-006C.1 experimental structural diagnostics under the user's explicit C.1 instruction; results await human review. Rendering, approved-inventory use, dependencies and persistence changes remain outside the authorized implementation.
+
+TASK-006C.1 update: the user's explicit C.1 instruction authorizes implementation of this experimental structural profile. The C.0 discussion below remains historical; the finalized grammar and actual C.1 findings at the end supersede its pending implementation details. Visual verification and approval remain unavailable and unauthorized.
 
 ## Evidence and choice
 
@@ -142,3 +144,79 @@ Before C.1 structural-reader acceptance, finalize the canonical fixture spelling
 Assume malicious synthetic bytes, fraudulent text/instructions, corrupt xrefs/counts, hidden/contradictory content and attempts to exhaust resources. Trust only the operator-supplied path/configuration, approved runtime/code, and original bytes after capture as a versioned input, not as factual truth. Local filesystem races, a compromised interpreter/tool, source authenticity, protected storage, authenticated reviewers, full PDF conformance, Unicode/rich-layout handling, independent-renderer licensing/pinning and adversarial fuzzing remain unresolved.
 
 C.0 completes design and local feasibility evidence only. C.1 must be separately requested and confined to this profile or a reviewed amendment. Wider PDF acceptance and visually verified-evidence claims remain blocked by the missing approved dependency/renderer artifacts, licenses and compatibility/security/rendering validation. No installations, network access, security-setting changes, company documents, OCR, automatic commits or BSI baseline changes follow from this document.
+
+## Finalized C.1 canonical byte grammar (recorded before parser implementation)
+
+All templates below are ASCII bytes. Every displayed line ends in exactly one LF byte (`0A`), including the final EOF line. Spaces are single ASCII spaces exactly as shown. There are no tabs, CRs, blank separator lines or other bytes outside text hex operands. `{...}` denotes a validated substitution, never literal braces. Variable decimal integers have no sign or leading zeroes; the xref entries are the explicit fixed-width exception. Dictionary key order is exact. No dictionary extensions or alternate spellings are accepted.
+
+File prefix, for page count P from 1 through 16:
+
+```text
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count {P} /Kids [{KIDS}] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier /Encoding /WinAnsiEncoding >>
+endobj
+```
+
+KIDS is `4 0 R` for one page, `4 0 R 6 0 R` for two, and so on, with a single space between references, no initial/trailing space. For each page i in Kids order, append the following two objects. A is `2*i+2`, C is `2*i+3`. L is the exact number of payload bytes from `BT` through the LF after `ET`, excluding the LF after `stream` and excluding `endstream`:
+
+```text
+{A} 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents {C} 0 R >>
+endobj
+{C} 0 obj
+<< /Length {L} >>
+stream
+BT
+/F1 12 Tf
+{ZERO_OR_MORE_LINE_PAIRS}ET
+endstream
+endobj
+```
+
+ZERO_OR_MORE_LINE_PAIRS is zero to 38 repetitions of exactly:
+
+```text
+1 0 0 1 72 {770-18*(j-1)} Tm
+<{HEX}> Tj
+```
+
+j is the one-based line ordinal. HEX is zero to 120 uppercase hexadecimal digits, an even count, decoding only printable ASCII bytes `20..7E`. Hex-operand byte spans include both angle brackets and exclude the following space. A blank page has no pairs; a blank line has `<> Tj`. The payload already ends with LF; no extra LF is inserted before `endstream`.
+
+After all objects append exactly:
+
+```text
+xref
+0 {N+1}
+{FREE_ENTRY}{ENTRY_1}...{ENTRY_N}trailer
+<< /Size {N+1} /Root 1 0 R >>
+startxref
+{X}
+%%EOF
+```
+
+N is `3+2*P`; X is the zero-based byte offset of the `x` in `xref`. FREE_ENTRY is exactly the 20 bytes `b"0000000000 65535 f \n"`, including its trailing space and LF. Each ENTRY_k is its own 20-byte line: the exact ten-digit zero-padded original byte offset of `{k} 0 obj`, followed by ` 00000 n ` and LF. ENTRY placeholders are explanatory concatenation, not extra syntax. Object offsets point to the first decimal digit, not an earlier separator. All generations except the free xref entry are zero. Exact templates account for every original byte; extra/repeated/unused objects, duplicate keys, false lengths, offsets, generations, appended revisions and whitespace variants are rejected without recovery.
+
+The profile's maximum dictionary/array nesting is fixed at three and its fixed-name token spellings are bounded. The effective depth/token budgets can only tighten the ADR caps; neither introduces a generic recursive grammar. Hex operands, numeric tokens, stream sizes and all record counts have separate bounds. Parser implementation/version is `grundschutz_ai.pdf_ingestion/1.0.0` initially; semantic changes require a new implementation version and revalidation.
+
+Parent/worker protocol is private version 1: a four-byte big-endian JSON-header length (at most 16 KiB), an exact-key UTF-8 header containing protocol/source_id/effective limits/raw_size, then precisely raw_size captured PDF bytes and EOF. Source IDs are nonempty trusted strings of at most 256 UTF-8 bytes. Limits may tighten but never exceed this profile's caps. Worker stdout is a single exact-key JSON success envelope with the full deterministic manifest and manifest hash, or a bounded error-code envelope. No pickle, arbitrary class loading, document-controlled arguments or shell. The parent rejects unknown/duplicate keys, bad types, inconsistent source/limits/hashes, bad line/raw-byte mappings, invalid/truncated output and unsuccessful exits. Visual state is always `not_performed`, diagnostic-only is always true.
+
+The parent starts the five-second deadline before launch, writes captured bytes and drains stdout concurrently using bounded pipe operations, and retains no more than the result cap plus one overflow-detection byte. Timeout/overflow triggers kill and bounded reap/join cleanup; cleanup may take up to an additional bounded interval and is not counted as successful parsing. A cleanup failure is an error, never accepted output. Stderr is discarded and source text is not logged. This is a trusted local subprocess boundary, not an OS sandbox or hard RSS guarantee. Actual Windows lifecycle tests and results are recorded in TASK-006C1-RESULTS.md.
+
+## Actual C.1 implementation findings
+
+The public API is `grundschutz_ai.pdf_ingestion.ingest_pdf(path, source_id=..., limits=...)`. `_parse_canonical` is the private worker core, not a public in-process ingestion alternative. `PdfLimits` defaults match the caps above and permits only positive integer tightening, never relaxation. `ObjectRef`, `PdfLine`, `PdfPage`, `PdfQuote` and `PdfExtraction` are frozen/slotted typed records. Each extraction has fixed `diagnostic_only=True` and `visual_verification="not_performed"`; no approved/verified status is created. `quote(page_index, start, end)` and `verify_quote(quote)` provide exact nonempty source-revision/page-local substring matching only, not visual or factual verification.
+
+The parent executes `[sys.executable, '-I', '-S', '-u', absolute_trusted_pdf_worker_script]` with no shell, stdin/stdout pipes, discarded stderr, closed unrelated descriptors and `CREATE_NO_WINDOW` on Windows. The isolated worker adds only its trusted application root to import the private parser. Python site initialization, user site and PYTHONPATH are excluded. Captured bytes/configuration pass solely through the bounded stdin frame. The trusted worker script never creates descendants or follows source instructions.
+
+Two pipe threads perform partial-write-aware input transfer and bounded stdout reads; they do not parse PDFs. The main parent supervises the process with a monotonic deadline, requires a successful exit plus complete input/output before decoding, and rejects rather than accepting an early valid-looking prefix. It caps retained stdout at 262,145 bytes (256 KiB plus one overflow sentinel); it does not use unbounded `communicate`/capture-output buffering. Timeout/overflow/startup failure enters the same direct-process kill/reap and thread/pipe cleanup path. Cleanup has a separate shared one-second deadline. Failure to reap or join is `worker_cleanup_failed`, never a successful artifact. The five-second budget covers launch/IPC and result checking after file capture; blocking OS process creation/termination and file I/O are not hard real-time guarantees. No process-group sandbox, hard RSS cap or protection against a compromised runtime/local code is claimed.
+
+The parent strictly decodes exact-key version-1 JSON, rejecting duplicate keys, nonfinite numbers, truncated/malformed/unexpected results, bad types (including bool/int substitutions), unsuccessful exits, source/limit/version/hash mismatches and fabricated line/raw-operand mappings. It regenerates the canonical manifest and hashes from captured bytes and typed records. The trusted worker remains responsible for complete original-file grammar/graph validation; the parent does not rerun the full PDF parser outside its worker deadline. Dataclass construction is not an independent source-authentication boundary or an approval pathway.
+
+Actual Windows tests passed: **279 offline tests (235 existing + 44 PDF), zero failures/errors**, including real stalled/blocked-input/output-flood workers, process/thread cleanup and a literal independently fixed-offset PDF. A separate observed timeout returned at 5.000 seconds; an output flood was rejected in 0.047 seconds, with worker reaped and pipes closed in both cases. A maximum 16-page/608-line fixture used 91,780 original bytes, 37,087 text characters and a 140,788-byte worker result; observed ingestion was 0.204 seconds. These are individual observations, not latency/memory guarantees. Peak RSS was not measured. Complete results, hashes, test commands and remaining limitations are in `docs/tasks/TASK-006C1-RESULTS.md`. Independent rendering was not performed; no wider PDF acceptance, PDF-to-Evidence/Inventory adapter, SQLite change, approved facts or TASK-007 work is introduced.
