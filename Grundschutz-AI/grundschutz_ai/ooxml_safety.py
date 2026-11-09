@@ -132,5 +132,3 @@ def parse_xml(content: bytes, limits):
         raise OOXMLSafetyError("Unsupported XML encoding declaration or processing instruction")
     parser = ET.XMLParser(target=_BudgetTreeBuilder(limits))
     return ET.fromstring(text, parser=parser)
-
-
