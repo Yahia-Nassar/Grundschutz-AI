@@ -25,7 +25,8 @@ from .extraction import MAX_SOURCE_CHARS
 
 
 POLICY_VERSION = "docx-single-assertion/v1"
-IMPLEMENTATION = "grundschutz_ai.docx_staging/1.0.0"
+IMPLEMENTATION = "grundschutz_ai.docx_staging/1.0.1"
+REMEDIATION_VERSION = "docx-assertion-remediation/v1"
 _QUEUE_STATES = (ReviewState.PROPOSED, ReviewState.REJECTED, ReviewState.NEEDS_CLARIFICATION)
 
 
@@ -408,6 +409,29 @@ class QueueDecision:
         _aware(self.timestamp)
 
 
+def _remediation_fingerprint(snapshot: DocumentSnapshot) -> str:
+    """Match human blocks to this logical source's substantive assertion.
+
+    Operational context, resource limits, packaging and citation coordinates are
+    deliberately absent. They still bind candidate/currentness fingerprints.
+    Assess the source independently of active field/resource caps: a human block
+    must survive relaxing a cap that previously prevented field emission. This
+    bounded grammar check only matches blocks, never grants eligibility; _derive
+    and full context validation remain mandatory. Unsupported text gets a
+    diagnostic-only identity. Whitespace/run changes cannot clear a human block.
+    """
+    text = snapshot.native.text
+    affirmative = support.assess_source(text, 0, len(text)) if len(text) <= MAX_SOURCE_CHARS else None
+    assertion = {"unsupported_text_sha256": snapshot.native.text_sha256}
+    if affirmative is not None:
+        roles = [(Predicate.HOSTS.value, affirmative.system, affirmative.application)]
+        if affirmative.location is not None:
+            roles.append((Predicate.LOCATED_AT.value, affirmative.system, affirmative.location))
+        assertion = {"system_id": affirmative.system, "standort": affirmative.location,
+                     "anwendung_id": affirmative.application, "roles": roles}
+    return _fingerprint({"version": REMEDIATION_VERSION, "source": snapshot.ref.source_id, "assertion": assertion})
+
+
 def _capture(path, limits):
     if not isinstance(path, (str, Path)):
         raise StagingError("unsupported_input")
@@ -719,7 +743,7 @@ class DocxStaging:
                     candidate = previous
                 else:
                     self._spend()
-                    remediation = _fingerprint({"context_content": context.content_fingerprint, "source": binding.ref.source_id})
+                    remediation = _remediation_fingerprint(self.snapshot(binding.ref))
                     candidate = StagedCandidate(uuid4().hex if previous is None else previous.id, 1 if previous is None else previous.revision + 1, binding, context.fingerprint, derived_fields, claims, context.issues, ReviewState.NEEDS_CLARIFICATION if context.issues else ReviewState.PROPOSED, remediation)
                     self._candidates += (candidate,)
                 if self._blocked(candidate):

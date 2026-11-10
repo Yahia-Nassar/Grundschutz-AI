@@ -1,6 +1,8 @@
 # TASK-007.1: Nonpersistent DOCX proposal staging
 
-Date: 2026-11-09 (Europe/Bucharest). Repository: `Y:/Grundschutz-AI`; application: `Y:/Grundschutz-AI/Grundschutz-AI`. Read-only Git confirmed initial clean HEAD **`60cb360`** (`docs: define document-to-proposal trust boundaries`).
+Original TASK-007.1 date: 2026-11-09 (Europe/Bucharest). Repository: `Y:/Grundschutz-AI`; application: `Y:/Grundschutz-AI/Grundschutz-AI`. Read-only Git confirmed original initial clean HEAD **`60cb360`** (`docs: define document-to-proposal trust boundaries`). TASK-007.1a security remediation on **2026-11-10** started from clean **`a021f0c`** (`feat: add nonpersistent DOCX proposal staging`), which contains the prior task. The attachment described the earlier uncommitted baseline; this records the actual checkpoint without changing Git history.
+
+**Current verification:** TASK-007.1a passes **348 offline tests (339 previous + 9 new)**, including both human-rejection reactivation regressions and resource-limit relaxation. The original 339-test result and demonstration fingerprints below are historical TASK-007.1 observations; see the security-remediation section for the current rules and results.
 
 ## Outcome and exact files
 
@@ -62,7 +64,7 @@ One session owns one active scope. Explicit scope membership must cover every lo
 
 DocumentBinding fingerprints bind registration identity/revision, complete integration manifest, scope fingerprint and active policy. Context fingerprints bind the whole scope, document bindings, content/policy checks and bounded issue codes. Candidate fingerprints additionally bind owned candidate ID/revision, exact typed values, full quotes/locators, intended predicate roles and validation issues. Registration/policy/review timestamps are outside these content fingerprints; operational registration/scope/policy identities are deliberately included in currentness bindings.
 
-A separate content-remediation fingerprint binds complete source manifests and policy configuration without registration UUID/clock changes. Human rejection/clarification cannot be cleared by merely changing state, reordering scope, re-registering identical bytes or changing policy and then returning to the old configuration. Corrected context/data creates a fresh validated revision. Queue history is append-only, uses only non-approved ReviewState values, and requires explicit identity/reason/aware time and current fingerprints. Automated findings never create reviewer decisions or domain ReviewRecords.
+A separate **`docx-assertion-remediation/v1`** fingerprint now binds the logical source ID, exact grammar-supported field values (including null) and intended predicate/endpoint roles, independently of policy-limited field emission. It excludes whole-context/resource-policy changes, other sources, registration IDs, original ZIP bytes, run layout, surrounding whitespace, quote coordinates and clocks. This identity only matches human blocks; full proposal validation remains independently mandatory. The original whole-context remediation hash was unsafe and is superseded by TASK-007.1a. Human rejection/clarification of unchanged substantive assertions survives these irrelevant changes. Corrected assertion values/roles require fresh full validation; returning to old rejected values restores their block. Queue history is append-only, uses only non-approved ReviewState values, and requires explicit identity/reason/aware time and current fingerprints. Automated findings never create reviewer decisions or domain ReviewRecords. Policy-only human reconsideration is not implemented.
 
 Immutable reports/proposals are historical snapshots. **Always call `session.is_eligible(proposal)` against the live owning session**; proposed state or a matching old quote alone is insufficient. This read-only query creates no candidate revision and checks owned current candidates, full context and queue blocks. It is not a transaction granting future materialization rights: source state can change afterward. There is no materialization/export path in this task.
 
@@ -140,7 +142,7 @@ Final complete offline command:
 py -3.12 -m unittest tests.test_domain tests.test_extraction.ClientTests tests.test_extraction.ValidationTests tests.test_storage tests.test_docx_ingestion tests.test_xlsx_ingestion tests.test_pdf_ingestion tests.test_docx_staging
 ```
 
-**Final observed result: 339 tests in 12.304 seconds; OK; 0 failures, 0 errors.** This preserves **all 279 existing offline tests** and adds **60 staging regressions**. Optional live Ollama classes were not selected, and no model/network request was made.
+**Original TASK-007.1 observed result: 339 tests in 12.304 seconds; OK; 0 failures, 0 errors.** This preserved **all 279 existing offline tests** and added **60 staging regressions**. This historical suite did not cover the subsequently reproduced human-rejection bypasses. TASK-007.1a results below supersede it. Optional live Ollama classes were not selected, and no model/network request was made.
 
 The first isolated staging run exposed one failed assertion and one test error: a shared test helper placed two line breaks before the sentence, and mocked domain constructors interfered with a dependent module's import metadata. The helper/import order were corrected without weakening production validation. Subsequent staging and full runs passed; the final count above includes added resource/TEMP/scope/queue hardening. No unresolved test failure remains.
 
@@ -205,7 +207,7 @@ print('Temporary source removed:', not path.exists())
 '@ | py -3.12 -
 ```
 
-## Git verification
+## Original TASK-007.1 Git verification (historical)
 
 Final read-only HEAD: **`60cb360`** (`docs: define document-to-proposal trust boundaries`). Working-tree status:
 
@@ -226,4 +228,86 @@ git log -1 --format="%h %s"
 git status --short --untracked-files=all
 git diff --check
 git diff --exit-code -- Grundschutz-AI/grundschutz_ai
+```
+
+## TASK-007.1a security remediation — 2026-11-10
+
+### Root cause and exact change
+
+The original `stage()` derived `remediation_fingerprint` from the logical source ID and `ContextAssessment.content_fingerprint`. That content fingerprint includes the active policy and **all** source manifests. `_blocked()` required equality with a historical QueueDecision's remediation fingerprint. Unrelated changes therefore created a new matching key, despite unchanged rejected facts and an unchanged candidate ID; retained rejection history was no longer effective. The original policy-reversion test asserted only after reversion, missing unsafe intermediate reactivation.
+
+Only the same four task files were changed: `grundschutz_ai/docx_staging.py`, `tests/test_docx_staging.py`, this report and ADR-0008. No additional result file was needed. The implementation change is a small pure `_remediation_fingerprint()` helper, its use in `stage()` and staging implementation version `1.0.1`. The explicitly versioned identity is **`docx-assertion-remediation/v1`**:
+
+- For a grammar-supported assertion: logical source ID, exact field-name/value pairs and intended predicate/subject/object roles. The pure helper calls public `assess_source()` on the whole original text, bounded by the fixed 2,000-character hard cap and independent of active field/resource limits. Null remains distinct from an absent/unsupported assertion. No quotes, binding hashes or mutable candidate state are used to decide substantive identity.
+- For unsupported or over-hard-cap text: logical source ID and native extracted-text SHA-256 form a diagnostic-only fallback. All validation/currentness/conflict failures still block proposals; this fallback cannot create eligible data.
+- Resource limits, unrelated documents, registration UUIDs/revisions, ZIP packaging, run boundaries, surrounding whitespace, quote offsets and time are excluded from this matching identity. Exact original text, quotes, locators, hashes and histories remain preserved in their original records.
+
+`_blocked()` still enforces every historical human rejection/clarification matching the stable source-owned candidate ID and substantive identity. `_blocked()`, triage's current candidate/context checks, whole-context content fingerprints and `is_eligible()` were not bypassed or relaxed. The helper only matches blocks and neither emits fields nor grants support/eligibility; `_derive()` and both full public validation contracts remain mandatory for proposals. Full operational fingerprints still change after policy, scope, source or evidence revisions, so stale decision tokens remain invalid even when the remediation identity stays equal. A genuinely changed validated assertion may yield a new proposed revision, never an approval. Reverting to an old rejected assertion reinstates its block. Complete-scope all-or-nothing output remains enforced.
+
+This conservative identity treats accepted syntactic variants with identical field values/roles as the same assertion. It is not a general German semantic-equivalence parser. Policy-only/context-only reconsideration of unchanged human-blocked facts needs a future separately reviewed explicit human action; no override or new authority was invented. The version tag is part of the hash preimage and must not be changed to reset blocks. There is no persistent queue migration or hot-reload/replay contract.
+
+### Executed before/after demonstrations
+
+The two new executable regression tests were first run against the unchanged implementation: **2 tests in 0.038 seconds; 2 failures, 0 errors**. A separate synthetic public-API exercise confirmed actual eligibility, not just fingerprint differences:
+
+| Scenario | Before fix | After fix |
+|---|---|---|
+| A: reject SRV-001, then max_id_chars 64 to 63 | Candidate proposed; 1 proposal; eligibility `[True]`; rejection still in history. | Candidate rejected; 0 proposals; old eligibility false; forcing a proposed snapshot still yields `[False]`; same remediation identity; history intact. |
+| B: reject source A/SRV-001, then add valid source B/SRV-002 | Candidate A proposed; 2 proposals; eligibility `[True, True]`; rejection still in history. | Candidate A rejected; 0 proposals for entire scope; forcing proposed snapshots for both candidates still yields `[False, False]`; old eligibility false; same remediation identity; history intact. |
+
+Both scenarios now pass as `test_rejected_assertion_survives_unrelated_id_limit_change` and `test_rejection_survives_adding_unrelated_source_and_blocks_whole_scope`. After-fix API observations were also executed independently and matched this table. No fabricated source facts or approved objects were created for either demonstration.
+
+### Regression coverage and actual results
+
+Added nine tests:
+
+1. Rejection survives the exact max_id_chars 64-to-63 change; new candidate/context fingerprints coexist with the same blocking identity.
+2. Human NEEDS_CLARIFICATION survives an unrelated location resource-limit change.
+3. Adding an unrelated valid source preserves rejection and blocks every proposal in the scope, including eligibility checks on state-altered snapshots.
+4. Revising an unrelated document preserves the block and invalidates all old proposals.
+5. ZIP_STORED-to-ZIP_DEFLATED repackaging changes binary/manifest fingerprints but preserves assertion identity and rejection.
+6. Surrounding-whitespace and split-run changes preserve rejection while retaining correct full quotes/offsets.
+7. Old candidate or context fingerprints cannot authorize decisions against a new current revision, despite unchanged remediation identity.
+8. A Rostock-to-Schwerin assertion correction calls both validators, produces a new validated revision and retains immutable queue history; reverting to Rostock restores the original rejection.
+9. Human REJECTED and NEEDS_CLARIFICATION decisions survive relaxing each of four limits (ID, complete-source length, field-envelope bytes, location length) that initially prevented any fields from being emitted. The matching identity is unchanged; state-altered proposal snapshots are still ineligible.
+
+Strengthened the existing policy-change/reversion test to check the intermediate policy as well. Expanded the existing no-side-effects regression through rejection, unrelated policy/source changes, complete-scope blocking and a corrected-source workflow. All six forbidden domain constructors, Inventory mutations/reviews, store commit, SQLite connection, extraction/Ollama/network calls and print remain mocked and uncalled. Existing same-byte replay, APPROVED/string-state rejection, stale context, scope conflict and history tests continue to pass; none was weakened to accept reactivation.
+
+An initial post-fix staging run had **68 tests, 1 error, 0 failures**: the new split-run fixture omitted `xml:space="preserve"` on trailing whitespace, correctly causing reader rejection and hence no candidate. Only the fixture XML was corrected. The subsequent staging run passed **68 tests in 0.878 seconds**. After expanding side-effect coverage, an intermediate full suite passed **347 tests in 12.474 seconds**. Final review then exposed a further boundary in that initial helper: deriving identity from emitted fields let relaxation of a field/resource limit turn a fallback identity into a positive identity for unchanged human-blocked text. The ninth test reproduced **8 failing subtests (2 human blocking states times 4 limits), 0 errors, in 0.083 seconds** before correction. The helper now derives its bounded matching identity independently of policy-limited emission, without changing eligibility validation.
+
+**Final full Python 3.12 offline suite: 348 tests in 12.567 seconds; OK; 0 failures, 0 errors**: all **339 previous tests plus 9 new** (279 legacy tests and 69 staging tests). No unresolved regression failure remains. Live model tests were excluded; no network or inference was requested.
+
+### Reproduction and remaining limits
+
+```powershell
+Set-Location Y:/Grundschutz-AI/Grundschutz-AI
+# Executable demonstrations for both previously failing scenarios:
+py -3.12 -m unittest tests.test_docx_staging.DocxStagingTests.test_rejected_assertion_survives_unrelated_id_limit_change tests.test_docx_staging.DocxStagingTests.test_rejection_survives_adding_unrelated_source_and_blocks_whole_scope -v
+# All staging security/currentness regressions:
+py -3.12 -m unittest tests.test_docx_staging -v
+# Entire offline suite, excluding optional live-Ollama classes:
+py -3.12 -m unittest tests.test_domain tests.test_extraction.ClientTests tests.test_extraction.ValidationTests tests.test_storage tests.test_docx_ingestion tests.test_xlsx_ingestion tests.test_pdf_ingestion tests.test_docx_staging
+```
+
+History remains session-local, bounded, unauthenticated and nonpersistent. Source-ID reassignment or a fresh session is not protected by a durable identity catalog or reviewer authentication. Hashes cannot establish factual truth, authentic lineage or visual equivalence. Changed assertion values qualify only for a fresh proposed revision under the narrow grammar, never approval; remaining source/queue/domain review is still necessary. A post-query mutation can invalidate eligibility. No policy-only override, persistence, PDF evidence promotion, XLSX staging, automatic model call or approval pathway was added. No dependencies, legacy reader/domain changes or Git commit; TASK-007.2 remains unstarted. Recommended next action: human review of this security fix before further integration.
+
+### TASK-007.1a Git verification
+
+Final HEAD remains **`a021f0c`** (`feat: add nonpersistent DOCX proposal staging`). All four changes are unstaged tracked modifications; no untracked files and no automatic commit:
+
+```text
+ M Grundschutz-AI/docs/decisions/0008-document-proposal-boundary.md
+ M Grundschutz-AI/docs/tasks/TASK-0071-RESULTS.md
+ M Grundschutz-AI/grundschutz_ai/docx_staging.py
+ M Grundschutz-AI/tests/test_docx_staging.py
+```
+
+`git diff --check` passed, with only Git's existing LF-to-CRLF checkout notices. A read-only `git diff --exit-code` for all legacy domain, inventory, storage, extraction, validation, support and DOCX/XLSX/PDF/OOXML modules passed with no differences. Strict UTF-8/trailing-whitespace/final-newline checks and balanced Markdown fences passed for the four files. No matching task temporary directories remained. Git's normal sandbox identity hit repository ownership checking; read-only Git checks then succeeded in the owner's context without changing safe.directory, permissions or security settings.
+
+```powershell
+Set-Location Y:/Grundschutz-AI
+git log -1 --format="%h %s"
+git status --short --untracked-files=all
+git diff --check
+git diff --stat
 ```

@@ -9,6 +9,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 import xml.etree.ElementTree as ET
+import zipfile
 
 from grundschutz_ai import docx_staging as staging
 from grundschutz_ai.docx_ingestion import DocxExtraction, DocxLocator, TextSegment, W, ingest_docx
@@ -444,9 +445,163 @@ class DocxStagingTests(unittest.TestCase):
         proposal = self.proposal()
         self.decide(proposal.candidate)
         self.session.set_policy(replace(staging.StagingPolicy(), max_location_chars=128))
-        self.report()
+        self.assert_blocked(self.report())
         self.session.set_policy(staging.StagingPolicy())
         self.assert_blocked(self.report())
+
+    def test_rejected_assertion_survives_unrelated_id_limit_change(self):
+        old = self.proposal()
+        decision = self.decide(old.candidate)
+        self.assert_blocked(self.report())
+        self.session.set_policy(replace(staging.StagingPolicy(), max_id_chars=63))
+        report = self.report()
+        self.assert_blocked(report)
+        current = report.candidates[0]
+        self.assertIs(current.state, ReviewState.REJECTED)
+        self.assertEqual(current.remediation_fingerprint, old.candidate.remediation_fingerprint)
+        self.assertNotEqual(current.context_fingerprint, old.candidate.context_fingerprint)
+        self.assertNotEqual(current.fingerprint, old.candidate.fingerprint)
+        self.assertGreater(current.revision, old.candidate.revision)
+        self.assertFalse(self.session.is_eligible(old))
+        self.assertFalse(self.session.is_eligible(staging.ValidatedProposal(replace(current, state=ReviewState.PROPOSED))))
+        self.assertEqual(self.session.decision_history(), (decision,))
+
+    def test_human_clarification_survives_unrelated_policy_change(self):
+        old = self.proposal()
+        decision = self.decide(old.candidate, ReviewState.NEEDS_CLARIFICATION)
+        self.session.set_policy(replace(staging.StagingPolicy(), max_location_chars=128))
+        report = self.report()
+        self.assert_blocked(report)
+        self.assertIs(report.candidates[0].state, ReviewState.NEEDS_CLARIFICATION)
+        self.assertEqual(report.candidates[0].remediation_fingerprint, old.candidate.remediation_fingerprint)
+        self.assertFalse(self.session.is_eligible(old))
+        self.assertEqual(self.session.decision_history(), (decision,))
+
+    def test_relaxing_limits_cannot_clear_human_block_of_unemitted_assertion(self):
+        for state in (ReviewState.REJECTED, ReviewState.NEEDS_CLARIFICATION):
+            for limits in ({"max_id_chars": 6}, {"max_source_chars": 91}, {"max_field_bytes": 1}, {"max_location_chars": 20}):
+                with self.subTest(state=state, limits=limits):
+                    self.session = staging.DocxStaging(replace(staging.StagingPolicy(), **limits))
+                    self.register()
+                    before = self.report()
+                    self.assert_blocked(before)
+                    candidate = before.candidates[0]
+                    self.assertEqual(candidate.fields, ())
+                    decision = self.decide(candidate, state)
+                    self.session.set_policy(staging.StagingPolicy())
+                    after = self.report()
+                    self.assert_blocked(after)
+                    current = after.candidates[0]
+                    self.assertIs(current.state, state)
+                    self.assertEqual(current.fields[0].value, "SRV-001")
+                    self.assertEqual(current.remediation_fingerprint, candidate.remediation_fingerprint)
+                    attempted = staging.ValidatedProposal(replace(current, state=ReviewState.PROPOSED))
+                    self.assertFalse(self.session.is_eligible(attempted))
+                    self.assertEqual(self.session.decision_history(), (decision,))
+
+    def test_rejection_survives_adding_unrelated_source_and_blocks_whole_scope(self):
+        old = self.proposal()
+        decision = self.decide(old.candidate)
+        self.assert_blocked(self.report())
+        self.register(MISSING, name="synthetic:second")
+        report = self.report((SOURCE, "synthetic:second"))
+        self.assertEqual(report.proposals, ())
+        self.assertIn("queue_blocked", [issue.code for issue in report.issues])
+        rejected = next(item for item in report.candidates if item.binding.ref.source_id == SOURCE)
+        other = next(item for item in report.candidates if item.binding.ref.source_id != SOURCE)
+        self.assertIs(rejected.state, ReviewState.REJECTED)
+        self.assertEqual(rejected.remediation_fingerprint, old.candidate.remediation_fingerprint)
+        self.assertNotEqual(rejected.context_fingerprint, old.candidate.context_fingerprint)
+        self.assertFalse(self.session.is_eligible(old))
+        for item in (rejected, other):
+            self.assertFalse(self.session.is_eligible(staging.ValidatedProposal(replace(item, state=ReviewState.PROPOSED))))
+        self.assertEqual(self.session.decision_history(), (decision,))
+
+    def test_rejection_survives_revision_of_unrelated_source(self):
+        self.register()
+        self.register(MISSING, name="synthetic:second")
+        before = self.report((SOURCE, "synthetic:second"))
+        rejected = next(item for item in before.candidates if item.binding.ref.source_id == SOURCE)
+        self.decide(rejected)
+        self.register(MISSING.replace("CRM-02", "ERP-02"), name="synthetic:second")
+        report = self.report((SOURCE, "synthetic:second"))
+        self.assertEqual(report.proposals, ())
+        current = next(item for item in report.candidates if item.id == rejected.id)
+        self.assertIs(current.state, ReviewState.REJECTED)
+        self.assertEqual(current.remediation_fingerprint, rejected.remediation_fingerprint)
+        self.assertTrue(all(not self.session.is_eligible(item) for item in before.proposals))
+        for item in report.candidates:
+            self.assertFalse(self.session.is_eligible(staging.ValidatedProposal(replace(item, state=ReviewState.PROPOSED))))
+
+    def test_binary_only_repackaging_does_not_clear_human_rejection(self):
+        old = self.proposal()
+        self.decide(old.candidate)
+        original = self.session.snapshot(old.candidate.binding.ref)
+        repacked_path = self.directory / "repackaged.docx"
+        write_synthetic_docx(repacked_path, synthetic_parts(paragraph(COMPLETE)), compression=zipfile.ZIP_DEFLATED)
+        event = self.session.register_docx(SOURCE, repacked_path)
+        self.assertIs(event.status, staging.RegistrationStatus.VALID)
+        snapshot = self.session.snapshot(event.ref)
+        self.assertEqual(snapshot.native.text, original.native.text)
+        self.assertNotEqual(snapshot.native.docx_sha256, original.native.docx_sha256)
+        self.assertNotEqual(snapshot.manifest_sha256, original.manifest_sha256)
+        report = self.report()
+        self.assert_blocked(report)
+        self.assertEqual(report.candidates[0].remediation_fingerprint, old.candidate.remediation_fingerprint)
+        self.assertNotEqual(report.candidates[0].fingerprint, old.candidate.fingerprint)
+        self.assertFalse(self.session.is_eligible(old))
+
+    def test_whitespace_and_run_changes_are_not_substantive_remediation(self):
+        old = self.proposal()
+        self.decide(old.candidate)
+        node = paragraph("  Der Server ")
+        run = ET.SubElement(node, f"{{{W}}}r")
+        content = ET.SubElement(run, f"{{{W}}}t", {"{http://www.w3.org/XML/1998/namespace}space": "preserve"})
+        content.text = COMPLETE[len("Der Server "):] + "  "
+        self.register(blocks=(node,))
+        report = self.report()
+        self.assert_blocked(report)
+        current = report.candidates[0]
+        self.assertEqual(current.remediation_fingerprint, old.candidate.remediation_fingerprint)
+        self.assertEqual(current.claims[0].quote.locator.char_start, 2)
+        self.assertEqual(current.claims[0].quote.text, COMPLETE)
+
+    def test_old_fingerprints_cannot_authorize_new_context_queue_decision(self):
+        old = self.proposal()
+        decision = self.decide(old.candidate)
+        self.session.set_policy(replace(staging.StagingPolicy(), max_id_chars=63))
+        current = self.report().candidates[0]
+        for changes in (
+            {"candidate_fingerprint": old.candidate.fingerprint},
+            {"context_fingerprint": old.candidate.context_fingerprint},
+        ):
+            with self.subTest(changes=changes), self.assertRaises(staging.StagingError):
+                self.decide(current, timestamp=TIME + timedelta(seconds=1), **changes)
+        self.assertEqual(self.session.decision_history(), (decision,))
+
+    def test_corrected_assertion_revalidates_and_reversion_restores_human_block(self):
+        old = self.proposal()
+        rejected = self.decide(old.candidate)
+        history = self.session.decision_history()
+        real_assess, real_validate = staging.support.assess_source, staging.validation.validate_response
+        self.register(COMPLETE.replace("Rostock", "Schwerin"))
+        with patch.object(staging.support, "assess_source", wraps=real_assess) as assess, patch.object(staging.validation, "validate_response", wraps=real_validate) as validate:
+            report = self.report()
+            self.assertTrue(assess.called)
+            validate.assert_called_once()
+        new = report.proposals[0]
+        self.assertEqual(new.candidate.id, old.candidate.id)
+        self.assertGreater(new.candidate.revision, old.candidate.revision)
+        self.assertNotEqual(new.candidate.remediation_fingerprint, old.candidate.remediation_fingerprint)
+        self.assertEqual(new.candidate.fields[1].value, "Rechenzentrum Schwerin")
+        self.assertTrue(self.session.is_eligible(new))
+        reconsidered = self.decide(new.candidate, ReviewState.PROPOSED, timestamp=TIME + timedelta(seconds=1))
+        self.assertEqual(history, (rejected,))
+        self.assertEqual(self.session.decision_history(), (rejected, reconsidered))
+        self.register()
+        self.assert_blocked(self.report())
+        self.assertFalse(self.session.is_eligible(new))
+        self.assertEqual(self.session.decision_history(), (rejected, reconsidered))
 
     def test_identical_native_data_is_shared_after_fresh_reader_validation(self):
         first = self.register()
@@ -644,9 +799,21 @@ class DocxStagingTests(unittest.TestCase):
             proposal = self.report().proposals[0]
             self.decide(proposal.candidate, ReviewState.PROPOSED)
             self.assertTrue(self.session.is_eligible(proposal))
+            self.decide(proposal.candidate, timestamp=TIME + timedelta(seconds=1))
+            self.session.set_policy(replace(staging.StagingPolicy(), max_id_chars=63))
+            self.assert_blocked(self.report())
+            self.register(MISSING, name="synthetic:second")
+            blocked = self.report((SOURCE, "synthetic:second"))
+            self.assertEqual(blocked.proposals, ())
+            self.assertTrue(all(not self.session.is_eligible(staging.ValidatedProposal(replace(item, state=ReviewState.PROPOSED))) for item in blocked.candidates))
+            self.register(COMPLETE.replace("Rostock", "Schwerin"))
+            corrected = self.report((SOURCE, "synthetic:second"))
+            self.assertEqual(len(corrected.proposals), 2)
+            self.assertTrue(all(self.session.is_eligible(item) for item in corrected.proposals))
             for mock in mocks:
                 mock.assert_not_called()
         self.assertEqual(self.session.decision_history()[0].state, ReviewState.PROPOSED)
+        self.assertEqual(self.session.decision_history()[1].state, ReviewState.REJECTED)
 
 
 if __name__ == "__main__":
