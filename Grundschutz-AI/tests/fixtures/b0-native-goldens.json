@@ -1,0 +1,1521 @@
+{
+  "cases": {
+    "docx_complete": {
+      "binary_sha256": "d8c0bfdc1b10927bc0a5e2e8833038c80c497d8bec5efd27af2fecba0f9d4299",
+      "cell_spans": [],
+      "integration_manifest_json": "{\"binary_sha256\":\"d8c0bfdc1b10927bc0a5e2e8833038c80c497d8bec5efd27af2fecba0f9d4299\",\"manifest_version\":\"docx-integration/v1\",\"native_text_sha256\":\"cfe8ce9a7794a4582b89f9cd6df145cc3f5b4b83f2f2f837414b4a0bd81b531d\",\"reader_implementation_sha256\":\"c4d61c972ec670cdf00b18de62cae0dc88df4a62d0745fe79d5d0681a762af12\",\"reader_limits\":{\"max_attribute_chars\":4096,\"max_entries\":16,\"max_file_bytes\":2097152,\"max_namespaces\":32,\"max_ratio\":100,\"max_segment_chars\":16384,\"max_segments\":4096,\"max_table_columns\":128,\"max_table_rows\":1000,\"max_text_chars\":1000000,\"max_uncompressed_bytes\":8388608,\"max_xml_attributes\":16,\"max_xml_bytes\":2097152,\"max_xml_chars\":2097152,\"max_xml_depth\":32,\"max_xml_nodes\":20000},\"reader_method\":\"docx-plain/v1\",\"segments\":[{\"locator\":{\"body_index\":1,\"cell_index\":null,\"char_end\":92,\"char_start\":0,\"paragraph_index\":1,\"part\":\"word/document.xml\",\"row_index\":null,\"table_index\":null},\"text\":\"Der Server SRV-001 befindet sich im Rechenzentrum Rostock und betreibt die Anwendung ERP-01.\",\"text_sha256\":\"cfe8ce9a7794a4582b89f9cd6df145cc3f5b4b83f2f2f837414b4a0bd81b531d\"}],\"source_id\":\"synthetic:task-0071\"}",
+      "integration_manifest_sha256": "08c66fb331418bdf1ef164cf2d57f167f0eb2c15b7e05c75d4d7ba14934d0e96",
+      "kind": "docx",
+      "native_manifest_json": null,
+      "native_manifest_sha256": null,
+      "native_text": "Der Server SRV-001 befindet sich im Rechenzentrum Rostock und betreibt die Anwendung ERP-01.",
+      "native_text_sha256": "cfe8ce9a7794a4582b89f9cd6df145cc3f5b4b83f2f2f837414b4a0bd81b531d",
+      "observations": [
+        {
+          "locator": {
+            "body_index": 1,
+            "cell_index": null,
+            "char_end": 92,
+            "char_start": 0,
+            "paragraph_index": 1,
+            "part": "word/document.xml",
+            "row_index": null,
+            "table_index": null
+          },
+          "text": "Der Server SRV-001 befindet sich im Rechenzentrum Rostock und betreibt die Anwendung ERP-01.",
+          "text_sha256": "cfe8ce9a7794a4582b89f9cd6df145cc3f5b4b83f2f2f837414b4a0bd81b531d"
+        }
+      ],
+      "original_byte_length": 1381,
+      "original_bytes_base64": "UEsDBBQAAAAAAAAAIVAMsUvfuAEAALgBAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbDw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6VHlwZXMgeG1sbnM6bnMwPSJodHRwOi8vc2NoZW1hcy5vcGVueG1sZm9ybWF0cy5vcmcvcGFja2FnZS8yMDA2L2NvbnRlbnQtdHlwZXMiPjxuczA6RGVmYXVsdCBFeHRlbnNpb249InJlbHMiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi92bmQub3BlbnhtbGZvcm1hdHMtcGFja2FnZS5yZWxhdGlvbnNoaXBzK3htbCIgLz48bnMwOkRlZmF1bHQgRXh0ZW5zaW9uPSJ4bWwiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi94bWwiIC8+PG5zMDpPdmVycmlkZSBQYXJ0TmFtZT0iL3dvcmQvZG9jdW1lbnQueG1sIiBDb250ZW50VHlwZT0iYXBwbGljYXRpb24vdm5kLm9wZW54bWxmb3JtYXRzLW9mZmljZWRvY3VtZW50LndvcmRwcm9jZXNzaW5nbWwuZG9jdW1lbnQubWFpbit4bWwiIC8+PC9uczA6VHlwZXM+UEsDBBQAAAAAAAAAIVC/18ypKgEAACoBAAALAAAAX3JlbHMvLnJlbHM8P3htbCB2ZXJzaW9uPScxLjAnIGVuY29kaW5nPSd1dGYtOCc/Pgo8bnMwOlJlbGF0aW9uc2hpcHMgeG1sbnM6bnMwPSJodHRwOi8vc2NoZW1hcy5vcGVueG1sZm9ybWF0cy5vcmcvcGFja2FnZS8yMDA2L3JlbGF0aW9uc2hpcHMiPjxuczA6UmVsYXRpb25zaGlwIElkPSJySWQxIiBUeXBlPSJodHRwOi8vc2NoZW1hcy5vcGVueG1sZm9ybWF0cy5vcmcvb2ZmaWNlRG9jdW1lbnQvMjAwNi9yZWxhdGlvbnNoaXBzL29mZmljZURvY3VtZW50IiBUYXJnZXQ9IndvcmQvZG9jdW1lbnQueG1sIiAvPjwvbnMwOlJlbGF0aW9uc2hpcHM+UEsDBBQAAAAAAAAAIVAEQuXWKwEAACsBAAARAAAAd29yZC9kb2N1bWVudC54bWw8P3htbCB2ZXJzaW9uPScxLjAnIGVuY29kaW5nPSd1dGYtOCc/Pgo8bnMwOmRvY3VtZW50IHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3dvcmRwcm9jZXNzaW5nbWwvMjAwNi9tYWluIj48bnMwOmJvZHk+PG5zMDpwPjxuczA6cj48bnMwOnQ+RGVyIFNlcnZlciBTUlYtMDAxIGJlZmluZGV0IHNpY2ggaW0gUmVjaGVuemVudHJ1bSBSb3N0b2NrIHVuZCBiZXRyZWlidCBkaWUgQW53ZW5kdW5nIEVSUC0wMS48L25zMDp0PjwvbnMwOnI+PC9uczA6cD48L25zMDpib2R5PjwvbnMwOmRvY3VtZW50PlBLAQIUABQAAAAAAAAAIVAMsUvfuAEAALgBAAATAAAAAAAAAAAAAACAAQAAAABbQ29udGVudF9UeXBlc10ueG1sUEsBAhQAFAAAAAAAAAAhUL/XzKkqAQAAKgEAAAsAAAAAAAAAAAAAAIAB6QEAAF9yZWxzLy5yZWxzUEsBAhQAFAAAAAAAAAAhUARC5dYrAQAAKwEAABEAAAAAAAAAAAAAAIABPAMAAHdvcmQvZG9jdW1lbnQueG1sUEsFBgAAAAADAAMAuQAAAJYEAAAAAA==",
+      "reader_implementation_sha256": "c4d61c972ec670cdf00b18de62cae0dc88df4a62d0745fe79d5d0681a762af12",
+      "reader_limits": {
+        "max_attribute_chars": 4096,
+        "max_entries": 16,
+        "max_file_bytes": 2097152,
+        "max_namespaces": 32,
+        "max_ratio": 100,
+        "max_segment_chars": 16384,
+        "max_segments": 4096,
+        "max_table_columns": 128,
+        "max_table_rows": 1000,
+        "max_text_chars": 1000000,
+        "max_uncompressed_bytes": 8388608,
+        "max_xml_attributes": 16,
+        "max_xml_bytes": 2097152,
+        "max_xml_chars": 2097152,
+        "max_xml_depth": 32,
+        "max_xml_nodes": 20000
+      },
+      "reader_method": "docx-plain/v1",
+      "reader_spec_sha256": "c9c8f8d1066a82d296badf396512ea44c68d072f0b5d9cc3e75e936317268a1c",
+      "selection": null,
+      "source_id": "synthetic:task-0071",
+      "synthetic_only": true,
+      "zip_entries": [
+        {
+          "compression": 0,
+          "content_sha256": "e66af150816a8d3a81adf46d547045a2cb8ae07c741d8cba2e25f72029b8b36a",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "[Content_Types].xml",
+          "size": 440
+        },
+        {
+          "compression": 0,
+          "content_sha256": "10525bcf84577cba19199482dfa6dc910e3d66b19123704639e1602b8713d062",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "_rels/.rels",
+          "size": 298
+        },
+        {
+          "compression": 0,
+          "content_sha256": "8d426a0b6f7e17ba320ccdaf1596401410b52023a90c0c7783cd79b998353cd1",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "word/document.xml",
+          "size": 299
+        }
+      ]
+    },
+    "docx_coverage": {
+      "binary_sha256": "6e9925b1b4044060ecaa8100b361f91192ea5e3bcaba54f892a1b756df14f0d4",
+      "cell_spans": [],
+      "integration_manifest_json": "{\"binary_sha256\":\"6e9925b1b4044060ecaa8100b361f91192ea5e3bcaba54f892a1b756df14f0d4\",\"manifest_version\":\"docx-integration/v1\",\"native_text_sha256\":\"38df4d24033e8e691f60133483586b4de2d5211afff6557cd608650756405e33\",\"reader_implementation_sha256\":\"c4d61c972ec670cdf00b18de62cae0dc88df4a62d0745fe79d5d0681a762af12\",\"reader_limits\":{\"max_attribute_chars\":4096,\"max_entries\":16,\"max_file_bytes\":2097152,\"max_namespaces\":32,\"max_ratio\":100,\"max_segment_chars\":16384,\"max_segments\":4096,\"max_table_columns\":128,\"max_table_rows\":1000,\"max_text_chars\":1000000,\"max_uncompressed_bytes\":8388608,\"max_xml_attributes\":16,\"max_xml_bytes\":2097152,\"max_xml_chars\":2097152,\"max_xml_depth\":32,\"max_xml_nodes\":20000},\"reader_method\":\"docx-plain/v1\",\"segments\":[{\"locator\":{\"body_index\":1,\"cell_index\":null,\"char_end\":92,\"char_start\":0,\"paragraph_index\":1,\"part\":\"word/document.xml\",\"row_index\":null,\"table_index\":null},\"text\":\"Der Server SRV-001 befindet sich im Rechenzentrum Rostock und betreibt die Anwendung ERP-01.\",\"text_sha256\":\"cfe8ce9a7794a4582b89f9cd6df145cc3f5b4b83f2f2f837414b4a0bd81b531d\"},{\"locator\":{\"body_index\":2,\"cell_index\":1,\"char_end\":25,\"char_start\":0,\"paragraph_index\":1,\"part\":\"word/document.xml\",\"row_index\":1,\"table_index\":1},\"text\":\"  FIKTIV: Grüße, Café.  \",\"text_sha256\":\"5ebcb289e6ef691742b8447b3553eb55283fd0e182681de432f5ff874be1bdbb\"},{\"locator\":{\"body_index\":2,\"cell_index\":1,\"char_end\":0,\"char_start\":0,\"paragraph_index\":2,\"part\":\"word/document.xml\",\"row_index\":1,\"table_index\":1},\"text\":\"\",\"text_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"},{\"locator\":{\"body_index\":2,\"cell_index\":2,\"char_end\":9,\"char_start\":0,\"paragraph_index\":1,\"part\":\"word/document.xml\",\"row_index\":1,\"table_index\":1},\"text\":\"Raum Ä-01\",\"text_sha256\":\"24dc712c4b79f175906ba1cb64c5de445e6b590bdd26df93306e2dd1803ef13f\"},{\"locator\":{\"body_index\":3,\"cell_index\":null,\"char_end\":17,\"char_start\":0,\"paragraph_index\":2,\"part\":\"word/document.xml\",\"row_index\":null,\"table_index\":null},\"text\":\"FIKTIVER NACHTRAG\",\"text_sha256\":\"c7a1edec4993525c7ee1dfaac8413757b0953d5a8338b00caafb762a1d711e2d\"}],\"source_id\":\"synthetic:task-0071\"}",
+      "integration_manifest_sha256": "e99f030981a77b0cf9706914432ccfc2eeb09ae98a2bf99852f44a0b1a4b70f2",
+      "kind": "docx",
+      "native_manifest_json": null,
+      "native_manifest_sha256": null,
+      "native_text": "Der Server SRV-001 befindet sich im Rechenzentrum Rostock und betreibt die Anwendung ERP-01.\n  FIKTIV: Grüße, Café.  \n\nRaum Ä-01\nFIKTIVER NACHTRAG",
+      "native_text_sha256": "38df4d24033e8e691f60133483586b4de2d5211afff6557cd608650756405e33",
+      "observations": [
+        {
+          "locator": {
+            "body_index": 1,
+            "cell_index": null,
+            "char_end": 92,
+            "char_start": 0,
+            "paragraph_index": 1,
+            "part": "word/document.xml",
+            "row_index": null,
+            "table_index": null
+          },
+          "text": "Der Server SRV-001 befindet sich im Rechenzentrum Rostock und betreibt die Anwendung ERP-01.",
+          "text_sha256": "cfe8ce9a7794a4582b89f9cd6df145cc3f5b4b83f2f2f837414b4a0bd81b531d"
+        },
+        {
+          "locator": {
+            "body_index": 2,
+            "cell_index": 1,
+            "char_end": 25,
+            "char_start": 0,
+            "paragraph_index": 1,
+            "part": "word/document.xml",
+            "row_index": 1,
+            "table_index": 1
+          },
+          "text": "  FIKTIV: Grüße, Café.  ",
+          "text_sha256": "5ebcb289e6ef691742b8447b3553eb55283fd0e182681de432f5ff874be1bdbb"
+        },
+        {
+          "locator": {
+            "body_index": 2,
+            "cell_index": 1,
+            "char_end": 0,
+            "char_start": 0,
+            "paragraph_index": 2,
+            "part": "word/document.xml",
+            "row_index": 1,
+            "table_index": 1
+          },
+          "text": "",
+          "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "locator": {
+            "body_index": 2,
+            "cell_index": 2,
+            "char_end": 9,
+            "char_start": 0,
+            "paragraph_index": 1,
+            "part": "word/document.xml",
+            "row_index": 1,
+            "table_index": 1
+          },
+          "text": "Raum Ä-01",
+          "text_sha256": "24dc712c4b79f175906ba1cb64c5de445e6b590bdd26df93306e2dd1803ef13f"
+        },
+        {
+          "locator": {
+            "body_index": 3,
+            "cell_index": null,
+            "char_end": 17,
+            "char_start": 0,
+            "paragraph_index": 2,
+            "part": "word/document.xml",
+            "row_index": null,
+            "table_index": null
+          },
+          "text": "FIKTIVER NACHTRAG",
+          "text_sha256": "c7a1edec4993525c7ee1dfaac8413757b0953d5a8338b00caafb762a1d711e2d"
+        }
+      ],
+      "original_byte_length": 1797,
+      "original_bytes_base64": "UEsDBBQAAAAAAAAAIVAMsUvfuAEAALgBAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbDw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6VHlwZXMgeG1sbnM6bnMwPSJodHRwOi8vc2NoZW1hcy5vcGVueG1sZm9ybWF0cy5vcmcvcGFja2FnZS8yMDA2L2NvbnRlbnQtdHlwZXMiPjxuczA6RGVmYXVsdCBFeHRlbnNpb249InJlbHMiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi92bmQub3BlbnhtbGZvcm1hdHMtcGFja2FnZS5yZWxhdGlvbnNoaXBzK3htbCIgLz48bnMwOkRlZmF1bHQgRXh0ZW5zaW9uPSJ4bWwiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi94bWwiIC8+PG5zMDpPdmVycmlkZSBQYXJ0TmFtZT0iL3dvcmQvZG9jdW1lbnQueG1sIiBDb250ZW50VHlwZT0iYXBwbGljYXRpb24vdm5kLm9wZW54bWxmb3JtYXRzLW9mZmljZWRvY3VtZW50LndvcmRwcm9jZXNzaW5nbWwuZG9jdW1lbnQubWFpbit4bWwiIC8+PC9uczA6VHlwZXM+UEsDBBQAAAAAAAAAIVC/18ypKgEAACoBAAALAAAAX3JlbHMvLnJlbHM8P3htbCB2ZXJzaW9uPScxLjAnIGVuY29kaW5nPSd1dGYtOCc/Pgo8bnMwOlJlbGF0aW9uc2hpcHMgeG1sbnM6bnMwPSJodHRwOi8vc2NoZW1hcy5vcGVueG1sZm9ybWF0cy5vcmcvcGFja2FnZS8yMDA2L3JlbGF0aW9uc2hpcHMiPjxuczA6UmVsYXRpb25zaGlwIElkPSJySWQxIiBUeXBlPSJodHRwOi8vc2NoZW1hcy5vcGVueG1sZm9ybWF0cy5vcmcvb2ZmaWNlRG9jdW1lbnQvMjAwNi9yZWxhdGlvbnNoaXBzL29mZmljZURvY3VtZW50IiBUYXJnZXQ9IndvcmQvZG9jdW1lbnQueG1sIiAvPjwvbnMwOlJlbGF0aW9uc2hpcHM+UEsDBBQAAAAAAAAAIVDXaBrbywIAAMsCAAARAAAAd29yZC9kb2N1bWVudC54bWw8P3htbCB2ZXJzaW9uPScxLjAnIGVuY29kaW5nPSd1dGYtOCc/Pgo8bnMwOmRvY3VtZW50IHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3dvcmRwcm9jZXNzaW5nbWwvMjAwNi9tYWluIj48bnMwOmJvZHk+PG5zMDpwPjxuczA6cj48bnMwOnQ+RGVyIFNlcnZlciBTUlYtMDAxIGJlZmluZGV0IHNpY2ggaW0gUmVjaGVuemVudHJ1bSBSb3N0b2NrIHVuZCBiZXRyZWlidCBkaWUgQW53ZW5kdW5nIEVSUC0wMS48L25zMDp0PjwvbnMwOnI+PC9uczA6cD48bnMwOnRibD48bnMwOnRibFByIC8+PG5zMDp0YmxHcmlkPjxuczA6Z3JpZENvbCBuczA6dz0iMTAwMCIgLz48bnMwOmdyaWRDb2wgbnMwOnc9IjEwMDAiIC8+PC9uczA6dGJsR3JpZD48bnMwOnRyPjxuczA6dGM+PG5zMDpwPjxuczA6cj48bnMwOnQgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+ICBGSUtUSVY6IEdyw7zDn2UsIENhZmXMgS4gIDwvbnMwOnQ+PC9uczA6cj48L25zMDpwPjxuczA6cD48bnMwOnI+PG5zMDp0IC8+PC9uczA6cj48L25zMDpwPjwvbnMwOnRjPjxuczA6dGM+PG5zMDpwPjxuczA6cj48bnMwOnQ+UmF1bSDDhC0wMTwvbnMwOnQ+PC9uczA6cj48L25zMDpwPjwvbnMwOnRjPjwvbnMwOnRyPjwvbnMwOnRibD48bnMwOnA+PG5zMDpyPjxuczA6dD5GSUtUSVZFUiBOQUNIVFJBRzwvbnMwOnQ+PC9uczA6cj48L25zMDpwPjwvbnMwOmJvZHk+PC9uczA6ZG9jdW1lbnQ+UEsBAhQAFAAAAAAAAAAhUAyxS9+4AQAAuAEAABMAAAAAAAAAAAAAAIABAAAAAFtDb250ZW50X1R5cGVzXS54bWxQSwECFAAUAAAAAAAAACFQv9fMqSoBAAAqAQAACwAAAAAAAAAAAAAAgAHpAQAAX3JlbHMvLnJlbHNQSwECFAAUAAAAAAAAACFQ12ga28sCAADLAgAAEQAAAAAAAAAAAAAAgAE8AwAAd29yZC9kb2N1bWVudC54bWxQSwUGAAAAAAMAAwC5AAAANgYAAAAA",
+      "reader_implementation_sha256": "c4d61c972ec670cdf00b18de62cae0dc88df4a62d0745fe79d5d0681a762af12",
+      "reader_limits": {
+        "max_attribute_chars": 4096,
+        "max_entries": 16,
+        "max_file_bytes": 2097152,
+        "max_namespaces": 32,
+        "max_ratio": 100,
+        "max_segment_chars": 16384,
+        "max_segments": 4096,
+        "max_table_columns": 128,
+        "max_table_rows": 1000,
+        "max_text_chars": 1000000,
+        "max_uncompressed_bytes": 8388608,
+        "max_xml_attributes": 16,
+        "max_xml_bytes": 2097152,
+        "max_xml_chars": 2097152,
+        "max_xml_depth": 32,
+        "max_xml_nodes": 20000
+      },
+      "reader_method": "docx-plain/v1",
+      "reader_spec_sha256": "c9c8f8d1066a82d296badf396512ea44c68d072f0b5d9cc3e75e936317268a1c",
+      "selection": null,
+      "source_id": "synthetic:task-0071",
+      "synthetic_only": true,
+      "zip_entries": [
+        {
+          "compression": 0,
+          "content_sha256": "e66af150816a8d3a81adf46d547045a2cb8ae07c741d8cba2e25f72029b8b36a",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "[Content_Types].xml",
+          "size": 440
+        },
+        {
+          "compression": 0,
+          "content_sha256": "10525bcf84577cba19199482dfa6dc910e3d66b19123704639e1602b8713d062",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "_rels/.rels",
+          "size": 298
+        },
+        {
+          "compression": 0,
+          "content_sha256": "14a8625c23dacfea45d9f5f6f31b78b2c77d4e3d39fb523c210fd9a980c6229a",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "word/document.xml",
+          "size": 715
+        }
+      ]
+    },
+    "xlsx_blank": {
+      "binary_sha256": "50bffb12ffe8696952baa64b81ab5204522860608ec456663b1a7d9ce50f48a9",
+      "cell_spans": [
+        {
+          "char_end": 9,
+          "char_start": 0,
+          "coordinate": "A1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 8,
+          "char_start": 0,
+          "coordinate": "B1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 9,
+          "char_start": 0,
+          "coordinate": "C1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 7,
+          "char_start": 0,
+          "coordinate": "A2",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 0,
+          "char_start": 0,
+          "coordinate": "B2",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 6,
+          "char_start": 0,
+          "coordinate": "C2",
+          "sheet_ordinal": 1
+        }
+      ],
+      "integration_manifest_json": "{\"binary_sha256\":\"50bffb12ffe8696952baa64b81ab5204522860608ec456663b1a7d9ce50f48a9\",\"manifest_version\":\"xlsx-integration/v1\",\"native_manifest_json\":\"{\\\"limits\\\":{\\\"max_attribute_chars\\\":4096,\\\"max_cell_chars\\\":16384,\\\"max_cells\\\":10000,\\\"max_entries\\\":64,\\\"max_file_bytes\\\":2097152,\\\"max_namespaces\\\":32,\\\"max_ratio\\\":100,\\\"max_shared_strings\\\":10000,\\\"max_shared_text_chars\\\":1000000,\\\"max_text_chars\\\":1000000,\\\"max_uncompressed_bytes\\\":8388608,\\\"max_worksheets\\\":16,\\\"max_xml_attributes\\\":16,\\\"max_xml_bytes\\\":2097152,\\\"max_xml_chars\\\":2097152,\\\"max_xml_depth\\\":32,\\\"max_xml_nodes\\\":20000},\\\"method\\\":\\\"xlsx-literal/v1\\\",\\\"sheets\\\":[{\\\"cells\\\":[{\\\"column\\\":1,\\\"coordinate\\\":\\\"A1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"System-ID\\\",\\\"text_sha256\\\":\\\"242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1\\\"},{\\\"column\\\":2,\\\"coordinate\\\":\\\"B1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"Standort\\\",\\\"text_sha256\\\":\\\"ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97\\\"},{\\\"column\\\":3,\\\"coordinate\\\":\\\"C1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"Anwendung\\\",\\\"text_sha256\\\":\\\"239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867\\\"},{\\\"column\\\":1,\\\"coordinate\\\":\\\"A2\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":2,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"SRV-001\\\",\\\"text_sha256\\\":\\\"7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a\\\"},{\\\"column\\\":2,\\\"coordinate\\\":\\\"B2\\\",\\\"kind\\\":\\\"blank\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":2,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"\\\",\\\"text_sha256\\\":\\\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\\\"},{\\\"column\\\":3,\\\"coordinate\\\":\\\"C2\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":2,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"ERP-01\\\",\\\"text_sha256\\\":\\\"795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43\\\"}],\\\"name\\\":\\\"IT-Systeme\\\",\\\"ordinal\\\":1,\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"relationship_id\\\":\\\"rId1\\\",\\\"row_indices\\\":[1,2],\\\"sheet_id\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\"}],\\\"source_id\\\":\\\"synthetic:task-0072\\\"}\",\"native_manifest_sha256\":\"cee12fb91e8c4b8b49865b234e2c01840093e940e429991edb4fed0f44239f77\",\"native_text_sha256\":\"eb248059702fcc40e2604f5a4218489b1e7caad7f61464f69a990aaa7084d3ae\",\"reader_implementation_sha256\":\"4198a751148d1dbce974b06f449443ea954beb186d5a56798eac8be1e1131cb0\",\"reader_limits\":{\"max_attribute_chars\":4096,\"max_cell_chars\":16384,\"max_cells\":10000,\"max_entries\":64,\"max_file_bytes\":2097152,\"max_namespaces\":32,\"max_ratio\":100,\"max_shared_strings\":10000,\"max_shared_text_chars\":1000000,\"max_text_chars\":1000000,\"max_uncompressed_bytes\":8388608,\"max_worksheets\":16,\"max_xml_attributes\":16,\"max_xml_bytes\":2097152,\"max_xml_chars\":2097152,\"max_xml_depth\":32,\"max_xml_nodes\":20000},\"reader_method\":\"xlsx-literal/v1\",\"selection\":{\"name\":\"IT-Systeme\",\"ordinal\":1,\"part\":\"xl/worksheets/sheet1.xml\",\"relationship_id\":\"rId1\",\"sheet_id\":1},\"source_id\":\"synthetic:task-0072\"}",
+      "integration_manifest_sha256": "048e3419042e1df7347398fd6e498df313fa3bfefaf9f65a1901cac21d50d6b9",
+      "kind": "xlsx",
+      "native_manifest_json": "{\"limits\":{\"max_attribute_chars\":4096,\"max_cell_chars\":16384,\"max_cells\":10000,\"max_entries\":64,\"max_file_bytes\":2097152,\"max_namespaces\":32,\"max_ratio\":100,\"max_shared_strings\":10000,\"max_shared_text_chars\":1000000,\"max_text_chars\":1000000,\"max_uncompressed_bytes\":8388608,\"max_worksheets\":16,\"max_xml_attributes\":16,\"max_xml_bytes\":2097152,\"max_xml_chars\":2097152,\"max_xml_depth\":32,\"max_xml_nodes\":20000},\"method\":\"xlsx-literal/v1\",\"sheets\":[{\"cells\":[{\"column\":1,\"coordinate\":\"A1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"System-ID\",\"text_sha256\":\"242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1\"},{\"column\":2,\"coordinate\":\"B1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"Standort\",\"text_sha256\":\"ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97\"},{\"column\":3,\"coordinate\":\"C1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"Anwendung\",\"text_sha256\":\"239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867\"},{\"column\":1,\"coordinate\":\"A2\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":2,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"SRV-001\",\"text_sha256\":\"7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a\"},{\"column\":2,\"coordinate\":\"B2\",\"kind\":\"blank\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":2,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"\",\"text_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"},{\"column\":3,\"coordinate\":\"C2\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":2,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"ERP-01\",\"text_sha256\":\"795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43\"}],\"name\":\"IT-Systeme\",\"ordinal\":1,\"part\":\"xl/worksheets/sheet1.xml\",\"relationship_id\":\"rId1\",\"row_indices\":[1,2],\"sheet_id\":1,\"source_id\":\"synthetic:task-0072\"}],\"source_id\":\"synthetic:task-0072\"}",
+      "native_manifest_sha256": "cee12fb91e8c4b8b49865b234e2c01840093e940e429991edb4fed0f44239f77",
+      "native_text": "System-ID\nStandort\nAnwendung\nSRV-001\n\nERP-01",
+      "native_text_sha256": "eb248059702fcc40e2604f5a4218489b1e7caad7f61464f69a990aaa7084d3ae",
+      "observations": [
+        {
+          "cells": [
+            {
+              "column": 1,
+              "coordinate": "A1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "System-ID",
+              "text_sha256": "242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1"
+            },
+            {
+              "column": 2,
+              "coordinate": "B1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "Standort",
+              "text_sha256": "ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97"
+            },
+            {
+              "column": 3,
+              "coordinate": "C1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "Anwendung",
+              "text_sha256": "239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867"
+            },
+            {
+              "column": 1,
+              "coordinate": "A2",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 2,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "SRV-001",
+              "text_sha256": "7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a"
+            },
+            {
+              "column": 2,
+              "coordinate": "B2",
+              "kind": "blank",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 2,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "",
+              "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "column": 3,
+              "coordinate": "C2",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 2,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "ERP-01",
+              "text_sha256": "795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43"
+            }
+          ],
+          "name": "IT-Systeme",
+          "ordinal": 1,
+          "part": "xl/worksheets/sheet1.xml",
+          "relationship_id": "rId1",
+          "row_indices": [
+            1,
+            2
+          ],
+          "sheet_id": 1,
+          "source_id": "synthetic:task-0072"
+        }
+      ],
+      "original_byte_length": 2674,
+      "original_bytes_base64": "UEsDBBQAAAAAAAAAIVA8RYEEPQIAAD0CAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbDw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6VHlwZXMgeG1sbnM6bnMwPSJodHRwOi8vc2NoZW1hcy5vcGVueG1sZm9ybWF0cy5vcmcvcGFja2FnZS8yMDA2L2NvbnRlbnQtdHlwZXMiPjxuczA6RGVmYXVsdCBFeHRlbnNpb249InJlbHMiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi92bmQub3BlbnhtbGZvcm1hdHMtcGFja2FnZS5yZWxhdGlvbnNoaXBzK3htbCIgLz48bnMwOkRlZmF1bHQgRXh0ZW5zaW9uPSJ4bWwiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi94bWwiIC8+PG5zMDpPdmVycmlkZSBQYXJ0TmFtZT0iL3hsL3dvcmtib29rLnhtbCIgQ29udGVudFR5cGU9ImFwcGxpY2F0aW9uL3ZuZC5vcGVueG1sZm9ybWF0cy1vZmZpY2Vkb2N1bWVudC5zcHJlYWRzaGVldG1sLnNoZWV0Lm1haW4reG1sIiAvPjxuczA6T3ZlcnJpZGUgUGFydE5hbWU9Ii94bC93b3Jrc2hlZXRzL3NoZWV0MS54bWwiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi92bmQub3BlbnhtbGZvcm1hdHMtb2ZmaWNlZG9jdW1lbnQuc3ByZWFkc2hlZXRtbC53b3Jrc2hlZXQreG1sIiAvPjwvbnMwOlR5cGVzPlBLAwQUAAAAAAAAACFQ5Un4lygBAAAoAQAACwAAAF9yZWxzLy5yZWxzPD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0ndXRmLTgnPz4KPG5zMDpSZWxhdGlvbnNoaXBzIHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3BhY2thZ2UvMjAwNi9yZWxhdGlvbnNoaXBzIj48bnMwOlJlbGF0aW9uc2hpcCBJZD0icklkMSIgVHlwZT0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL29mZmljZURvY3VtZW50LzIwMDYvcmVsYXRpb25zaGlwcy9vZmZpY2VEb2N1bWVudCIgVGFyZ2V0PSJ4bC93b3JrYm9vay54bWwiIC8+PC9uczA6UmVsYXRpb25zaGlwcz5QSwMEFAAAAAAAAAAhUOOJoNUsAQAALAEAAA8AAAB4bC93b3JrYm9vay54bWw8P3htbCB2ZXJzaW9uPScxLjAnIGVuY29kaW5nPSd1dGYtOCc/Pgo8bnMwOndvcmtib29rIHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3NwcmVhZHNoZWV0bWwvMjAwNi9tYWluIiB4bWxuczpuczE9Imh0dHA6Ly9zY2hlbWFzLm9wZW54bWxmb3JtYXRzLm9yZy9vZmZpY2VEb2N1bWVudC8yMDA2L3JlbGF0aW9uc2hpcHMiPjxuczA6c2hlZXRzPjxuczA6c2hlZXQgbmFtZT0iSVQtU3lzdGVtZSIgc2hlZXRJZD0iMSIgbnMxOmlkPSJySWQxIiAvPjwvbnMwOnNoZWV0cz48L25zMDp3b3JrYm9vaz5QSwMEFAAAAAAAAAAhUFiHF+kpAQAAKQEAABoAAAB4bC9fcmVscy93b3JrYm9vay54bWwucmVsczw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6UmVsYXRpb25zaGlwcyB4bWxuczpuczA9Imh0dHA6Ly9zY2hlbWFzLm9wZW54bWxmb3JtYXRzLm9yZy9wYWNrYWdlLzIwMDYvcmVsYXRpb25zaGlwcyI+PG5zMDpSZWxhdGlvbnNoaXAgSWQ9InJJZDEiIFR5cGU9Imh0dHA6Ly9zY2hlbWFzLm9wZW54bWxmb3JtYXRzLm9yZy9vZmZpY2VEb2N1bWVudC8yMDA2L3JlbGF0aW9uc2hpcHMvd29ya3NoZWV0IiBUYXJnZXQ9IndvcmtzaGVldHMvc2hlZXQxLnhtbCIgLz48L25zMDpSZWxhdGlvbnNoaXBzPlBLAwQUAAAAAAAAACFQXN6/j2gCAABoAgAAGAAAAHhsL3dvcmtzaGVldHMvc2hlZXQxLnhtbDw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6d29ya3NoZWV0IHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3NwcmVhZHNoZWV0bWwvMjAwNi9tYWluIj48bnMwOnNoZWV0RGF0YT48bnMwOnJvdyByPSIxIj48bnMwOmMgcj0iQTEiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+U3lzdGVtLUlEPC9uczA6dD48L25zMDppcz48L25zMDpjPjxuczA6YyByPSJCMSIgdD0iaW5saW5lU3RyIj48bnMwOmlzPjxuczA6dD5TdGFuZG9ydDwvbnMwOnQ+PC9uczA6aXM+PC9uczA6Yz48bnMwOmMgcj0iQzEiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+QW53ZW5kdW5nPC9uczA6dD48L25zMDppcz48L25zMDpjPjwvbnMwOnJvdz48bnMwOnJvdyByPSIyIj48bnMwOmMgcj0iQTIiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+U1JWLTAwMTwvbnMwOnQ+PC9uczA6aXM+PC9uczA6Yz48bnMwOmMgcj0iQjIiIC8+PG5zMDpjIHI9IkMyIiB0PSJpbmxpbmVTdHIiPjxuczA6aXM+PG5zMDp0PkVSUC0wMTwvbnMwOnQ+PC9uczA6aXM+PC9uczA6Yz48L25zMDpyb3c+PC9uczA6c2hlZXREYXRhPjwvbnMwOndvcmtzaGVldD5QSwECFAAUAAAAAAAAACFQPEWBBD0CAAA9AgAAEwAAAAAAAAAAAAAAgAEAAAAAW0NvbnRlbnRfVHlwZXNdLnhtbFBLAQIUABQAAAAAAAAAIVDlSfiXKAEAACgBAAALAAAAAAAAAAAAAACAAW4CAABfcmVscy8ucmVsc1BLAQIUABQAAAAAAAAAIVDjiaDVLAEAACwBAAAPAAAAAAAAAAAAAACAAb8DAAB4bC93b3JrYm9vay54bWxQSwECFAAUAAAAAAAAACFQWIcX6SkBAAApAQAAGgAAAAAAAAAAAAAAgAEYBQAAeGwvX3JlbHMvd29ya2Jvb2sueG1sLnJlbHNQSwECFAAUAAAAAAAAACFQXN6/j2gCAABoAgAAGAAAAAAAAAAAAAAAgAF5BgAAeGwvd29ya3NoZWV0cy9zaGVldDEueG1sUEsFBgAAAAAFAAUARQEAABcJAAAAAA==",
+      "reader_implementation_sha256": "4198a751148d1dbce974b06f449443ea954beb186d5a56798eac8be1e1131cb0",
+      "reader_limits": {
+        "max_attribute_chars": 4096,
+        "max_cell_chars": 16384,
+        "max_cells": 10000,
+        "max_entries": 64,
+        "max_file_bytes": 2097152,
+        "max_namespaces": 32,
+        "max_ratio": 100,
+        "max_shared_strings": 10000,
+        "max_shared_text_chars": 1000000,
+        "max_text_chars": 1000000,
+        "max_uncompressed_bytes": 8388608,
+        "max_worksheets": 16,
+        "max_xml_attributes": 16,
+        "max_xml_bytes": 2097152,
+        "max_xml_chars": 2097152,
+        "max_xml_depth": 32,
+        "max_xml_nodes": 20000
+      },
+      "reader_method": "xlsx-literal/v1",
+      "reader_spec_sha256": "22dbdd6b8be6397e6d215edf51b02546887df92e326fef987c4ec10d5c6198c2",
+      "selection": {
+        "name": "IT-Systeme",
+        "ordinal": 1,
+        "part": "xl/worksheets/sheet1.xml",
+        "relationship_id": "rId1",
+        "sheet_id": 1
+      },
+      "source_id": "synthetic:task-0072",
+      "synthetic_only": true,
+      "zip_entries": [
+        {
+          "compression": 0,
+          "content_sha256": "1e46198b553e6a40394a6e9d043861b4c525661c3150dd4ec81c2d68a26affa9",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "[Content_Types].xml",
+          "size": 573
+        },
+        {
+          "compression": 0,
+          "content_sha256": "02494225c497f65ed925c54e1e109f17a922b25cd5d40266d3c544de310d82de",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "_rels/.rels",
+          "size": 296
+        },
+        {
+          "compression": 0,
+          "content_sha256": "9359e0b007bfb3c09d89175681b070f745843c2a72c45637dbf2549aacedc1de",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/workbook.xml",
+          "size": 300
+        },
+        {
+          "compression": 0,
+          "content_sha256": "41e5b78fd52a143bbed03ada13b29f9e83f3b1a3d4e58ac8f607951220fb95b5",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/_rels/workbook.xml.rels",
+          "size": 297
+        },
+        {
+          "compression": 0,
+          "content_sha256": "2614835e179be1c1806670a79cee8df997a53236916a9135e1aa2df4fd289cf7",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/worksheets/sheet1.xml",
+          "size": 616
+        }
+      ]
+    },
+    "xlsx_complete": {
+      "binary_sha256": "d12084673da49c9cf78630e1a217af3d00a9178ea03b6508c15af95422fd7345",
+      "cell_spans": [
+        {
+          "char_end": 9,
+          "char_start": 0,
+          "coordinate": "A1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 8,
+          "char_start": 0,
+          "coordinate": "B1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 9,
+          "char_start": 0,
+          "coordinate": "C1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 7,
+          "char_start": 0,
+          "coordinate": "A2",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 21,
+          "char_start": 0,
+          "coordinate": "B2",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 6,
+          "char_start": 0,
+          "coordinate": "C2",
+          "sheet_ordinal": 1
+        }
+      ],
+      "integration_manifest_json": "{\"binary_sha256\":\"d12084673da49c9cf78630e1a217af3d00a9178ea03b6508c15af95422fd7345\",\"manifest_version\":\"xlsx-integration/v1\",\"native_manifest_json\":\"{\\\"limits\\\":{\\\"max_attribute_chars\\\":4096,\\\"max_cell_chars\\\":16384,\\\"max_cells\\\":10000,\\\"max_entries\\\":64,\\\"max_file_bytes\\\":2097152,\\\"max_namespaces\\\":32,\\\"max_ratio\\\":100,\\\"max_shared_strings\\\":10000,\\\"max_shared_text_chars\\\":1000000,\\\"max_text_chars\\\":1000000,\\\"max_uncompressed_bytes\\\":8388608,\\\"max_worksheets\\\":16,\\\"max_xml_attributes\\\":16,\\\"max_xml_bytes\\\":2097152,\\\"max_xml_chars\\\":2097152,\\\"max_xml_depth\\\":32,\\\"max_xml_nodes\\\":20000},\\\"method\\\":\\\"xlsx-literal/v1\\\",\\\"sheets\\\":[{\\\"cells\\\":[{\\\"column\\\":1,\\\"coordinate\\\":\\\"A1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"System-ID\\\",\\\"text_sha256\\\":\\\"242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1\\\"},{\\\"column\\\":2,\\\"coordinate\\\":\\\"B1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"Standort\\\",\\\"text_sha256\\\":\\\"ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97\\\"},{\\\"column\\\":3,\\\"coordinate\\\":\\\"C1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"Anwendung\\\",\\\"text_sha256\\\":\\\"239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867\\\"},{\\\"column\\\":1,\\\"coordinate\\\":\\\"A2\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":2,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"SRV-001\\\",\\\"text_sha256\\\":\\\"7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a\\\"},{\\\"column\\\":2,\\\"coordinate\\\":\\\"B2\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":2,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"Rechenzentrum Rostock\\\",\\\"text_sha256\\\":\\\"7971e5b627ad354ef6fb24402fb45c8d9063f8f5ff001cac41f875831f223623\\\"},{\\\"column\\\":3,\\\"coordinate\\\":\\\"C2\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":2,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"ERP-01\\\",\\\"text_sha256\\\":\\\"795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43\\\"}],\\\"name\\\":\\\"IT-Systeme\\\",\\\"ordinal\\\":1,\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"relationship_id\\\":\\\"rId1\\\",\\\"row_indices\\\":[1,2],\\\"sheet_id\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\"}],\\\"source_id\\\":\\\"synthetic:task-0072\\\"}\",\"native_manifest_sha256\":\"5a0b36a32b5728627e094166e9899b5206b88f6563d2b5efb958de774af72660\",\"native_text_sha256\":\"13361eadb0f700c06a08264073c85a979a3fdd788b5b026f3f63e9b80f526adf\",\"reader_implementation_sha256\":\"4198a751148d1dbce974b06f449443ea954beb186d5a56798eac8be1e1131cb0\",\"reader_limits\":{\"max_attribute_chars\":4096,\"max_cell_chars\":16384,\"max_cells\":10000,\"max_entries\":64,\"max_file_bytes\":2097152,\"max_namespaces\":32,\"max_ratio\":100,\"max_shared_strings\":10000,\"max_shared_text_chars\":1000000,\"max_text_chars\":1000000,\"max_uncompressed_bytes\":8388608,\"max_worksheets\":16,\"max_xml_attributes\":16,\"max_xml_bytes\":2097152,\"max_xml_chars\":2097152,\"max_xml_depth\":32,\"max_xml_nodes\":20000},\"reader_method\":\"xlsx-literal/v1\",\"selection\":{\"name\":\"IT-Systeme\",\"ordinal\":1,\"part\":\"xl/worksheets/sheet1.xml\",\"relationship_id\":\"rId1\",\"sheet_id\":1},\"source_id\":\"synthetic:task-0072\"}",
+      "integration_manifest_sha256": "668ff566ba1e321fe4c5516603e4c8baf13746f828bd232a65d6053f2b1f69c7",
+      "kind": "xlsx",
+      "native_manifest_json": "{\"limits\":{\"max_attribute_chars\":4096,\"max_cell_chars\":16384,\"max_cells\":10000,\"max_entries\":64,\"max_file_bytes\":2097152,\"max_namespaces\":32,\"max_ratio\":100,\"max_shared_strings\":10000,\"max_shared_text_chars\":1000000,\"max_text_chars\":1000000,\"max_uncompressed_bytes\":8388608,\"max_worksheets\":16,\"max_xml_attributes\":16,\"max_xml_bytes\":2097152,\"max_xml_chars\":2097152,\"max_xml_depth\":32,\"max_xml_nodes\":20000},\"method\":\"xlsx-literal/v1\",\"sheets\":[{\"cells\":[{\"column\":1,\"coordinate\":\"A1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"System-ID\",\"text_sha256\":\"242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1\"},{\"column\":2,\"coordinate\":\"B1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"Standort\",\"text_sha256\":\"ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97\"},{\"column\":3,\"coordinate\":\"C1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"Anwendung\",\"text_sha256\":\"239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867\"},{\"column\":1,\"coordinate\":\"A2\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":2,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"SRV-001\",\"text_sha256\":\"7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a\"},{\"column\":2,\"coordinate\":\"B2\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":2,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"Rechenzentrum Rostock\",\"text_sha256\":\"7971e5b627ad354ef6fb24402fb45c8d9063f8f5ff001cac41f875831f223623\"},{\"column\":3,\"coordinate\":\"C2\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":2,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"ERP-01\",\"text_sha256\":\"795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43\"}],\"name\":\"IT-Systeme\",\"ordinal\":1,\"part\":\"xl/worksheets/sheet1.xml\",\"relationship_id\":\"rId1\",\"row_indices\":[1,2],\"sheet_id\":1,\"source_id\":\"synthetic:task-0072\"}],\"source_id\":\"synthetic:task-0072\"}",
+      "native_manifest_sha256": "5a0b36a32b5728627e094166e9899b5206b88f6563d2b5efb958de774af72660",
+      "native_text": "System-ID\nStandort\nAnwendung\nSRV-001\nRechenzentrum Rostock\nERP-01",
+      "native_text_sha256": "13361eadb0f700c06a08264073c85a979a3fdd788b5b026f3f63e9b80f526adf",
+      "observations": [
+        {
+          "cells": [
+            {
+              "column": 1,
+              "coordinate": "A1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "System-ID",
+              "text_sha256": "242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1"
+            },
+            {
+              "column": 2,
+              "coordinate": "B1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "Standort",
+              "text_sha256": "ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97"
+            },
+            {
+              "column": 3,
+              "coordinate": "C1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "Anwendung",
+              "text_sha256": "239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867"
+            },
+            {
+              "column": 1,
+              "coordinate": "A2",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 2,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "SRV-001",
+              "text_sha256": "7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a"
+            },
+            {
+              "column": 2,
+              "coordinate": "B2",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 2,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "Rechenzentrum Rostock",
+              "text_sha256": "7971e5b627ad354ef6fb24402fb45c8d9063f8f5ff001cac41f875831f223623"
+            },
+            {
+              "column": 3,
+              "coordinate": "C2",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 2,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "ERP-01",
+              "text_sha256": "795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43"
+            }
+          ],
+          "name": "IT-Systeme",
+          "ordinal": 1,
+          "part": "xl/worksheets/sheet1.xml",
+          "relationship_id": "rId1",
+          "row_indices": [
+            1,
+            2
+          ],
+          "sheet_id": 1,
+          "source_id": "synthetic:task-0072"
+        }
+      ],
+      "original_byte_length": 2747,
+      "original_bytes_base64": "UEsDBBQAAAAAAAAAIVA8RYEEPQIAAD0CAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbDw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6VHlwZXMgeG1sbnM6bnMwPSJodHRwOi8vc2NoZW1hcy5vcGVueG1sZm9ybWF0cy5vcmcvcGFja2FnZS8yMDA2L2NvbnRlbnQtdHlwZXMiPjxuczA6RGVmYXVsdCBFeHRlbnNpb249InJlbHMiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi92bmQub3BlbnhtbGZvcm1hdHMtcGFja2FnZS5yZWxhdGlvbnNoaXBzK3htbCIgLz48bnMwOkRlZmF1bHQgRXh0ZW5zaW9uPSJ4bWwiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi94bWwiIC8+PG5zMDpPdmVycmlkZSBQYXJ0TmFtZT0iL3hsL3dvcmtib29rLnhtbCIgQ29udGVudFR5cGU9ImFwcGxpY2F0aW9uL3ZuZC5vcGVueG1sZm9ybWF0cy1vZmZpY2Vkb2N1bWVudC5zcHJlYWRzaGVldG1sLnNoZWV0Lm1haW4reG1sIiAvPjxuczA6T3ZlcnJpZGUgUGFydE5hbWU9Ii94bC93b3Jrc2hlZXRzL3NoZWV0MS54bWwiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi92bmQub3BlbnhtbGZvcm1hdHMtb2ZmaWNlZG9jdW1lbnQuc3ByZWFkc2hlZXRtbC53b3Jrc2hlZXQreG1sIiAvPjwvbnMwOlR5cGVzPlBLAwQUAAAAAAAAACFQ5Un4lygBAAAoAQAACwAAAF9yZWxzLy5yZWxzPD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0ndXRmLTgnPz4KPG5zMDpSZWxhdGlvbnNoaXBzIHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3BhY2thZ2UvMjAwNi9yZWxhdGlvbnNoaXBzIj48bnMwOlJlbGF0aW9uc2hpcCBJZD0icklkMSIgVHlwZT0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL29mZmljZURvY3VtZW50LzIwMDYvcmVsYXRpb25zaGlwcy9vZmZpY2VEb2N1bWVudCIgVGFyZ2V0PSJ4bC93b3JrYm9vay54bWwiIC8+PC9uczA6UmVsYXRpb25zaGlwcz5QSwMEFAAAAAAAAAAhUOOJoNUsAQAALAEAAA8AAAB4bC93b3JrYm9vay54bWw8P3htbCB2ZXJzaW9uPScxLjAnIGVuY29kaW5nPSd1dGYtOCc/Pgo8bnMwOndvcmtib29rIHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3NwcmVhZHNoZWV0bWwvMjAwNi9tYWluIiB4bWxuczpuczE9Imh0dHA6Ly9zY2hlbWFzLm9wZW54bWxmb3JtYXRzLm9yZy9vZmZpY2VEb2N1bWVudC8yMDA2L3JlbGF0aW9uc2hpcHMiPjxuczA6c2hlZXRzPjxuczA6c2hlZXQgbmFtZT0iSVQtU3lzdGVtZSIgc2hlZXRJZD0iMSIgbnMxOmlkPSJySWQxIiAvPjwvbnMwOnNoZWV0cz48L25zMDp3b3JrYm9vaz5QSwMEFAAAAAAAAAAhUFiHF+kpAQAAKQEAABoAAAB4bC9fcmVscy93b3JrYm9vay54bWwucmVsczw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6UmVsYXRpb25zaGlwcyB4bWxuczpuczA9Imh0dHA6Ly9zY2hlbWFzLm9wZW54bWxmb3JtYXRzLm9yZy9wYWNrYWdlLzIwMDYvcmVsYXRpb25zaGlwcyI+PG5zMDpSZWxhdGlvbnNoaXAgSWQ9InJJZDEiIFR5cGU9Imh0dHA6Ly9zY2hlbWFzLm9wZW54bWxmb3JtYXRzLm9yZy9vZmZpY2VEb2N1bWVudC8yMDA2L3JlbGF0aW9uc2hpcHMvd29ya3NoZWV0IiBUYXJnZXQ9IndvcmtzaGVldHMvc2hlZXQxLnhtbCIgLz48L25zMDpSZWxhdGlvbnNoaXBzPlBLAwQUAAAAAAAAACFQx9X647ECAACxAgAAGAAAAHhsL3dvcmtzaGVldHMvc2hlZXQxLnhtbDw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6d29ya3NoZWV0IHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3NwcmVhZHNoZWV0bWwvMjAwNi9tYWluIj48bnMwOnNoZWV0RGF0YT48bnMwOnJvdyByPSIxIj48bnMwOmMgcj0iQTEiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+U3lzdGVtLUlEPC9uczA6dD48L25zMDppcz48L25zMDpjPjxuczA6YyByPSJCMSIgdD0iaW5saW5lU3RyIj48bnMwOmlzPjxuczA6dD5TdGFuZG9ydDwvbnMwOnQ+PC9uczA6aXM+PC9uczA6Yz48bnMwOmMgcj0iQzEiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+QW53ZW5kdW5nPC9uczA6dD48L25zMDppcz48L25zMDpjPjwvbnMwOnJvdz48bnMwOnJvdyByPSIyIj48bnMwOmMgcj0iQTIiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+U1JWLTAwMTwvbnMwOnQ+PC9uczA6aXM+PC9uczA6Yz48bnMwOmMgcj0iQjIiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+UmVjaGVuemVudHJ1bSBSb3N0b2NrPC9uczA6dD48L25zMDppcz48L25zMDpjPjxuczA6YyByPSJDMiIgdD0iaW5saW5lU3RyIj48bnMwOmlzPjxuczA6dD5FUlAtMDE8L25zMDp0PjwvbnMwOmlzPjwvbnMwOmM+PC9uczA6cm93PjwvbnMwOnNoZWV0RGF0YT48L25zMDp3b3Jrc2hlZXQ+UEsBAhQAFAAAAAAAAAAhUDxFgQQ9AgAAPQIAABMAAAAAAAAAAAAAAIABAAAAAFtDb250ZW50X1R5cGVzXS54bWxQSwECFAAUAAAAAAAAACFQ5Un4lygBAAAoAQAACwAAAAAAAAAAAAAAgAFuAgAAX3JlbHMvLnJlbHNQSwECFAAUAAAAAAAAACFQ44mg1SwBAAAsAQAADwAAAAAAAAAAAAAAgAG/AwAAeGwvd29ya2Jvb2sueG1sUEsBAhQAFAAAAAAAAAAhUFiHF+kpAQAAKQEAABoAAAAAAAAAAAAAAIABGAUAAHhsL19yZWxzL3dvcmtib29rLnhtbC5yZWxzUEsBAhQAFAAAAAAAAAAhUMfV+uOxAgAAsQIAABgAAAAAAAAAAAAAAIABeQYAAHhsL3dvcmtzaGVldHMvc2hlZXQxLnhtbFBLBQYAAAAABQAFAEUBAABgCQAAAAA=",
+      "reader_implementation_sha256": "4198a751148d1dbce974b06f449443ea954beb186d5a56798eac8be1e1131cb0",
+      "reader_limits": {
+        "max_attribute_chars": 4096,
+        "max_cell_chars": 16384,
+        "max_cells": 10000,
+        "max_entries": 64,
+        "max_file_bytes": 2097152,
+        "max_namespaces": 32,
+        "max_ratio": 100,
+        "max_shared_strings": 10000,
+        "max_shared_text_chars": 1000000,
+        "max_text_chars": 1000000,
+        "max_uncompressed_bytes": 8388608,
+        "max_worksheets": 16,
+        "max_xml_attributes": 16,
+        "max_xml_bytes": 2097152,
+        "max_xml_chars": 2097152,
+        "max_xml_depth": 32,
+        "max_xml_nodes": 20000
+      },
+      "reader_method": "xlsx-literal/v1",
+      "reader_spec_sha256": "22dbdd6b8be6397e6d215edf51b02546887df92e326fef987c4ec10d5c6198c2",
+      "selection": {
+        "name": "IT-Systeme",
+        "ordinal": 1,
+        "part": "xl/worksheets/sheet1.xml",
+        "relationship_id": "rId1",
+        "sheet_id": 1
+      },
+      "source_id": "synthetic:task-0072",
+      "synthetic_only": true,
+      "zip_entries": [
+        {
+          "compression": 0,
+          "content_sha256": "1e46198b553e6a40394a6e9d043861b4c525661c3150dd4ec81c2d68a26affa9",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "[Content_Types].xml",
+          "size": 573
+        },
+        {
+          "compression": 0,
+          "content_sha256": "02494225c497f65ed925c54e1e109f17a922b25cd5d40266d3c544de310d82de",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "_rels/.rels",
+          "size": 296
+        },
+        {
+          "compression": 0,
+          "content_sha256": "9359e0b007bfb3c09d89175681b070f745843c2a72c45637dbf2549aacedc1de",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/workbook.xml",
+          "size": 300
+        },
+        {
+          "compression": 0,
+          "content_sha256": "41e5b78fd52a143bbed03ada13b29f9e83f3b1a3d4e58ac8f607951220fb95b5",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/_rels/workbook.xml.rels",
+          "size": 297
+        },
+        {
+          "compression": 0,
+          "content_sha256": "3fda7f1af6d68ea7f09891e1ceeeb8ced8cee89991e70440882c99c9902195e4",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/worksheets/sheet1.xml",
+          "size": 689
+        }
+      ]
+    },
+    "xlsx_coverage": {
+      "binary_sha256": "fd446c23f1423a3fb2aba1df62f6bdc3370735ed2d8b54e64ac8fb6ed8ca927b",
+      "cell_spans": [
+        {
+          "char_end": 9,
+          "char_start": 0,
+          "coordinate": "A1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 8,
+          "char_start": 0,
+          "coordinate": "B1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 9,
+          "char_start": 0,
+          "coordinate": "C1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 7,
+          "char_start": 0,
+          "coordinate": "A2",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 21,
+          "char_start": 0,
+          "coordinate": "B2",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 6,
+          "char_start": 0,
+          "coordinate": "C2",
+          "sheet_ordinal": 1
+        }
+      ],
+      "integration_manifest_json": "{\"binary_sha256\":\"fd446c23f1423a3fb2aba1df62f6bdc3370735ed2d8b54e64ac8fb6ed8ca927b\",\"manifest_version\":\"xlsx-integration/v1\",\"native_manifest_json\":\"{\\\"limits\\\":{\\\"max_attribute_chars\\\":4096,\\\"max_cell_chars\\\":16384,\\\"max_cells\\\":10000,\\\"max_entries\\\":64,\\\"max_file_bytes\\\":2097152,\\\"max_namespaces\\\":32,\\\"max_ratio\\\":100,\\\"max_shared_strings\\\":10000,\\\"max_shared_text_chars\\\":1000000,\\\"max_text_chars\\\":1000000,\\\"max_uncompressed_bytes\\\":8388608,\\\"max_worksheets\\\":16,\\\"max_xml_attributes\\\":16,\\\"max_xml_bytes\\\":2097152,\\\"max_xml_chars\\\":2097152,\\\"max_xml_depth\\\":32,\\\"max_xml_nodes\\\":20000},\\\"method\\\":\\\"xlsx-literal/v1\\\",\\\"sheets\\\":[{\\\"cells\\\":[{\\\"column\\\":1,\\\"coordinate\\\":\\\"A1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"System-ID\\\",\\\"text_sha256\\\":\\\"242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1\\\"},{\\\"column\\\":2,\\\"coordinate\\\":\\\"B1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"Standort\\\",\\\"text_sha256\\\":\\\"ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97\\\"},{\\\"column\\\":3,\\\"coordinate\\\":\\\"C1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"Anwendung\\\",\\\"text_sha256\\\":\\\"239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867\\\"},{\\\"column\\\":1,\\\"coordinate\\\":\\\"A2\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":2,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"SRV-001\\\",\\\"text_sha256\\\":\\\"7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a\\\"},{\\\"column\\\":2,\\\"coordinate\\\":\\\"B2\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":2,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"Rechenzentrum Rostock\\\",\\\"text_sha256\\\":\\\"7971e5b627ad354ef6fb24402fb45c8d9063f8f5ff001cac41f875831f223623\\\"},{\\\"column\\\":3,\\\"coordinate\\\":\\\"C2\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":2,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"ERP-01\\\",\\\"text_sha256\\\":\\\"795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43\\\"}],\\\"name\\\":\\\"IT-Systeme\\\",\\\"ordinal\\\":1,\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"relationship_id\\\":\\\"rId1\\\",\\\"row_indices\\\":[1,2],\\\"sheet_id\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\"},{\\\"cells\\\":[],\\\"name\\\":\\\"Fiktiv-Extra\\\",\\\"ordinal\\\":2,\\\"part\\\":\\\"xl/worksheets/sheet2.xml\\\",\\\"relationship_id\\\":\\\"rId2\\\",\\\"row_indices\\\":[],\\\"sheet_id\\\":2,\\\"source_id\\\":\\\"synthetic:task-0072\\\"}],\\\"source_id\\\":\\\"synthetic:task-0072\\\"}\",\"native_manifest_sha256\":\"15b33295bd4b69735a40866bf79ac0006080b1a83726924cccfc49abbe5e8c5f\",\"native_text_sha256\":\"13361eadb0f700c06a08264073c85a979a3fdd788b5b026f3f63e9b80f526adf\",\"reader_implementation_sha256\":\"4198a751148d1dbce974b06f449443ea954beb186d5a56798eac8be1e1131cb0\",\"reader_limits\":{\"max_attribute_chars\":4096,\"max_cell_chars\":16384,\"max_cells\":10000,\"max_entries\":64,\"max_file_bytes\":2097152,\"max_namespaces\":32,\"max_ratio\":100,\"max_shared_strings\":10000,\"max_shared_text_chars\":1000000,\"max_text_chars\":1000000,\"max_uncompressed_bytes\":8388608,\"max_worksheets\":16,\"max_xml_attributes\":16,\"max_xml_bytes\":2097152,\"max_xml_chars\":2097152,\"max_xml_depth\":32,\"max_xml_nodes\":20000},\"reader_method\":\"xlsx-literal/v1\",\"selection\":{\"name\":\"IT-Systeme\",\"ordinal\":1,\"part\":\"xl/worksheets/sheet1.xml\",\"relationship_id\":\"rId1\",\"sheet_id\":1},\"source_id\":\"synthetic:task-0072\"}",
+      "integration_manifest_sha256": "013a9c762de2564d61df789a8b7c6573a64812da3074afce1af1a6491c1e3275",
+      "kind": "xlsx",
+      "native_manifest_json": "{\"limits\":{\"max_attribute_chars\":4096,\"max_cell_chars\":16384,\"max_cells\":10000,\"max_entries\":64,\"max_file_bytes\":2097152,\"max_namespaces\":32,\"max_ratio\":100,\"max_shared_strings\":10000,\"max_shared_text_chars\":1000000,\"max_text_chars\":1000000,\"max_uncompressed_bytes\":8388608,\"max_worksheets\":16,\"max_xml_attributes\":16,\"max_xml_bytes\":2097152,\"max_xml_chars\":2097152,\"max_xml_depth\":32,\"max_xml_nodes\":20000},\"method\":\"xlsx-literal/v1\",\"sheets\":[{\"cells\":[{\"column\":1,\"coordinate\":\"A1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"System-ID\",\"text_sha256\":\"242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1\"},{\"column\":2,\"coordinate\":\"B1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"Standort\",\"text_sha256\":\"ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97\"},{\"column\":3,\"coordinate\":\"C1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"Anwendung\",\"text_sha256\":\"239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867\"},{\"column\":1,\"coordinate\":\"A2\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":2,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"SRV-001\",\"text_sha256\":\"7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a\"},{\"column\":2,\"coordinate\":\"B2\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":2,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"Rechenzentrum Rostock\",\"text_sha256\":\"7971e5b627ad354ef6fb24402fb45c8d9063f8f5ff001cac41f875831f223623\"},{\"column\":3,\"coordinate\":\"C2\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":2,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"ERP-01\",\"text_sha256\":\"795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43\"}],\"name\":\"IT-Systeme\",\"ordinal\":1,\"part\":\"xl/worksheets/sheet1.xml\",\"relationship_id\":\"rId1\",\"row_indices\":[1,2],\"sheet_id\":1,\"source_id\":\"synthetic:task-0072\"},{\"cells\":[],\"name\":\"Fiktiv-Extra\",\"ordinal\":2,\"part\":\"xl/worksheets/sheet2.xml\",\"relationship_id\":\"rId2\",\"row_indices\":[],\"sheet_id\":2,\"source_id\":\"synthetic:task-0072\"}],\"source_id\":\"synthetic:task-0072\"}",
+      "native_manifest_sha256": "15b33295bd4b69735a40866bf79ac0006080b1a83726924cccfc49abbe5e8c5f",
+      "native_text": "System-ID\nStandort\nAnwendung\nSRV-001\nRechenzentrum Rostock\nERP-01",
+      "native_text_sha256": "13361eadb0f700c06a08264073c85a979a3fdd788b5b026f3f63e9b80f526adf",
+      "observations": [
+        {
+          "cells": [
+            {
+              "column": 1,
+              "coordinate": "A1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "System-ID",
+              "text_sha256": "242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1"
+            },
+            {
+              "column": 2,
+              "coordinate": "B1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "Standort",
+              "text_sha256": "ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97"
+            },
+            {
+              "column": 3,
+              "coordinate": "C1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "Anwendung",
+              "text_sha256": "239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867"
+            },
+            {
+              "column": 1,
+              "coordinate": "A2",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 2,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "SRV-001",
+              "text_sha256": "7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a"
+            },
+            {
+              "column": 2,
+              "coordinate": "B2",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 2,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "Rechenzentrum Rostock",
+              "text_sha256": "7971e5b627ad354ef6fb24402fb45c8d9063f8f5ff001cac41f875831f223623"
+            },
+            {
+              "column": 3,
+              "coordinate": "C2",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 2,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "ERP-01",
+              "text_sha256": "795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43"
+            }
+          ],
+          "name": "IT-Systeme",
+          "ordinal": 1,
+          "part": "xl/worksheets/sheet1.xml",
+          "relationship_id": "rId1",
+          "row_indices": [
+            1,
+            2
+          ],
+          "sheet_id": 1,
+          "source_id": "synthetic:task-0072"
+        },
+        {
+          "cells": [],
+          "name": "Fiktiv-Extra",
+          "ordinal": 2,
+          "part": "xl/worksheets/sheet2.xml",
+          "relationship_id": "rId2",
+          "row_indices": [],
+          "sheet_id": 2,
+          "source_id": "synthetic:task-0072"
+        }
+      ],
+      "original_byte_length": 3374,
+      "original_bytes_base64": "UEsDBBQAAAAAAAAAIVBiP2OkygIAAMoCAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbDw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6VHlwZXMgeG1sbnM6bnMwPSJodHRwOi8vc2NoZW1hcy5vcGVueG1sZm9ybWF0cy5vcmcvcGFja2FnZS8yMDA2L2NvbnRlbnQtdHlwZXMiPjxuczA6RGVmYXVsdCBFeHRlbnNpb249InJlbHMiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi92bmQub3BlbnhtbGZvcm1hdHMtcGFja2FnZS5yZWxhdGlvbnNoaXBzK3htbCIgLz48bnMwOkRlZmF1bHQgRXh0ZW5zaW9uPSJ4bWwiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi94bWwiIC8+PG5zMDpPdmVycmlkZSBQYXJ0TmFtZT0iL3hsL3dvcmtib29rLnhtbCIgQ29udGVudFR5cGU9ImFwcGxpY2F0aW9uL3ZuZC5vcGVueG1sZm9ybWF0cy1vZmZpY2Vkb2N1bWVudC5zcHJlYWRzaGVldG1sLnNoZWV0Lm1haW4reG1sIiAvPjxuczA6T3ZlcnJpZGUgUGFydE5hbWU9Ii94bC93b3Jrc2hlZXRzL3NoZWV0MS54bWwiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi92bmQub3BlbnhtbGZvcm1hdHMtb2ZmaWNlZG9jdW1lbnQuc3ByZWFkc2hlZXRtbC53b3Jrc2hlZXQreG1sIiAvPjxuczA6T3ZlcnJpZGUgUGFydE5hbWU9Ii94bC93b3Jrc2hlZXRzL3NoZWV0Mi54bWwiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi92bmQub3BlbnhtbGZvcm1hdHMtb2ZmaWNlZG9jdW1lbnQuc3ByZWFkc2hlZXRtbC53b3Jrc2hlZXQreG1sIiAvPjwvbnMwOlR5cGVzPlBLAwQUAAAAAAAAACFQ5Un4lygBAAAoAQAACwAAAF9yZWxzLy5yZWxzPD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0ndXRmLTgnPz4KPG5zMDpSZWxhdGlvbnNoaXBzIHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3BhY2thZ2UvMjAwNi9yZWxhdGlvbnNoaXBzIj48bnMwOlJlbGF0aW9uc2hpcCBJZD0icklkMSIgVHlwZT0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL29mZmljZURvY3VtZW50LzIwMDYvcmVsYXRpb25zaGlwcy9vZmZpY2VEb2N1bWVudCIgVGFyZ2V0PSJ4bC93b3JrYm9vay54bWwiIC8+PC9uczA6UmVsYXRpb25zaGlwcz5QSwMEFAAAAAAAAAAhUMBkErxnAQAAZwEAAA8AAAB4bC93b3JrYm9vay54bWw8P3htbCB2ZXJzaW9uPScxLjAnIGVuY29kaW5nPSd1dGYtOCc/Pgo8bnMwOndvcmtib29rIHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3NwcmVhZHNoZWV0bWwvMjAwNi9tYWluIiB4bWxuczpuczE9Imh0dHA6Ly9zY2hlbWFzLm9wZW54bWxmb3JtYXRzLm9yZy9vZmZpY2VEb2N1bWVudC8yMDA2L3JlbGF0aW9uc2hpcHMiPjxuczA6c2hlZXRzPjxuczA6c2hlZXQgbmFtZT0iSVQtU3lzdGVtZSIgc2hlZXRJZD0iMSIgbnMxOmlkPSJySWQxIiAvPjxuczA6c2hlZXQgbmFtZT0iRmlrdGl2LUV4dHJhIiBzaGVldElkPSIyIiBuczE6aWQ9InJJZDIiIC8+PC9uczA6c2hlZXRzPjwvbnMwOndvcmtib29rPlBLAwQUAAAAAAAAACFQ7DzsL7sBAAC7AQAAGgAAAHhsL19yZWxzL3dvcmtib29rLnhtbC5yZWxzPD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0ndXRmLTgnPz4KPG5zMDpSZWxhdGlvbnNoaXBzIHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3BhY2thZ2UvMjAwNi9yZWxhdGlvbnNoaXBzIj48bnMwOlJlbGF0aW9uc2hpcCBJZD0icklkMSIgVHlwZT0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL29mZmljZURvY3VtZW50LzIwMDYvcmVsYXRpb25zaGlwcy93b3Jrc2hlZXQiIFRhcmdldD0id29ya3NoZWV0cy9zaGVldDEueG1sIiAvPjxuczA6UmVsYXRpb25zaGlwIElkPSJySWQyIiBUeXBlPSJodHRwOi8vc2NoZW1hcy5vcGVueG1sZm9ybWF0cy5vcmcvb2ZmaWNlRG9jdW1lbnQvMjAwNi9yZWxhdGlvbnNoaXBzL3dvcmtzaGVldCIgVGFyZ2V0PSJ3b3Jrc2hlZXRzL3NoZWV0Mi54bWwiIC8+PC9uczA6UmVsYXRpb25zaGlwcz5QSwMEFAAAAAAAAAAhUMfV+uOxAgAAsQIAABgAAAB4bC93b3Jrc2hlZXRzL3NoZWV0MS54bWw8P3htbCB2ZXJzaW9uPScxLjAnIGVuY29kaW5nPSd1dGYtOCc/Pgo8bnMwOndvcmtzaGVldCB4bWxuczpuczA9Imh0dHA6Ly9zY2hlbWFzLm9wZW54bWxmb3JtYXRzLm9yZy9zcHJlYWRzaGVldG1sLzIwMDYvbWFpbiI+PG5zMDpzaGVldERhdGE+PG5zMDpyb3cgcj0iMSI+PG5zMDpjIHI9IkExIiB0PSJpbmxpbmVTdHIiPjxuczA6aXM+PG5zMDp0PlN5c3RlbS1JRDwvbnMwOnQ+PC9uczA6aXM+PC9uczA6Yz48bnMwOmMgcj0iQjEiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+U3RhbmRvcnQ8L25zMDp0PjwvbnMwOmlzPjwvbnMwOmM+PG5zMDpjIHI9IkMxIiB0PSJpbmxpbmVTdHIiPjxuczA6aXM+PG5zMDp0PkFud2VuZHVuZzwvbnMwOnQ+PC9uczA6aXM+PC9uczA6Yz48L25zMDpyb3c+PG5zMDpyb3cgcj0iMiI+PG5zMDpjIHI9IkEyIiB0PSJpbmxpbmVTdHIiPjxuczA6aXM+PG5zMDp0PlNSVi0wMDE8L25zMDp0PjwvbnMwOmlzPjwvbnMwOmM+PG5zMDpjIHI9IkIyIiB0PSJpbmxpbmVTdHIiPjxuczA6aXM+PG5zMDp0PlJlY2hlbnplbnRydW0gUm9zdG9jazwvbnMwOnQ+PC9uczA6aXM+PC9uczA6Yz48bnMwOmMgcj0iQzIiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+RVJQLTAxPC9uczA6dD48L25zMDppcz48L25zMDpjPjwvbnMwOnJvdz48L25zMDpzaGVldERhdGE+PC9uczA6d29ya3NoZWV0PlBLAwQUAAAAAAAAACFQkE7Q350AAACdAAAAGAAAAHhsL3dvcmtzaGVldHMvc2hlZXQyLnhtbDw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6d29ya3NoZWV0IHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3NwcmVhZHNoZWV0bWwvMjAwNi9tYWluIj48bnMwOnNoZWV0RGF0YSAvPjwvbnMwOndvcmtzaGVldD5QSwECFAAUAAAAAAAAACFQYj9jpMoCAADKAgAAEwAAAAAAAAAAAAAAgAEAAAAAW0NvbnRlbnRfVHlwZXNdLnhtbFBLAQIUABQAAAAAAAAAIVDlSfiXKAEAACgBAAALAAAAAAAAAAAAAACAAfsCAABfcmVscy8ucmVsc1BLAQIUABQAAAAAAAAAIVDAZBK8ZwEAAGcBAAAPAAAAAAAAAAAAAACAAUwEAAB4bC93b3JrYm9vay54bWxQSwECFAAUAAAAAAAAACFQ7DzsL7sBAAC7AQAAGgAAAAAAAAAAAAAAgAHgBQAAeGwvX3JlbHMvd29ya2Jvb2sueG1sLnJlbHNQSwECFAAUAAAAAAAAACFQx9X647ECAACxAgAAGAAAAAAAAAAAAAAAgAHTBwAAeGwvd29ya3NoZWV0cy9zaGVldDEueG1sUEsBAhQAFAAAAAAAAAAhUJBO0N+dAAAAnQAAABgAAAAAAAAAAAAAAIABugoAAHhsL3dvcmtzaGVldHMvc2hlZXQyLnhtbFBLBQYAAAAABgAGAIsBAACNCwAAAAA=",
+      "reader_implementation_sha256": "4198a751148d1dbce974b06f449443ea954beb186d5a56798eac8be1e1131cb0",
+      "reader_limits": {
+        "max_attribute_chars": 4096,
+        "max_cell_chars": 16384,
+        "max_cells": 10000,
+        "max_entries": 64,
+        "max_file_bytes": 2097152,
+        "max_namespaces": 32,
+        "max_ratio": 100,
+        "max_shared_strings": 10000,
+        "max_shared_text_chars": 1000000,
+        "max_text_chars": 1000000,
+        "max_uncompressed_bytes": 8388608,
+        "max_worksheets": 16,
+        "max_xml_attributes": 16,
+        "max_xml_bytes": 2097152,
+        "max_xml_chars": 2097152,
+        "max_xml_depth": 32,
+        "max_xml_nodes": 20000
+      },
+      "reader_method": "xlsx-literal/v1",
+      "reader_spec_sha256": "22dbdd6b8be6397e6d215edf51b02546887df92e326fef987c4ec10d5c6198c2",
+      "selection": {
+        "name": "IT-Systeme",
+        "ordinal": 1,
+        "part": "xl/worksheets/sheet1.xml",
+        "relationship_id": "rId1",
+        "sheet_id": 1
+      },
+      "source_id": "synthetic:task-0072",
+      "synthetic_only": true,
+      "zip_entries": [
+        {
+          "compression": 0,
+          "content_sha256": "6b4136619753287bb8ade6d34e6b65e949b56d85a4b1f268bf5de8d064ef4168",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "[Content_Types].xml",
+          "size": 714
+        },
+        {
+          "compression": 0,
+          "content_sha256": "02494225c497f65ed925c54e1e109f17a922b25cd5d40266d3c544de310d82de",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "_rels/.rels",
+          "size": 296
+        },
+        {
+          "compression": 0,
+          "content_sha256": "50eec07367c150f274aab7605ee74f44b449bca6db9f5c47c79f33212b12cddd",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/workbook.xml",
+          "size": 359
+        },
+        {
+          "compression": 0,
+          "content_sha256": "6a821918e4396e5847429ce733fa55a3f415aac26bad6243582f88a54159fca1",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/_rels/workbook.xml.rels",
+          "size": 443
+        },
+        {
+          "compression": 0,
+          "content_sha256": "3fda7f1af6d68ea7f09891e1ceeeb8ced8cee89991e70440882c99c9902195e4",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/worksheets/sheet1.xml",
+          "size": 689
+        },
+        {
+          "compression": 0,
+          "content_sha256": "522bc3352056347b3ce85ec281b3872273e06bd2b2d90272e32ba51be4fbbfe5",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/worksheets/sheet2.xml",
+          "size": 157
+        }
+      ]
+    },
+    "xlsx_empty_text": {
+      "binary_sha256": "fd16f282b11da903e5a661e2b54e2f4ad92f2820aa22a7770e6bba2d8961a97d",
+      "cell_spans": [
+        {
+          "char_end": 9,
+          "char_start": 0,
+          "coordinate": "A1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 8,
+          "char_start": 0,
+          "coordinate": "B1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 9,
+          "char_start": 0,
+          "coordinate": "C1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 7,
+          "char_start": 0,
+          "coordinate": "A2",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 0,
+          "char_start": 0,
+          "coordinate": "B2",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 6,
+          "char_start": 0,
+          "coordinate": "C2",
+          "sheet_ordinal": 1
+        }
+      ],
+      "integration_manifest_json": "{\"binary_sha256\":\"fd16f282b11da903e5a661e2b54e2f4ad92f2820aa22a7770e6bba2d8961a97d\",\"manifest_version\":\"xlsx-integration/v1\",\"native_manifest_json\":\"{\\\"limits\\\":{\\\"max_attribute_chars\\\":4096,\\\"max_cell_chars\\\":16384,\\\"max_cells\\\":10000,\\\"max_entries\\\":64,\\\"max_file_bytes\\\":2097152,\\\"max_namespaces\\\":32,\\\"max_ratio\\\":100,\\\"max_shared_strings\\\":10000,\\\"max_shared_text_chars\\\":1000000,\\\"max_text_chars\\\":1000000,\\\"max_uncompressed_bytes\\\":8388608,\\\"max_worksheets\\\":16,\\\"max_xml_attributes\\\":16,\\\"max_xml_bytes\\\":2097152,\\\"max_xml_chars\\\":2097152,\\\"max_xml_depth\\\":32,\\\"max_xml_nodes\\\":20000},\\\"method\\\":\\\"xlsx-literal/v1\\\",\\\"sheets\\\":[{\\\"cells\\\":[{\\\"column\\\":1,\\\"coordinate\\\":\\\"A1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"System-ID\\\",\\\"text_sha256\\\":\\\"242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1\\\"},{\\\"column\\\":2,\\\"coordinate\\\":\\\"B1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"Standort\\\",\\\"text_sha256\\\":\\\"ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97\\\"},{\\\"column\\\":3,\\\"coordinate\\\":\\\"C1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"Anwendung\\\",\\\"text_sha256\\\":\\\"239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867\\\"},{\\\"column\\\":1,\\\"coordinate\\\":\\\"A2\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":2,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"SRV-001\\\",\\\"text_sha256\\\":\\\"7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a\\\"},{\\\"column\\\":2,\\\"coordinate\\\":\\\"B2\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":2,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"\\\",\\\"text_sha256\\\":\\\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\\\"},{\\\"column\\\":3,\\\"coordinate\\\":\\\"C2\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":2,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"ERP-01\\\",\\\"text_sha256\\\":\\\"795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43\\\"}],\\\"name\\\":\\\"IT-Systeme\\\",\\\"ordinal\\\":1,\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"relationship_id\\\":\\\"rId1\\\",\\\"row_indices\\\":[1,2],\\\"sheet_id\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\"}],\\\"source_id\\\":\\\"synthetic:task-0072\\\"}\",\"native_manifest_sha256\":\"e85da25bbc06498359f091dcb8f22a67e204af5aa95b2314dd3d8b8c70cabf38\",\"native_text_sha256\":\"eb248059702fcc40e2604f5a4218489b1e7caad7f61464f69a990aaa7084d3ae\",\"reader_implementation_sha256\":\"4198a751148d1dbce974b06f449443ea954beb186d5a56798eac8be1e1131cb0\",\"reader_limits\":{\"max_attribute_chars\":4096,\"max_cell_chars\":16384,\"max_cells\":10000,\"max_entries\":64,\"max_file_bytes\":2097152,\"max_namespaces\":32,\"max_ratio\":100,\"max_shared_strings\":10000,\"max_shared_text_chars\":1000000,\"max_text_chars\":1000000,\"max_uncompressed_bytes\":8388608,\"max_worksheets\":16,\"max_xml_attributes\":16,\"max_xml_bytes\":2097152,\"max_xml_chars\":2097152,\"max_xml_depth\":32,\"max_xml_nodes\":20000},\"reader_method\":\"xlsx-literal/v1\",\"selection\":{\"name\":\"IT-Systeme\",\"ordinal\":1,\"part\":\"xl/worksheets/sheet1.xml\",\"relationship_id\":\"rId1\",\"sheet_id\":1},\"source_id\":\"synthetic:task-0072\"}",
+      "integration_manifest_sha256": "ee80de05bbfccfd0cbeeabb1ffd5a0bbb0bcbe195723f3acc415bc02ab24e0f7",
+      "kind": "xlsx",
+      "native_manifest_json": "{\"limits\":{\"max_attribute_chars\":4096,\"max_cell_chars\":16384,\"max_cells\":10000,\"max_entries\":64,\"max_file_bytes\":2097152,\"max_namespaces\":32,\"max_ratio\":100,\"max_shared_strings\":10000,\"max_shared_text_chars\":1000000,\"max_text_chars\":1000000,\"max_uncompressed_bytes\":8388608,\"max_worksheets\":16,\"max_xml_attributes\":16,\"max_xml_bytes\":2097152,\"max_xml_chars\":2097152,\"max_xml_depth\":32,\"max_xml_nodes\":20000},\"method\":\"xlsx-literal/v1\",\"sheets\":[{\"cells\":[{\"column\":1,\"coordinate\":\"A1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"System-ID\",\"text_sha256\":\"242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1\"},{\"column\":2,\"coordinate\":\"B1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"Standort\",\"text_sha256\":\"ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97\"},{\"column\":3,\"coordinate\":\"C1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"Anwendung\",\"text_sha256\":\"239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867\"},{\"column\":1,\"coordinate\":\"A2\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":2,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"SRV-001\",\"text_sha256\":\"7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a\"},{\"column\":2,\"coordinate\":\"B2\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":2,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"\",\"text_sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"},{\"column\":3,\"coordinate\":\"C2\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":2,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"ERP-01\",\"text_sha256\":\"795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43\"}],\"name\":\"IT-Systeme\",\"ordinal\":1,\"part\":\"xl/worksheets/sheet1.xml\",\"relationship_id\":\"rId1\",\"row_indices\":[1,2],\"sheet_id\":1,\"source_id\":\"synthetic:task-0072\"}],\"source_id\":\"synthetic:task-0072\"}",
+      "native_manifest_sha256": "e85da25bbc06498359f091dcb8f22a67e204af5aa95b2314dd3d8b8c70cabf38",
+      "native_text": "System-ID\nStandort\nAnwendung\nSRV-001\n\nERP-01",
+      "native_text_sha256": "eb248059702fcc40e2604f5a4218489b1e7caad7f61464f69a990aaa7084d3ae",
+      "observations": [
+        {
+          "cells": [
+            {
+              "column": 1,
+              "coordinate": "A1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "System-ID",
+              "text_sha256": "242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1"
+            },
+            {
+              "column": 2,
+              "coordinate": "B1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "Standort",
+              "text_sha256": "ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97"
+            },
+            {
+              "column": 3,
+              "coordinate": "C1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "Anwendung",
+              "text_sha256": "239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867"
+            },
+            {
+              "column": 1,
+              "coordinate": "A2",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 2,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "SRV-001",
+              "text_sha256": "7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a"
+            },
+            {
+              "column": 2,
+              "coordinate": "B2",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 2,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "",
+              "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "column": 3,
+              "coordinate": "C2",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 2,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "ERP-01",
+              "text_sha256": "795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43"
+            }
+          ],
+          "name": "IT-Systeme",
+          "ordinal": 1,
+          "part": "xl/worksheets/sheet1.xml",
+          "relationship_id": "rId1",
+          "row_indices": [
+            1,
+            2
+          ],
+          "sheet_id": 1,
+          "source_id": "synthetic:task-0072"
+        }
+      ],
+      "original_byte_length": 2720,
+      "original_bytes_base64": "UEsDBBQAAAAAAAAAIVA8RYEEPQIAAD0CAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbDw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6VHlwZXMgeG1sbnM6bnMwPSJodHRwOi8vc2NoZW1hcy5vcGVueG1sZm9ybWF0cy5vcmcvcGFja2FnZS8yMDA2L2NvbnRlbnQtdHlwZXMiPjxuczA6RGVmYXVsdCBFeHRlbnNpb249InJlbHMiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi92bmQub3BlbnhtbGZvcm1hdHMtcGFja2FnZS5yZWxhdGlvbnNoaXBzK3htbCIgLz48bnMwOkRlZmF1bHQgRXh0ZW5zaW9uPSJ4bWwiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi94bWwiIC8+PG5zMDpPdmVycmlkZSBQYXJ0TmFtZT0iL3hsL3dvcmtib29rLnhtbCIgQ29udGVudFR5cGU9ImFwcGxpY2F0aW9uL3ZuZC5vcGVueG1sZm9ybWF0cy1vZmZpY2Vkb2N1bWVudC5zcHJlYWRzaGVldG1sLnNoZWV0Lm1haW4reG1sIiAvPjxuczA6T3ZlcnJpZGUgUGFydE5hbWU9Ii94bC93b3Jrc2hlZXRzL3NoZWV0MS54bWwiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi92bmQub3BlbnhtbGZvcm1hdHMtb2ZmaWNlZG9jdW1lbnQuc3ByZWFkc2hlZXRtbC53b3Jrc2hlZXQreG1sIiAvPjwvbnMwOlR5cGVzPlBLAwQUAAAAAAAAACFQ5Un4lygBAAAoAQAACwAAAF9yZWxzLy5yZWxzPD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0ndXRmLTgnPz4KPG5zMDpSZWxhdGlvbnNoaXBzIHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3BhY2thZ2UvMjAwNi9yZWxhdGlvbnNoaXBzIj48bnMwOlJlbGF0aW9uc2hpcCBJZD0icklkMSIgVHlwZT0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL29mZmljZURvY3VtZW50LzIwMDYvcmVsYXRpb25zaGlwcy9vZmZpY2VEb2N1bWVudCIgVGFyZ2V0PSJ4bC93b3JrYm9vay54bWwiIC8+PC9uczA6UmVsYXRpb25zaGlwcz5QSwMEFAAAAAAAAAAhUOOJoNUsAQAALAEAAA8AAAB4bC93b3JrYm9vay54bWw8P3htbCB2ZXJzaW9uPScxLjAnIGVuY29kaW5nPSd1dGYtOCc/Pgo8bnMwOndvcmtib29rIHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3NwcmVhZHNoZWV0bWwvMjAwNi9tYWluIiB4bWxuczpuczE9Imh0dHA6Ly9zY2hlbWFzLm9wZW54bWxmb3JtYXRzLm9yZy9vZmZpY2VEb2N1bWVudC8yMDA2L3JlbGF0aW9uc2hpcHMiPjxuczA6c2hlZXRzPjxuczA6c2hlZXQgbmFtZT0iSVQtU3lzdGVtZSIgc2hlZXRJZD0iMSIgbnMxOmlkPSJySWQxIiAvPjwvbnMwOnNoZWV0cz48L25zMDp3b3JrYm9vaz5QSwMEFAAAAAAAAAAhUFiHF+kpAQAAKQEAABoAAAB4bC9fcmVscy93b3JrYm9vay54bWwucmVsczw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6UmVsYXRpb25zaGlwcyB4bWxuczpuczA9Imh0dHA6Ly9zY2hlbWFzLm9wZW54bWxmb3JtYXRzLm9yZy9wYWNrYWdlLzIwMDYvcmVsYXRpb25zaGlwcyI+PG5zMDpSZWxhdGlvbnNoaXAgSWQ9InJJZDEiIFR5cGU9Imh0dHA6Ly9zY2hlbWFzLm9wZW54bWxmb3JtYXRzLm9yZy9vZmZpY2VEb2N1bWVudC8yMDA2L3JlbGF0aW9uc2hpcHMvd29ya3NoZWV0IiBUYXJnZXQ9IndvcmtzaGVldHMvc2hlZXQxLnhtbCIgLz48L25zMDpSZWxhdGlvbnNoaXBzPlBLAwQUAAAAAAAAACFQozydHJYCAACWAgAAGAAAAHhsL3dvcmtzaGVldHMvc2hlZXQxLnhtbDw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6d29ya3NoZWV0IHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3NwcmVhZHNoZWV0bWwvMjAwNi9tYWluIj48bnMwOnNoZWV0RGF0YT48bnMwOnJvdyByPSIxIj48bnMwOmMgcj0iQTEiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+U3lzdGVtLUlEPC9uczA6dD48L25zMDppcz48L25zMDpjPjxuczA6YyByPSJCMSIgdD0iaW5saW5lU3RyIj48bnMwOmlzPjxuczA6dD5TdGFuZG9ydDwvbnMwOnQ+PC9uczA6aXM+PC9uczA6Yz48bnMwOmMgcj0iQzEiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+QW53ZW5kdW5nPC9uczA6dD48L25zMDppcz48L25zMDpjPjwvbnMwOnJvdz48bnMwOnJvdyByPSIyIj48bnMwOmMgcj0iQTIiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+U1JWLTAwMTwvbnMwOnQ+PC9uczA6aXM+PC9uczA6Yz48bnMwOmMgcj0iQjIiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQgLz48L25zMDppcz48L25zMDpjPjxuczA6YyByPSJDMiIgdD0iaW5saW5lU3RyIj48bnMwOmlzPjxuczA6dD5FUlAtMDE8L25zMDp0PjwvbnMwOmlzPjwvbnMwOmM+PC9uczA6cm93PjwvbnMwOnNoZWV0RGF0YT48L25zMDp3b3Jrc2hlZXQ+UEsBAhQAFAAAAAAAAAAhUDxFgQQ9AgAAPQIAABMAAAAAAAAAAAAAAIABAAAAAFtDb250ZW50X1R5cGVzXS54bWxQSwECFAAUAAAAAAAAACFQ5Un4lygBAAAoAQAACwAAAAAAAAAAAAAAgAFuAgAAX3JlbHMvLnJlbHNQSwECFAAUAAAAAAAAACFQ44mg1SwBAAAsAQAADwAAAAAAAAAAAAAAgAG/AwAAeGwvd29ya2Jvb2sueG1sUEsBAhQAFAAAAAAAAAAhUFiHF+kpAQAAKQEAABoAAAAAAAAAAAAAAIABGAUAAHhsL19yZWxzL3dvcmtib29rLnhtbC5yZWxzUEsBAhQAFAAAAAAAAAAhUKM8nRyWAgAAlgIAABgAAAAAAAAAAAAAAIABeQYAAHhsL3dvcmtzaGVldHMvc2hlZXQxLnhtbFBLBQYAAAAABQAFAEUBAABFCQAAAAA=",
+      "reader_implementation_sha256": "4198a751148d1dbce974b06f449443ea954beb186d5a56798eac8be1e1131cb0",
+      "reader_limits": {
+        "max_attribute_chars": 4096,
+        "max_cell_chars": 16384,
+        "max_cells": 10000,
+        "max_entries": 64,
+        "max_file_bytes": 2097152,
+        "max_namespaces": 32,
+        "max_ratio": 100,
+        "max_shared_strings": 10000,
+        "max_shared_text_chars": 1000000,
+        "max_text_chars": 1000000,
+        "max_uncompressed_bytes": 8388608,
+        "max_worksheets": 16,
+        "max_xml_attributes": 16,
+        "max_xml_bytes": 2097152,
+        "max_xml_chars": 2097152,
+        "max_xml_depth": 32,
+        "max_xml_nodes": 20000
+      },
+      "reader_method": "xlsx-literal/v1",
+      "reader_spec_sha256": "22dbdd6b8be6397e6d215edf51b02546887df92e326fef987c4ec10d5c6198c2",
+      "selection": {
+        "name": "IT-Systeme",
+        "ordinal": 1,
+        "part": "xl/worksheets/sheet1.xml",
+        "relationship_id": "rId1",
+        "sheet_id": 1
+      },
+      "source_id": "synthetic:task-0072",
+      "synthetic_only": true,
+      "zip_entries": [
+        {
+          "compression": 0,
+          "content_sha256": "1e46198b553e6a40394a6e9d043861b4c525661c3150dd4ec81c2d68a26affa9",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "[Content_Types].xml",
+          "size": 573
+        },
+        {
+          "compression": 0,
+          "content_sha256": "02494225c497f65ed925c54e1e109f17a922b25cd5d40266d3c544de310d82de",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "_rels/.rels",
+          "size": 296
+        },
+        {
+          "compression": 0,
+          "content_sha256": "9359e0b007bfb3c09d89175681b070f745843c2a72c45637dbf2549aacedc1de",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/workbook.xml",
+          "size": 300
+        },
+        {
+          "compression": 0,
+          "content_sha256": "41e5b78fd52a143bbed03ada13b29f9e83f3b1a3d4e58ac8f607951220fb95b5",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/_rels/workbook.xml.rels",
+          "size": 297
+        },
+        {
+          "compression": 0,
+          "content_sha256": "a40d3b0e3def1bb89ffeb846cc5effa05b5f8c6c5b1710c74238875aaacdd59d",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/worksheets/sheet1.xml",
+          "size": 662
+        }
+      ]
+    },
+    "xlsx_missing": {
+      "binary_sha256": "bb05e75a51a2fb1895038affb438158fa88ca0d7f3a4c7ea7558d2124af777f5",
+      "cell_spans": [
+        {
+          "char_end": 9,
+          "char_start": 0,
+          "coordinate": "A1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 8,
+          "char_start": 0,
+          "coordinate": "B1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 9,
+          "char_start": 0,
+          "coordinate": "C1",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 7,
+          "char_start": 0,
+          "coordinate": "A2",
+          "sheet_ordinal": 1
+        },
+        {
+          "char_end": 6,
+          "char_start": 0,
+          "coordinate": "C2",
+          "sheet_ordinal": 1
+        }
+      ],
+      "integration_manifest_json": "{\"binary_sha256\":\"bb05e75a51a2fb1895038affb438158fa88ca0d7f3a4c7ea7558d2124af777f5\",\"manifest_version\":\"xlsx-integration/v1\",\"native_manifest_json\":\"{\\\"limits\\\":{\\\"max_attribute_chars\\\":4096,\\\"max_cell_chars\\\":16384,\\\"max_cells\\\":10000,\\\"max_entries\\\":64,\\\"max_file_bytes\\\":2097152,\\\"max_namespaces\\\":32,\\\"max_ratio\\\":100,\\\"max_shared_strings\\\":10000,\\\"max_shared_text_chars\\\":1000000,\\\"max_text_chars\\\":1000000,\\\"max_uncompressed_bytes\\\":8388608,\\\"max_worksheets\\\":16,\\\"max_xml_attributes\\\":16,\\\"max_xml_bytes\\\":2097152,\\\"max_xml_chars\\\":2097152,\\\"max_xml_depth\\\":32,\\\"max_xml_nodes\\\":20000},\\\"method\\\":\\\"xlsx-literal/v1\\\",\\\"sheets\\\":[{\\\"cells\\\":[{\\\"column\\\":1,\\\"coordinate\\\":\\\"A1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"System-ID\\\",\\\"text_sha256\\\":\\\"242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1\\\"},{\\\"column\\\":2,\\\"coordinate\\\":\\\"B1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"Standort\\\",\\\"text_sha256\\\":\\\"ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97\\\"},{\\\"column\\\":3,\\\"coordinate\\\":\\\"C1\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":1,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"Anwendung\\\",\\\"text_sha256\\\":\\\"239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867\\\"},{\\\"column\\\":1,\\\"coordinate\\\":\\\"A2\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":2,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"SRV-001\\\",\\\"text_sha256\\\":\\\"7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a\\\"},{\\\"column\\\":3,\\\"coordinate\\\":\\\"C2\\\",\\\"kind\\\":\\\"text\\\",\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"row\\\":2,\\\"sheet_name\\\":\\\"IT-Systeme\\\",\\\"sheet_ordinal\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\",\\\"text\\\":\\\"ERP-01\\\",\\\"text_sha256\\\":\\\"795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43\\\"}],\\\"name\\\":\\\"IT-Systeme\\\",\\\"ordinal\\\":1,\\\"part\\\":\\\"xl/worksheets/sheet1.xml\\\",\\\"relationship_id\\\":\\\"rId1\\\",\\\"row_indices\\\":[1,2],\\\"sheet_id\\\":1,\\\"source_id\\\":\\\"synthetic:task-0072\\\"}],\\\"source_id\\\":\\\"synthetic:task-0072\\\"}\",\"native_manifest_sha256\":\"45dec35a344981300d593ee9d2cc00f6c9d571b60b3fef56b9151a18ac55f506\",\"native_text_sha256\":\"297f7ac24a3576f34d4aa8ea45e5dcf707caca8bf6da0f395f272f35e05d382e\",\"reader_implementation_sha256\":\"4198a751148d1dbce974b06f449443ea954beb186d5a56798eac8be1e1131cb0\",\"reader_limits\":{\"max_attribute_chars\":4096,\"max_cell_chars\":16384,\"max_cells\":10000,\"max_entries\":64,\"max_file_bytes\":2097152,\"max_namespaces\":32,\"max_ratio\":100,\"max_shared_strings\":10000,\"max_shared_text_chars\":1000000,\"max_text_chars\":1000000,\"max_uncompressed_bytes\":8388608,\"max_worksheets\":16,\"max_xml_attributes\":16,\"max_xml_bytes\":2097152,\"max_xml_chars\":2097152,\"max_xml_depth\":32,\"max_xml_nodes\":20000},\"reader_method\":\"xlsx-literal/v1\",\"selection\":{\"name\":\"IT-Systeme\",\"ordinal\":1,\"part\":\"xl/worksheets/sheet1.xml\",\"relationship_id\":\"rId1\",\"sheet_id\":1},\"source_id\":\"synthetic:task-0072\"}",
+      "integration_manifest_sha256": "1784635b4209f5af0b4a8bfa628873287092fd7f2b44a7b94254bddffbb7997c",
+      "kind": "xlsx",
+      "native_manifest_json": "{\"limits\":{\"max_attribute_chars\":4096,\"max_cell_chars\":16384,\"max_cells\":10000,\"max_entries\":64,\"max_file_bytes\":2097152,\"max_namespaces\":32,\"max_ratio\":100,\"max_shared_strings\":10000,\"max_shared_text_chars\":1000000,\"max_text_chars\":1000000,\"max_uncompressed_bytes\":8388608,\"max_worksheets\":16,\"max_xml_attributes\":16,\"max_xml_bytes\":2097152,\"max_xml_chars\":2097152,\"max_xml_depth\":32,\"max_xml_nodes\":20000},\"method\":\"xlsx-literal/v1\",\"sheets\":[{\"cells\":[{\"column\":1,\"coordinate\":\"A1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"System-ID\",\"text_sha256\":\"242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1\"},{\"column\":2,\"coordinate\":\"B1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"Standort\",\"text_sha256\":\"ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97\"},{\"column\":3,\"coordinate\":\"C1\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":1,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"Anwendung\",\"text_sha256\":\"239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867\"},{\"column\":1,\"coordinate\":\"A2\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":2,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"SRV-001\",\"text_sha256\":\"7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a\"},{\"column\":3,\"coordinate\":\"C2\",\"kind\":\"text\",\"part\":\"xl/worksheets/sheet1.xml\",\"row\":2,\"sheet_name\":\"IT-Systeme\",\"sheet_ordinal\":1,\"source_id\":\"synthetic:task-0072\",\"text\":\"ERP-01\",\"text_sha256\":\"795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43\"}],\"name\":\"IT-Systeme\",\"ordinal\":1,\"part\":\"xl/worksheets/sheet1.xml\",\"relationship_id\":\"rId1\",\"row_indices\":[1,2],\"sheet_id\":1,\"source_id\":\"synthetic:task-0072\"}],\"source_id\":\"synthetic:task-0072\"}",
+      "native_manifest_sha256": "45dec35a344981300d593ee9d2cc00f6c9d571b60b3fef56b9151a18ac55f506",
+      "native_text": "System-ID\nStandort\nAnwendung\nSRV-001\nERP-01",
+      "native_text_sha256": "297f7ac24a3576f34d4aa8ea45e5dcf707caca8bf6da0f395f272f35e05d382e",
+      "observations": [
+        {
+          "cells": [
+            {
+              "column": 1,
+              "coordinate": "A1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "System-ID",
+              "text_sha256": "242bdb0a564c13095d2c8207ec3d9bcf0810ea22c89d59d1e297feaf6da495e1"
+            },
+            {
+              "column": 2,
+              "coordinate": "B1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "Standort",
+              "text_sha256": "ecf34cc8921a465707b33bb5e1a4ab97fb2c4e61e8e33d3cc9de6c8646318c97"
+            },
+            {
+              "column": 3,
+              "coordinate": "C1",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 1,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "Anwendung",
+              "text_sha256": "239a8e5fafbe0cd5780357b159800187d6212bed08ae333d04fb6d7e25d17867"
+            },
+            {
+              "column": 1,
+              "coordinate": "A2",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 2,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "SRV-001",
+              "text_sha256": "7b3f6367c956b2d3d6e1a73bf6a4402fccb0c5ef17943677df93e2a93929cb9a"
+            },
+            {
+              "column": 3,
+              "coordinate": "C2",
+              "kind": "text",
+              "part": "xl/worksheets/sheet1.xml",
+              "row": 2,
+              "sheet_name": "IT-Systeme",
+              "sheet_ordinal": 1,
+              "source_id": "synthetic:task-0072",
+              "text": "ERP-01",
+              "text_sha256": "795aa1cbaa075804259248e644716c2cd3d28c5675c7f31147712569d8605e43"
+            }
+          ],
+          "name": "IT-Systeme",
+          "ordinal": 1,
+          "part": "xl/worksheets/sheet1.xml",
+          "relationship_id": "rId1",
+          "row_indices": [
+            1,
+            2
+          ],
+          "sheet_id": 1,
+          "source_id": "synthetic:task-0072"
+        }
+      ],
+      "original_byte_length": 2658,
+      "original_bytes_base64": "UEsDBBQAAAAAAAAAIVA8RYEEPQIAAD0CAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbDw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6VHlwZXMgeG1sbnM6bnMwPSJodHRwOi8vc2NoZW1hcy5vcGVueG1sZm9ybWF0cy5vcmcvcGFja2FnZS8yMDA2L2NvbnRlbnQtdHlwZXMiPjxuczA6RGVmYXVsdCBFeHRlbnNpb249InJlbHMiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi92bmQub3BlbnhtbGZvcm1hdHMtcGFja2FnZS5yZWxhdGlvbnNoaXBzK3htbCIgLz48bnMwOkRlZmF1bHQgRXh0ZW5zaW9uPSJ4bWwiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi94bWwiIC8+PG5zMDpPdmVycmlkZSBQYXJ0TmFtZT0iL3hsL3dvcmtib29rLnhtbCIgQ29udGVudFR5cGU9ImFwcGxpY2F0aW9uL3ZuZC5vcGVueG1sZm9ybWF0cy1vZmZpY2Vkb2N1bWVudC5zcHJlYWRzaGVldG1sLnNoZWV0Lm1haW4reG1sIiAvPjxuczA6T3ZlcnJpZGUgUGFydE5hbWU9Ii94bC93b3Jrc2hlZXRzL3NoZWV0MS54bWwiIENvbnRlbnRUeXBlPSJhcHBsaWNhdGlvbi92bmQub3BlbnhtbGZvcm1hdHMtb2ZmaWNlZG9jdW1lbnQuc3ByZWFkc2hlZXRtbC53b3Jrc2hlZXQreG1sIiAvPjwvbnMwOlR5cGVzPlBLAwQUAAAAAAAAACFQ5Un4lygBAAAoAQAACwAAAF9yZWxzLy5yZWxzPD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0ndXRmLTgnPz4KPG5zMDpSZWxhdGlvbnNoaXBzIHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3BhY2thZ2UvMjAwNi9yZWxhdGlvbnNoaXBzIj48bnMwOlJlbGF0aW9uc2hpcCBJZD0icklkMSIgVHlwZT0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL29mZmljZURvY3VtZW50LzIwMDYvcmVsYXRpb25zaGlwcy9vZmZpY2VEb2N1bWVudCIgVGFyZ2V0PSJ4bC93b3JrYm9vay54bWwiIC8+PC9uczA6UmVsYXRpb25zaGlwcz5QSwMEFAAAAAAAAAAhUOOJoNUsAQAALAEAAA8AAAB4bC93b3JrYm9vay54bWw8P3htbCB2ZXJzaW9uPScxLjAnIGVuY29kaW5nPSd1dGYtOCc/Pgo8bnMwOndvcmtib29rIHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3NwcmVhZHNoZWV0bWwvMjAwNi9tYWluIiB4bWxuczpuczE9Imh0dHA6Ly9zY2hlbWFzLm9wZW54bWxmb3JtYXRzLm9yZy9vZmZpY2VEb2N1bWVudC8yMDA2L3JlbGF0aW9uc2hpcHMiPjxuczA6c2hlZXRzPjxuczA6c2hlZXQgbmFtZT0iSVQtU3lzdGVtZSIgc2hlZXRJZD0iMSIgbnMxOmlkPSJySWQxIiAvPjwvbnMwOnNoZWV0cz48L25zMDp3b3JrYm9vaz5QSwMEFAAAAAAAAAAhUFiHF+kpAQAAKQEAABoAAAB4bC9fcmVscy93b3JrYm9vay54bWwucmVsczw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6UmVsYXRpb25zaGlwcyB4bWxuczpuczA9Imh0dHA6Ly9zY2hlbWFzLm9wZW54bWxmb3JtYXRzLm9yZy9wYWNrYWdlLzIwMDYvcmVsYXRpb25zaGlwcyI+PG5zMDpSZWxhdGlvbnNoaXAgSWQ9InJJZDEiIFR5cGU9Imh0dHA6Ly9zY2hlbWFzLm9wZW54bWxmb3JtYXRzLm9yZy9vZmZpY2VEb2N1bWVudC8yMDA2L3JlbGF0aW9uc2hpcHMvd29ya3NoZWV0IiBUYXJnZXQ9IndvcmtzaGVldHMvc2hlZXQxLnhtbCIgLz48L25zMDpSZWxhdGlvbnNoaXBzPlBLAwQUAAAAAAAAACFQ3kDum1gCAABYAgAAGAAAAHhsL3dvcmtzaGVldHMvc2hlZXQxLnhtbDw/eG1sIHZlcnNpb249JzEuMCcgZW5jb2Rpbmc9J3V0Zi04Jz8+CjxuczA6d29ya3NoZWV0IHhtbG5zOm5zMD0iaHR0cDovL3NjaGVtYXMub3BlbnhtbGZvcm1hdHMub3JnL3NwcmVhZHNoZWV0bWwvMjAwNi9tYWluIj48bnMwOnNoZWV0RGF0YT48bnMwOnJvdyByPSIxIj48bnMwOmMgcj0iQTEiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+U3lzdGVtLUlEPC9uczA6dD48L25zMDppcz48L25zMDpjPjxuczA6YyByPSJCMSIgdD0iaW5saW5lU3RyIj48bnMwOmlzPjxuczA6dD5TdGFuZG9ydDwvbnMwOnQ+PC9uczA6aXM+PC9uczA6Yz48bnMwOmMgcj0iQzEiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+QW53ZW5kdW5nPC9uczA6dD48L25zMDppcz48L25zMDpjPjwvbnMwOnJvdz48bnMwOnJvdyByPSIyIj48bnMwOmMgcj0iQTIiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+U1JWLTAwMTwvbnMwOnQ+PC9uczA6aXM+PC9uczA6Yz48bnMwOmMgcj0iQzIiIHQ9ImlubGluZVN0ciI+PG5zMDppcz48bnMwOnQ+RVJQLTAxPC9uczA6dD48L25zMDppcz48L25zMDpjPjwvbnMwOnJvdz48L25zMDpzaGVldERhdGE+PC9uczA6d29ya3NoZWV0PlBLAQIUABQAAAAAAAAAIVA8RYEEPQIAAD0CAAATAAAAAAAAAAAAAACAAQAAAABbQ29udGVudF9UeXBlc10ueG1sUEsBAhQAFAAAAAAAAAAhUOVJ+JcoAQAAKAEAAAsAAAAAAAAAAAAAAIABbgIAAF9yZWxzLy5yZWxzUEsBAhQAFAAAAAAAAAAhUOOJoNUsAQAALAEAAA8AAAAAAAAAAAAAAIABvwMAAHhsL3dvcmtib29rLnhtbFBLAQIUABQAAAAAAAAAIVBYhxfpKQEAACkBAAAaAAAAAAAAAAAAAACAARgFAAB4bC9fcmVscy93b3JrYm9vay54bWwucmVsc1BLAQIUABQAAAAAAAAAIVDeQO6bWAIAAFgCAAAYAAAAAAAAAAAAAACAAXkGAAB4bC93b3Jrc2hlZXRzL3NoZWV0MS54bWxQSwUGAAAAAAUABQBFAQAABwkAAAAA",
+      "reader_implementation_sha256": "4198a751148d1dbce974b06f449443ea954beb186d5a56798eac8be1e1131cb0",
+      "reader_limits": {
+        "max_attribute_chars": 4096,
+        "max_cell_chars": 16384,
+        "max_cells": 10000,
+        "max_entries": 64,
+        "max_file_bytes": 2097152,
+        "max_namespaces": 32,
+        "max_ratio": 100,
+        "max_shared_strings": 10000,
+        "max_shared_text_chars": 1000000,
+        "max_text_chars": 1000000,
+        "max_uncompressed_bytes": 8388608,
+        "max_worksheets": 16,
+        "max_xml_attributes": 16,
+        "max_xml_bytes": 2097152,
+        "max_xml_chars": 2097152,
+        "max_xml_depth": 32,
+        "max_xml_nodes": 20000
+      },
+      "reader_method": "xlsx-literal/v1",
+      "reader_spec_sha256": "22dbdd6b8be6397e6d215edf51b02546887df92e326fef987c4ec10d5c6198c2",
+      "selection": {
+        "name": "IT-Systeme",
+        "ordinal": 1,
+        "part": "xl/worksheets/sheet1.xml",
+        "relationship_id": "rId1",
+        "sheet_id": 1
+      },
+      "source_id": "synthetic:task-0072",
+      "synthetic_only": true,
+      "zip_entries": [
+        {
+          "compression": 0,
+          "content_sha256": "1e46198b553e6a40394a6e9d043861b4c525661c3150dd4ec81c2d68a26affa9",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "[Content_Types].xml",
+          "size": 573
+        },
+        {
+          "compression": 0,
+          "content_sha256": "02494225c497f65ed925c54e1e109f17a922b25cd5d40266d3c544de310d82de",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "_rels/.rels",
+          "size": 296
+        },
+        {
+          "compression": 0,
+          "content_sha256": "9359e0b007bfb3c09d89175681b070f745843c2a72c45637dbf2549aacedc1de",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/workbook.xml",
+          "size": 300
+        },
+        {
+          "compression": 0,
+          "content_sha256": "41e5b78fd52a143bbed03ada13b29f9e83f3b1a3d4e58ac8f607951220fb95b5",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/_rels/workbook.xml.rels",
+          "size": 297
+        },
+        {
+          "compression": 0,
+          "content_sha256": "c165fe4f13c913c9bb5150223c0acd172ec8badad94151aa0f242c090b6f1a22",
+          "date_time": [
+            2020,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "name": "xl/worksheets/sheet1.xml",
+          "size": 600
+        }
+      ]
+    }
+  },
+  "fixture_helper_hashes": {
+    "test_docx_ingestion.py": "b0d4083d19b6295bd29e3840f65d38bd76447d3dc379dd7cc523b764566d46f1",
+    "test_docx_staging.py": "eeeeba2de87aa716fa1a68527878e2fbdb614192bfb90b85efa5d77f3fc04478",
+    "test_xlsx_ingestion.py": "15634d1eefde3552f6eee1cad5ebf75fc247e70ac648b7f41894a238749eb373",
+    "test_xlsx_staging.py": "f3896ae9db2f174e18a757cf34c624f49dad073334d47683d8136562c4e23123"
+  },
+  "fixture_version": "b0-native-goldens/v1",
+  "module_hashes": [
+    {
+      "module_name": "docx_ingestion",
+      "sha256": "a65c98da1b18c47c9d391ac43a3946c96ab35adb6e6a84938f79a8daedc3689b"
+    },
+    {
+      "module_name": "docx_staging",
+      "sha256": "af01b5e5b09b9551ef3388a53ab433a693cb72369578f760004e0c7ac2a4849a"
+    },
+    {
+      "module_name": "ooxml_safety",
+      "sha256": "35a90e8c807e4970b813e702f3317625c06983614ea5f4d21b77de9e272283e6"
+    },
+    {
+      "module_name": "support",
+      "sha256": "c48ac29efae541c9c3a34acb65c32e151e5d0aef4c74b54ad7df1bf800c56dcb"
+    },
+    {
+      "module_name": "v2_codec",
+      "sha256": "577c3b6ea0d3a88318f95b2b2c941b2a97d0fe8bcf11bdc478f6ad3aec4513e3"
+    },
+    {
+      "module_name": "v2_ledger",
+      "sha256": "a66d5106fcf7b153088eff24ce0cecf0d9fba9ef0167cf0f40632f5f76b6d2be"
+    },
+    {
+      "module_name": "v2_schema",
+      "sha256": "9eb6350d0f6775292fd6991d1e0ac87c23974c00214368340f2a69fc2a5c58fc"
+    },
+    {
+      "module_name": "validation",
+      "sha256": "22d3840b6efbed5b0bfab2f9ddb7d4fe3da49bff8592595be5b9cbb8e8df18b5"
+    },
+    {
+      "module_name": "xlsx_ingestion",
+      "sha256": "8db93a2fd0af394e8b6908197ed5ef73bdd9edde096d99278e0cf62319d03b72"
+    },
+    {
+      "module_name": "xlsx_staging",
+      "sha256": "89978979da572f84d26668e91f2e0a2212e474cbc769e4e682ed84cf108dca06"
+    }
+  ],
+  "producer_commit": "2ee9bc7cf309727e5a9f10e2982791dbc991c464",
+  "runtime": {
+    "platform_profile": "windows-fixed-ntfs-refs/v1",
+    "python_version": "3.12.6",
+    "sqlite_version": "3.45.3"
+  },
+  "synthetic_only": true
+}
