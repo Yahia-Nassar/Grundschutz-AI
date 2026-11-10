@@ -1,6 +1,6 @@
 # ADR-0008: Trusted document-to-proposal boundary
 
-**Status:** Architecture from TASK-007.0; the user's explicit TASK-007.1 instruction authorizes the nonpersistent DOCX staging subset implemented below. The generic interfaces and future steps in the original design remain proposals except where the implementation notes specify actual APIs. XLSX staging, domain materialization, approved export and schema v2 remain unimplemented. No approval of Sprint 0, source truth or the BSI normative baseline is implied.
+**Status:** Architecture from TASK-007.0 with nonpersistent DOCX and XLSX staging implemented in TASK-007.1/007.2 and hardened in TASK-007.1a/007.2a. The generic interfaces and future steps remain proposals except where implementation notes specify actual APIs. Domain materialization, approved export and schema v2 remain unimplemented. [ADR-0009](0009-structural-evidence-and-sqlite-v2.md) proposes the structural-evidence, compatibility and persistence contracts for review; it implements none of them. No approval of Sprint 0, source truth or the BSI normative baseline is implied.
 
 ## Decision and component boundaries
 
