@@ -1,4 +1,7 @@
-"""A-only synthetic source ledger: PENDING/FAILED, never staging or inventory."""
+"""Current-only synthetic source writer; historical reads use v2_compat.
+
+PENDING/FAILED metadata only, never staging or inventory.
+"""
 
 from contextlib import contextmanager
 from dataclasses import asdict, dataclass, fields, replace

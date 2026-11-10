@@ -1,6 +1,6 @@
 # ADR-0010: Historical implementation compatibility and verified replay
 
-**Status:** Proposed security contract; TASK-007.3B.0, documentation only, 2026-11-10. Inspected baseline: **2ee9bc7cf309727e5a9f10e2982791dbc991c464**. No historical dispatcher, new event/schema, fixture DB or replay capability is implemented or demonstrated here. Human review remains required.
+**Status:** Contract proposed in documentation-only TASK-007.3B.0, 2026-11-10, inspected baseline **2ee9bc7cf309727e5a9f10e2982791dbc991c464**. TASK-007.3B.1 implements only the Gate A read-only compatibility subset described in section 10; Gates B/C/D and the wider design remain proposed/disabled. Human release review remains required.
 
 Predecessors: [ADR-0008](0008-document-proposal-boundary.md), [ADR-0009](0009-structural-evidence-and-sqlite-v2.md). Verification: [TASK-0073B0-RESULTS](../tasks/TASK-0073B0-RESULTS.md).
 
@@ -273,3 +273,49 @@ Exact syntax, hashes and deterministic replay do not establish real-world truth,
 Before Gate A: approve catalog/bundle/host tuples and retirement process; build/review the A-created fixture against these reference vectors; implement/test the frozen A schema/policy/codec handler. Before B: freeze valid A-native/integration vectors; decide explicit B write-format/upgrade boundary, validation codecs/state machine and worker/time enforcement. Before C/D: specify deterministic adapter, event atomicity, candidate and queue codecs and human block replay. None may reset remediation identities or activate all gates together.
 
 Synthetic DOCX/XLSX only. No general Office compatibility, production readiness, BSI baseline confirmation or certification claim.
+
+## 10. TASK-007.3B.1: implemented Gate A subset
+
+Baseline for this implementation: clean **78485a90dcdea6f62a4c985489b1bea9b506112d**. See [TASK-0073B1-RESULTS](../tasks/TASK-0073B1-RESULTS.md) for the authentic oracle, final tests and reproduction. Earlier sections describe A-stage observations and the wider proposed contract; this section records the new, bounded implementation. It does not activate the other gates.
+
+Public read API:
+
+```python
+from grundschutz_ai.v2_compat import (
+    HistoricalLedgerError, HistoricalLedgerLimits,
+    historical_catalog, load_historical_ledger,
+)
+
+entries = historical_catalog()  # immutable metadata; not executable availability
+state = load_historical_ledger(trusted_synthetic_oracle_path,
+                              limits=HistoricalLedgerLimits())
+# Immutable source/event metadata only; no eligibility or writer returned.
+```
+
+The application-owned historical-catalog/v1 has exactly **a0-docx/v1** and **a0-xlsx/v1**, with the exact section 1 descriptor bytes/identities, source-lf/v1 packaging, Python 3.12.6, SQLite 3.45.3 and windows-fixed-ntfs-refs/v1. Each entry binds exact A schema/codec versions, complete policy ceilings/version, handler ID **a0-source-ledger-read/v1**, the 13 literal event vectors, and the authentic oracle manifest. Only capability **source_ledger_read** is supported. The hard catalog ceiling remains four; current membership is exactly two, with no runtime enrollment or write/validation capability. Retirement or additional entries require a reviewed application release, never a database action.
+
+The explicitly reviewed bridge replaces the old descriptor's v2_ledger executable role with **v2_a0.py**, SHA-256 **a343231bb8133e701558ac9174ff60411d5e35e4ea0fca454f7ac7c5c976f4dd**. Historical descriptors retain their original v2_ledger hash unchanged. The local bundle additionally requires the other nine original A module files with their exact section 1 hashes, including both readers and stagers. No database module name selects a file. The shim does not import the current writer, invoke readers/stagers, or import historical executable code from an archive/database.
+
+DTOs, filesystem/path validation, schema checking, replay state machine, projections and limits are copied from A and checked AST-identical against the isolated A checkout. Deliberate differences are the frozen pure policy bridge, strictly read-only connection/transaction helpers and private read entry. Schema/codec modules remain unchanged and hash-pinned. Current policy constructors are never used. Policy parsing freezes every original field/ceiling and the original staging fingerprint preimage; it supports only the original semantics and valid tightenings. A changed shared artifact refuses loading instead of adopting its new semantics. The connection always uses mode=ro, query_only=ON and a read transaction; even its private helper refuses a write-mode request.
+
+The current v2_ledger writer has only a module-docstring change explaining the separate API. Because A descriptors already include that file's exact bytes, this changes the current local descriptor and makes SourceLedger.open refuse historical A0 registrations without adding a historical fallback. No writer logic, schema or event codec changed.
+
+Before these production edits, tests/a0_oracle.py verified all A0 identities in a separate exact 2ee9bc7 Git-archive checkout and built the 13-event oracle through the **unchanged A public API**, with UUID/time mocks only in the harness. It refused an initial CRLF export; a fresh export using Git's per-command core.autocrlf=false matched the exact LF profile. No hashed production source was edited to forge identity.
+
+Actual oracle artifacts, stored outside Git:
+
+| Artifact | SHA-256 |
+|---|---|
+| Original A-created SQLite bytes | `5f218c87db968a3c5588fca7ff6b90ffc5c1d4c3dc1d5f6fbef36aaa9c84d537` |
+| Complete canonical A state/projection manifest | `3b01d810cadc1058be89b4c9aebcdaf8b0ec4058375b134c4a8336c98b193c15` |
+| Literal A SQL transport, 54,444 bytes, retained in tests/fixtures/a0-ledger.sql | `a89ea981a57ffbe1328ed8aee7ff9e916099ee2196aa4c055d7d81af133b8d61` |
+
+The SQL text is a trusted synthetic test fixture exported from the real A DB, not a binary database and not production input. Ordinary offline tests reconstruct only its frozen A-written rows without using the B writer. Separately, the cross-version test used the original A-created DB itself, compared the full A state and unchanged binary digest after B.1 read-only replay. The full reconstructed state/projections match the independently generated manifest; all 13 existing literal payload/event vectors match, with the same final head and blocked heads defined in section 3. No source becomes VALID.
+
+Additional policy vectors came from the isolated unchanged A code: DOCX max_sources=8, max_id_chars=32 and reader max_file_bytes=1,048,576 gives policy fingerprint `9f5ad87532f18da33eb62ca525537905ed544c1a77ed99148f277cb81c6e5a03`, Spec `e958f7117992894712f727cb7b9d6501adad40850ea7c5fca5d857caed6eec7a`; XLSX max_scope_rows=50, max_history_units=1,024 and the same reader byte limit gives fingerprint `5e7e836510e405c617c65e7260dddf9fc6e16eec13e37287f540882d8d87ca7f`, Spec `c62783f9c845367ead67d7960e91918cd067f69c15caf70aabf362f5cdb7561e`. All other policy values remain their exact defaults.
+
+Final B.1 verification: **550 tests discovered, 545 passed, 5 existing optional Ollama tests skipped, 0 failures/errors**. This includes all 502 previous offline tests and 43 new tests. The original-A proof runs when GRUNDSCHUTZ_A0_ORACLE names the independently built DB; it was enabled for this acceptance run. Without it, that one proof is explicitly skipped, while the literal A-export offline regressions still run. No B-created DB is substituted for that proof.
+
+The earlier no-implementation statements apply to B.0 and the wider B/C/D design. Gate A now has a technical implementation and demonstrated A-to-B read-only fixture compatibility, pending human release review. **source.validated, persistent scopes/candidates, durable human queue replay, approvals, domain materialization/export, PDF promotion and migration remain disabled.** Native-reader goldens and new write-profile choices remain Gate B work; Gate A never parses the deliberately invalid Office captures.
+
+Limitations remain: this exact LF/runtime/package combination only; no general historical compatibility or semantic bridge for later codec/reader changes; cooperative replay deadline, no parser-worker implementation; unsigned corpus/actor authenticity and source truth are unproven. Fixture hashes are acceptance anchors, not an authenticity guarantee for arbitrary ledgers. Repackaged/CRLF/runtime variants are refused unless independently reviewed in a future release.
