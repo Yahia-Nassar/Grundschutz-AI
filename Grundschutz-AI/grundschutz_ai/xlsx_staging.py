@@ -101,7 +101,7 @@ class StagingPolicy:
     reader_limits: reader.XlsxLimits = reader.DEFAULT_LIMITS
     max_sources: int = 16
     max_data_rows: int = 100
-    max_scope_rows: int = 1600
+    max_scope_rows: int = 100  # Aggregate hard ceiling; configuration may tighten.
     max_id_chars: int = 64
     max_location_chars: int = 256
     max_scope_chars: int = 1_000_000

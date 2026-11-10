@@ -2,6 +2,8 @@
 
 Date: 2026-11-10 (Europe/Bucharest). Repository `Y:/Grundschutz-AI`; application `Y:/Grundschutz-AI/Grundschutz-AI`. Initial read-only Git: clean HEAD **`c301020`** (`fix: preserve human queue rejections across irrelevant changes`).
 
+TASK-007.2a remediation starts from clean **`39d9d41`** (`feat: add nonpersistent XLSX proposal staging`). **Current verification: 417 offline tests passed (412 existing + 5 new).** The original 412-test results below are historical; the aggregate-scope security correction and current test results are recorded at the end of this report.
+
 ## Outcome and changed files
 
 Implemented deterministic typed XLSX-only proposal staging under the explicit experimental **`synthetic-it-table/v1`** convention. It is neither a normative IT-Grundschutz rule nor authenticated human policy approval. No materialization, Evidence, approved inventory, persistence, inference or combined DOCX/XLSX scope was implemented. TASK-007.3 remains unstarted.
@@ -128,7 +130,7 @@ The first isolated run had 63 tests, 1 error and 0 failures: its retention-exhau
 
 Coverage includes exact one/multi-row cells/headers/identity/hashes, Unicode, complete-workbook coverage, absent/BLANK/empty TEXT distinctions, placeholders and unsupported locations/IDs, extra sheets/cells, gaps/empty rows, malformed/hidden/formula structures, duplicates/conflicts within/across workbooks, capture/temp lifecycle, currentness/revision/reversion, fake native results, human block propagation/replay/relocation/duplicate cleanup, stale/approved queue actions, metadata/history, resource boundaries and immutable records. The side-effect test patches all six forbidden domain constructors, Inventory writes/reviews, store commit/SQLite connect, extraction/Ollama/network calls, legacy sentence validators and print; none is called while registering, staging, triaging, changing policy or correcting rows. Automated staging creates no human decision by itself.
 
-Default caps: 16 logical sources; 100 data rows/workbook; 1,600 current scope rows; 1,000,000 scope characters; IDs 64 and locations 256 characters; 8 MiB individual integration manifests; 32 MiB retained unique binary bytes; 1,000,000 retained native-text characters; 32 MiB retained manifests; 2,048 history units. Registration reserves three history units; source/queue histories are never silently evicted. Reader defaults can only tighten. Exhaustion invalidates earlier proposals and refuses new work; an existing scope can still report session_exhausted. These application budgets do not constitute hard RSS/OS isolation or parse deadlines.
+Current default caps after TASK-007.2a: 16 logical sources; 100 data rows/workbook; **100 aggregate scope rows/assertions**, independently configurable only downward; 1,000,000 scope characters; IDs 64 and locations 256 characters; 8 MiB individual integration manifests; 32 MiB retained unique binary bytes; 1,000,000 retained native-text characters; 32 MiB retained manifests; 2,048 history units. The original 1,600 aggregate setting contradicted ADR-0008 and was corrected. Registration reserves three history units; source/queue histories are never silently evicted. Reader defaults can only tighten. Exhaustion invalidates earlier proposals and refuses new work; an existing scope can still report session_exhausted. These application budgets do not constitute hard RSS/OS isolation or parse deadlines.
 
 ## Limitations and review recommendation
 
@@ -184,7 +186,7 @@ Executable blocked-scope demonstrations:
 py -3.12 -m unittest tests.test_xlsx_staging.XlsxStagingTests.test_duplicate_identical_rows_and_contradictory_locations_or_apps_block_all tests.test_xlsx_staging.XlsxStagingTests.test_cross_workbook_duplicate_and_conflicting_assets_block_full_scope tests.test_xlsx_staging.XlsxStagingTests.test_absent_location_is_not_explicit_blank tests.test_xlsx_staging.XlsxStagingTests.test_rejection_survives_unrelated_row_changes_and_blocks_all_rows tests.test_xlsx_staging.XlsxStagingTests.test_rejection_follows_substantive_assertion_when_row_moves -v
 ```
 
-## Git verification
+## Original TASK-007.2 Git verification (historical)
 
 Final read-only HEAD remains **`c301020`** (`fix: preserve human queue rejections across irrelevant changes`). Exact status:
 
@@ -196,6 +198,76 @@ Final read-only HEAD remains **`c301020`** (`fix: preserve human queue rejection
 ```
 
 Nothing staged or committed. `git diff --check` passed with only Git's configured LF-to-CRLF checkout notice. Direct strict UTF-8/trailing-whitespace/final-newline checks and balanced Markdown fences passed for all four files, including the untracked files that Git's diff check does not cover. A read-only `git diff --exit-code` confirmed no changes to DOCX staging/tests, either OOXML reader/safety module, domain, inventory, storage, extraction, support or validation. No matching XLSX-staging or DOCX-staging-fixture temporary directories remained. Read-only Git ran in the repository owner's context without Git configuration or security-setting changes.
+
+```powershell
+Set-Location Y:/Grundschutz-AI
+git log -1 --format="%h %s"
+git status --short --untracked-files=all
+git diff --check
+git diff --stat
+```
+
+## TASK-007.2a — aggregate XLSX scope limit
+
+### Root cause and correction
+
+Read-only initial state: clean HEAD **`39d9d41`**, matching the supplied baseline. ADR-0008's resource section specified at most 100 row/assertion candidates across the complete scope and separately 100 data rows per XLSX. The implementation incorrectly set `StagingPolicy.max_scope_rows=1600`; the later implementation notes/report repeated that value without resolving the contradiction. Since policy validation caps configurable values at the dataclass defaults, the same mistake also permitted configurations of 101 through 1,600.
+
+The production correction changes **one policy line** to `max_scope_rows=100`, with a comment identifying the aggregate ceiling. The unchanged constructor now rejects any value above 100, and the existing `_assess()` compares the complete untruncated draft collection against that ceiling before eligible proposals can be produced. The separate per-workbook 100-row limit is unchanged. Lower aggregate policy values remain supported and enforced across workbooks.
+
+No source registration/currentness rule, structural field/claim validator, manifest/hash contract, candidate fingerprint algorithm, substantive remediation identity, human queue history or DOCX behavior changed. Policy fingerprints naturally include the corrected configured limit; human rejection/clarification matching remains independent of resource-policy fingerprints. No new dependency, persistence/migration, domain/Evidence materialization, PDF promotion, approval pathway, network or commit was introduced. TASK-007.3 remains unstarted.
+
+Exactly four files changed: `grundschutz_ai/xlsx_staging.py`, `tests/test_xlsx_staging.py`, ADR-0008 and this existing report. No additional files were necessary.
+
+### Actual before/after behavior
+
+Before production changes, the new 101-row regression and configuration-ceiling regression were run against the baseline: **2 tests in 0.184 seconds, 3 failures (including the 101/1,600 configuration subtests), 0 errors**. The first test observed **101 proposals instead of zero**. A separate public-API exercise observed 101 proposals, no issues, and live eligibility true for both first and last proposals.
+
+After the fix:
+
+| Scope | Observed behavior |
+|---|---|
+| One workbook, 100 valid unique rows | 100 proposals; existing boundary test still passes. |
+| Two workbooks, 60 + 40 valid unique rows | 100 proposals, no blocking issues; first/last live eligibility true. |
+| Two workbooks, 100 + 1 valid unique rows | **0 proposals**, explicit bounded `scope_limit`; both workbook bindings and all 101 diagnostic rows retained. |
+| Same 100-row workbook staged before adding the additional source | Every one of the 100 earlier proposals becomes ineligible after the new registration/over-limit scope. |
+| Configured max_scope_rows 101 or 1,600 | Constructor refuses with `limits_may_only_tighten`. |
+| Configured max_scope_rows 2, then 1 + 1 rows | 2 proposals; adding a third row blocks the entire scope with `scope_limit`. |
+
+No selection or partial import of the first 100 rows occurs. All original bytes, native manifests/row cells, context bindings and historical candidate revisions remain available. The over-limit report retains clarification-required diagnostics for all 101 rows, rather than dropping the extra workbook or truncating the draft collection to make validation pass. These blocked diagnostics are not eligible assertions or approved facts; the limit is an eligibility budget, not a hard RSS/allocation guarantee.
+
+Both human REJECTED and NEEDS_CLARIFICATION decisions were explicitly tested through aggregate policy tightening to 1 and restoration to 100. The restored scope still yields zero proposals due to `queue_blocked`; the old substantive remediation fingerprint and exact append-only decision history remain, while current candidate fingerprints reflect the new policy/context revision. Existing policy/reversion, unrelated row/source, relocation/repackaging, correction/reversion, stale-token and forbidden approval tests continue to pass.
+
+### Tests and checks
+
+Added **5 new regression methods** for: two-workbook exact-100 support; complete 101-row rejection plus all earlier proposal eligibility checks/provenance/history; impossible cap relaxation; tightened aggregate enforcement across sources; and both human blocking states surviving tightening/restoration. The existing one-workbook 100/101 boundary test was retained. The existing no-side-effects test now also traverses the actual two-workbook 100+1 scope-limit failure while all domain constructors, Inventory/store/SQLite, model/network, sentence validators and print remain mocked and uncalled. No existing acceptance assertion was weakened.
+
+**Final full Python 3.12 offline suite: 417 tests in 16.258 seconds; OK; 0 failures, 0 errors.** This preserves all **412 previous tests** and adds **5**; there are **69 XLSX staging tests**, with all **69 DOCX staging tests** also passing. No unresolved test failure remains. No live Ollama class was selected. The independent after-fix public-API exercise also reported zero proposals, `scope_limit`, 101 diagnostic rows, two workbook bindings, and **100/100 old proposals ineligible**.
+
+The existing synthetic-only, unauthenticated/session-local, narrow-grammar and no durable audit/export limitations remain. Recommended next step: human review of this focused correction before further integration.
+
+### Exact PowerShell reproduction
+
+```powershell
+Set-Location Y:/Grundschutz-AI/Grundschutz-AI
+# Full offline suite:
+py -3.12 -m unittest tests.test_domain tests.test_extraction.ClientTests tests.test_extraction.ValidationTests tests.test_storage tests.test_docx_ingestion tests.test_xlsx_ingestion tests.test_pdf_ingestion tests.test_docx_staging tests.test_xlsx_staging
+# Existing single-workbook boundary and all five new regressions:
+py -3.12 -m unittest tests.test_xlsx_staging.XlsxStagingTests.test_100_row_hard_boundary_and_101_row_failure tests.test_xlsx_staging.XlsxStagingTests.test_two_workbooks_totaling_100_rows_are_supported tests.test_xlsx_staging.XlsxStagingTests.test_two_workbooks_totaling_101_rows_block_all_and_invalidate_old_proposals tests.test_xlsx_staging.XlsxStagingTests.test_aggregate_policy_above_100_is_rejected tests.test_xlsx_staging.XlsxStagingTests.test_tightened_aggregate_policy_counts_both_workbooks tests.test_xlsx_staging.XlsxStagingTests.test_human_blocks_survive_aggregate_policy_tightening_and_restoration -v
+```
+
+### TASK-007.2a Git verification
+
+Final HEAD remains **`39d9d41`** (`feat: add nonpersistent XLSX proposal staging`). Exact working-tree status:
+
+```text
+ M Grundschutz-AI/docs/decisions/0008-document-proposal-boundary.md
+ M Grundschutz-AI/docs/tasks/TASK-0072-RESULTS.md
+ M Grundschutz-AI/grundschutz_ai/xlsx_staging.py
+ M Grundschutz-AI/tests/test_xlsx_staging.py
+```
+
+All four files are tracked, modified and unstaged; no untracked files and no automatic commit. The production diff contains only the aggregate-policy default/comment change. `git diff --check` passed with only Git's configured LF-to-CRLF checkout notices. Direct strict UTF-8/trailing-whitespace/final-newline checks and balanced Markdown fences passed for all four files. A read-only legacy/DOCX `git diff --exit-code` passed with no differences. No matching staging/fixture temporary directories remained. No Git configuration or security settings were changed.
 
 ```powershell
 Set-Location Y:/Grundschutz-AI

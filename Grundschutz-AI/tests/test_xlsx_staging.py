@@ -633,6 +633,82 @@ class XlsxStagingTests(unittest.TestCase):
         self.register(values)
         self.assert_blocked(self.report())
 
+    def test_two_workbooks_totaling_100_rows_are_supported(self):
+        rows = tuple((f"SRV-{index:03}", ROW[1], f"ERP-{index:03}") for index in range(1, 101))
+        self.register(rows[:60])
+        self.register(rows[60:], name=SECOND)
+        report = self.report((SOURCE, SECOND))
+        self.assertEqual(len(report.context.bindings), 2)
+        self.assertEqual(len(report.proposals), 100)
+        self.assertEqual(report.issues, ())
+        self.assertTrue(self.session.is_eligible(report.proposals[0]))
+        self.assertTrue(self.session.is_eligible(report.proposals[-1]))
+
+    def test_two_workbooks_totaling_101_rows_block_all_and_invalidate_old_proposals(self):
+        rows = tuple((f"SRV-{index:03}", ROW[1], f"ERP-{index:03}") for index in range(1, 102))
+        first = self.register(rows[:100])
+        old_report = self.report()
+        self.assertEqual(len(old_report.proposals), 100)
+        first_snapshot = self.session.snapshot(first.ref)
+        history = self.session.candidate_history(SOURCE)
+        second = self.register(rows[100:], name=SECOND)
+        report = self.report((SOURCE, SECOND))
+        self.assertEqual(len(report.proposals), 0)
+        self.assertIn("scope_limit", [item.code for item in report.issues])
+        self.assertEqual(len(report.context.bindings), 2)
+        # Keep every blocked diagnostic; never slice to 100 to pass the gate.
+        self.assertEqual(len(report.candidates), 101)
+        self.assertTrue(all(item.state is ReviewState.NEEDS_CLARIFICATION for item in report.candidates))
+        self.assertEqual(self.session.snapshot(first.ref), first_snapshot)
+        self.assertEqual(len(self.session.snapshot(second.ref).native.sheets[0].row_indices), 2)
+        self.assertEqual(self.session.candidate_history(SOURCE)[:len(history)], history)
+        for previous in old_report.proposals:
+            self.assertFalse(self.session.is_eligible(previous))
+        self.assertEqual(self.session.decision_history(), ())
+
+    def test_aggregate_policy_above_100_is_rejected(self):
+        for maximum in (101, 1600):
+            with self.subTest(maximum=maximum), self.assertRaises(staging.StagingError):
+                staging.StagingPolicy(max_scope_rows=maximum)
+
+    def test_tightened_aggregate_policy_counts_both_workbooks(self):
+        self.session = staging.XlsxStaging(staging.StagingPolicy(max_scope_rows=2))
+        self.register()
+        self.register((OTHER,), name=SECOND)
+        self.assertEqual(len(self.report((SOURCE, SECOND)).proposals), 2)
+        self.register((OTHER, ("SRV-003", ROW[1], "ERP-03")), name=SECOND)
+        report = self.report((SOURCE, SECOND))
+        self.assert_blocked(report)
+        self.assertIn("scope_limit", [item.code for item in report.issues])
+        self.assertEqual(len(report.candidates), 3)
+
+    def test_human_blocks_survive_aggregate_policy_tightening_and_restoration(self):
+        for state in (ReviewState.REJECTED, ReviewState.NEEDS_CLARIFICATION):
+            with self.subTest(state=state):
+                self.session = staging.XlsxStaging()
+                self.register()
+                self.register((OTHER,), name=SECOND)
+                original = self.report((SOURCE, SECOND))
+                candidate = next(item for item in original.candidates if item.binding.ref.source_id == SOURCE)
+                decision = self.decide(candidate, state)
+                history = self.session.decision_history()
+                self.session.set_policy(staging.StagingPolicy(max_scope_rows=1))
+                limited = self.report((SOURCE, SECOND))
+                self.assert_blocked(limited)
+                self.assertIn("scope_limit", [item.code for item in limited.issues])
+                self.session.set_policy(staging.StagingPolicy())
+                restored = self.report((SOURCE, SECOND))
+                self.assert_blocked(restored)
+                self.assertIn("queue_blocked", [item.code for item in restored.issues])
+                self.assertNotIn("scope_limit", [item.code for item in restored.issues])
+                current = next(item for item in restored.candidates if item.id == candidate.id)
+                self.assertIs(current.state, state)
+                self.assertEqual(current.remediation_fingerprint, candidate.remediation_fingerprint)
+                self.assertNotEqual(current.fingerprint, candidate.fingerprint)
+                self.assertEqual(self.session.decision_history(), (decision,))
+                self.assertEqual(history, (decision,))
+                self.assertTrue(all(not self.session.is_eligible(item) for item in original.proposals))
+
     def test_tightened_row_and_scope_budgets_block_without_partial_output(self):
         for policy in (replace(staging.StagingPolicy(), max_data_rows=1), replace(staging.StagingPolicy(), max_scope_rows=1), replace(staging.StagingPolicy(), max_scope_chars=1)):
             self.session = staging.XlsxStaging(policy)
@@ -730,6 +806,13 @@ class XlsxStagingTests(unittest.TestCase):
             self.assert_blocked(self.report())
             self.register(((ROW[0], "Rechenzentrum Schwerin", ROW[2]), OTHER))
             self.assertEqual(len(self.report().proposals), 2)
+            bulk = staging.XlsxStaging()
+            rows = tuple((f"SRV-{index:03}", ROW[1], f"ERP-{index:03}") for index in range(1, 102))
+            self.register(rows[:100], session=bulk)
+            self.register(rows[100:], name=SECOND, session=bulk)
+            over_limit = self.report((SOURCE, SECOND), session=bulk)
+            self.assertEqual(over_limit.proposals, ())
+            self.assertIn("scope_limit", [item.code for item in over_limit.issues])
             for mocked in mocks:
                 mocked.assert_not_called()
         self.assertEqual(len(self.session.decision_history()), 1)
