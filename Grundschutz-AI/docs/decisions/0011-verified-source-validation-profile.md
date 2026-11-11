@@ -1,6 +1,6 @@
 # ADR-0011: Verified source validation physical profile
 
-**Status:** Proposed contract, TASK-007.3B.2.0, 2026-11-11. Baseline **0a8af67cf36dc6df742b88380cdde0115947172d**. Only synthetic golden fixtures/tests and this design are delivered. No production Python, schema, codec or ledger is changed; no proposed B DDL is executed. Gate B remains disabled pending a separate implementation task and review.
+**Status:** Gate B contract proposed in TASK-007.3B.2.0, 2026-11-11, baseline **0a8af67cf36dc6df742b88380cdde0115947172d**. TASK-007.3B.2.1 implements only the inert schema/codec/genesis foundation in section 11. Source validation and later feature gates remain disabled pending separate implementation and review.
 
 Predecessors: [ADR-0008](0008-document-proposal-boundary.md), [ADR-0009](0009-structural-evidence-and-sqlite-v2.md), [ADR-0010](0010-historical-implementation-compatibility.md). Actual checks: [TASK-0073B20-RESULTS](../tasks/TASK-0073B20-RESULTS.md).
 
@@ -37,7 +37,7 @@ Rationale: A requires the exact schema-2 SQL map, eight event tags, ledger-event
 - No migration, automatic event conversion, history import, cross-store registration reuse or legacy v1 import is authorized. Any later explicit transfer needs separate design/lineage review; it cannot rewrite old UUIDs/hashes to pretend continuity.
 - Only ten event kinds listed below may exist in B. No reserved candidate/queue/domain tables or placeholder activation fields.
 
-No physical schema-3 database, production DDL module or new codec is created in this task. The following exact relational contract must become reviewed, fixed SQL and an exact schema fingerprint in the future implementation; no SQL fingerprint is invented here.
+No physical schema-3 database, production DDL module or new codec was created in TASK-007.3B.2.0. TASK-007.3B.2.1 freezes the literal foundation described in section 11; the source-processing contract below still requires future implementation.
 
 ## 3. Typed/hash contracts
 
@@ -220,3 +220,55 @@ These are **design tests to implement later**, distinct from this task's 30 nati
 Before any Gate B production code is accepted: review this exact schema-3/event-v3 proposal; fix/review literal DDL/check/index/trigger strings and fingerprint; approve exact native handler artifacts/host tuples/capabilities within the catalog ceiling; implement and validate bounded byte/manifest/worker handling; implement atomic state/replay, failure-code and mirror validation; execute the complete threat matrix including stale/crash/forged metadata cases; and preserve the independent A0 proof.
 
 Golden success alone does not enable source.validated. Gates C/D, Evidence, Inventory, ReviewRecord, human approval, export, PDF promotion and migration remain disabled. No normative BSI baseline decision or production/certification readiness is implied.
+
+## 11. TASK-007.3B.2.1: inert physical foundation
+
+Baseline **84353f7d4a5393295f700f819f840b2fbe9935a0**. Actual scope, tests and commands: [TASK-0073B21-RESULTS](../tasks/TASK-0073B21-RESULTS.md). The source-validation writer/replayer/native handlers in sections 5–10 are not implemented by this foundation.
+
+### Frozen SQL identity and narrow constraint clarifications
+
+[v3_schema.py](../../grundschutz_ai/v3_schema.py) contains the fixed 15 STRICT table statements, 24 immutable-history guards and exact contracts for **36 SQLite-generated PK/UNIQUE indexes**. There are no additional user CREATE INDEX statements. All 75 sqlite_master objects are checked, including sqlite_autoindex names/null SQL; unknown sqlite_* tables are not silently excluded. Index origin, uniqueness, partial flag, ordered columns, BINARY collation, ascending order and rowid auxiliary column are verified independently.
+
+Schema fingerprint **75aff3f9223ad7244702a6ef130c9382185f6957d72659c6ee43c2defa08c15c** is H("sqlite-schema/v3", preimage), where preimage is exactly {physical_profile,user_version,encoding,objects,indexes} returned by v3_schema.fingerprint_preimage(). objects is sorted by object name with {name,kind,sql}; indexes is sorted by index name with {table,name,unique,origin,partial,columns,collations,descending}. Encoding is UTF-8 and user_version is 3. The complete tagged canonical hash input is **31,123 bytes**, independently hashed using .NET SHA-256 and frozen as a literal test vector. SQL whitespace/case is part of identity.
+
+The physical profile name sqlite-source-validation/v1 is application-owned and bound to that exact fingerprint. It is returned in verified metadata, not added as an unreviewed database column or genesis field. Stored metadata retains schema_version=3, feature_profile=verified-source/v1, canonical-json/v1 and ledger-event/v3.
+
+Concrete integrity refinements of section 4 are now fixed in the DDL: events UNIQUE(sequence,event_sha256) supports the metadata head's composite FK; registrations has an additional UNIQUE(registration_id,registry_id,policy_revision,reader_spec_hash,handler_spec_hash) so derivations can bind those exact registration dependencies through a composite FK. Derivation source ID/revision/store identity are normalized through registrations/metadata rather than duplicated as independent truth. Source-byte hard ceiling is 2 MiB in codec/SQL. Terminal SQL CHECKs enforce exclusive valid/failed nullability, phase and issue-BLOB byte/empty rules; exact canonical issue syntax, known codes, uniqueness and maximum four codes belong to the typed codec. No SQLite JSON extension or semantic substring check is used. Every future-table row remains inapplicable to the current loader regardless of syntactic validity.
+
+### Separate inert codec
+
+[v3_codec.py](../../grundschutz_ai/v3_codec.py) defines exact tagged Payload, Envelope, Event and derivation-ref/v2 records. It reuses the unchanged canonical-json/v1 primitives and the **identical SourceRef type/preimages** from v2_codec. Event validates the envelope/payload pair, including hash, kind/tag, genesis store identity, matching audit times and capture-before-validation sequence claims. Ten event contracts are recognized as syntax only. Source ordering, policy/reader authorization and original-byte support still need the future gated replayer; no such authority follows from a codec pass.
+
+Only singleton transaction groups are accepted; unknown/future kinds, versions, fields, invalid identifiers/hashes, noncanonical JSON, duplicate keys, bool-as-counter, unsupported types and resource excess are refused. DOCX derivations require null native-manifest hash; XLSX requires a hash. No native handler descriptor/catalog enrollment or reader execution is added.
+
+Independent literal vectors, without v3 factories in their .NET hash calculation:
+
+| Vector | SHA-256 |
+|---|---|
+| Exact store-init/v2 payload, schema 3/verified-source/v1/canonical-json/v1, store UUID=32 zeroes | `f7fc5a269b8554c2be78810fe3aeb889fdc2e2357fe1de3f792d0d5961cfccce` |
+| Genesis event: that payload, sequence/index/count=1, previous=null, event ID=32 ones, transaction ID=32 twos, actor=synthetic:human, time=2026-11-11T12:00:00.000000Z | `be5aa16f76c6634fdb14c4bb1238d638ee8ec890923d63d3a95cef702b64252a` |
+| Canonical original SourceRef with source_id=synthetic:source, revision=2, registration_id=32 ones | `daa5c8f29826418829af7b9d60aba4511521d215945ea08a23dc99d125b73da3` |
+| Literal synthetic derivation-ref/v2 canonical BLOB (complete preimage in test_v3_codec.derivation) | `020ed9f91fd81ba3ce8af47197b74ce336b239eca64d9ffb45492ed7a3d5af43` |
+| Same derivation's tagged identity, excluding its type member from value | `d09be1fa9973c4f4f693ac4550fa1a4c5539fc727aa68814a053d01a0af0e190` |
+
+### Initialized-only store API and publication
+
+```python
+from grundschutz_ai.v3_store import create_initialized_store, load_initialized_store
+
+state = create_initialized_store(trusted_unused_local_path, actor_id="synthetic:operator")
+same = load_initialized_store(trusted_unused_local_path)
+assert same == state
+```
+
+Each operation closes every SQLite handle before returning immutable InitializedStoreMetadata. There is no public writer handle, generic append, writable reopen, registration, capture, failure, validation, policy/handler activation, candidate/queue or domain operation. The loader accepts **only one genesis event, one payload BLOB, one metadata row and zero rows in every other table**. Recognized source.validated events and even otherwise well-formed future rows are refused. The feature_profile string describes layout, not an activation grant.
+
+The approved Windows fixed-local NTFS/ReFS/path restrictions are reused from the unchanged frozen A0 guard; canonical/path dependencies are hash-pinned and exact Python 3.12.6/SQLite 3.45.3 runtime requirements retained. No shared handler or v2 semantics changed. Additional conservative restrictions refuse journal/WAL/SHM sidecars without recovery and reserve the case-insensitive filename prefix .grundschutz-schema3-init- for private initialization files.
+
+Creation never opens an existing caller target for writing. It creates an exclusive private file in the same checked local parent, uses DELETE/FULL, foreign_keys=ON, trusted_schema=OFF and BEGIN IMMEDIATE, executes fixed DDL and inserts only genesis/BLOB/metadata. It completely verifies before COMMIT, closes, verifies again read-only, rechecks paths/unused target and publishes with Windows no-overwrite os.rename. The publication rename is the externally visible commit point. No fallible verification/close remains after publication. Ordinary initialization failure before publication leaves the caller target absent and cleans only the owned staging file; racing existing targets are preserved. No directory scan, implicit upgrade, overwrite, repair or orphan recovery.
+
+An abrupt exit before SQL commit or after private SQL commit leaves no published target. A private orphan may remain but public create/load refuses its reserved name, even if its SQL transaction committed. An exit after publication leaves one complete initialized store, recoverable through read-only verification. Lost acknowledgement after publication is not a rolled-back initialization. Process-exit tests do not establish power-loss durability, authenticated file creation or protection from a privileged whole-file replacement.
+
+Store limits only tighten: 256 MiB database, 10,000 events (currently exactly one applicable), 128 MiB metadata, 32 MiB original bytes (currently no originals), sixty-second cumulative operation deadline. Genesis metadata accounting includes both payload BLOB and canonical envelope bytes. Size/page checks precede publication; these are application admission bounds, not hard OS disk/RSS quotas. Future per-registry control reserves and source/manifest/worker rules remain inactive and must be implemented with those operations, not inferred from empty tables.
+
+Final foundation verification: **671 tests discovered, 666 passed, 5 existing optional Ollama tests skipped, 0 failures/errors**. All 575 previous tests plus 91 new tests passed, with both authentic historical proofs enabled. Schema-2 mutual refusal, unchanged A0/golden digests, exact SQL/indexes, atomic genesis, rollback, corruption/limits, byte-identical read-only loads, no-overwrite races, reserved-name aliases and three real process-exit boundaries are covered. **All Gate B source validation/native handlers and later capabilities remain disabled.**
