@@ -271,4 +271,96 @@ An abrupt exit before SQL commit or after private SQL commit leaves no published
 
 Store limits only tighten: 256 MiB database, 10,000 events (currently exactly one applicable), 128 MiB metadata, 32 MiB original bytes (currently no originals), sixty-second cumulative operation deadline. Genesis metadata accounting includes both payload BLOB and canonical envelope bytes. Size/page checks precede publication; these are application admission bounds, not hard OS disk/RSS quotas. Future per-registry control reserves and source/manifest/worker rules remain inactive and must be implemented with those operations, not inferred from empty tables.
 
-Final foundation verification: **671 tests discovered, 666 passed, 5 existing optional Ollama tests skipped, 0 failures/errors**. All 575 previous tests plus 91 new tests passed, with both authentic historical proofs enabled. Schema-2 mutual refusal, unchanged A0/golden digests, exact SQL/indexes, atomic genesis, rollback, corruption/limits, byte-identical read-only loads, no-overwrite races, reserved-name aliases and three real process-exit boundaries are covered. **All Gate B source validation/native handlers and later capabilities remain disabled.**
+Final foundation verification: **671 tests discovered, 666 passed, 5 existing optional Ollama tests skipped, 0 failures/errors**. All 575 previous tests plus 91 new tests passed, with both authentic historical proofs enabled. Schema-2 mutual refusal, unchanged A0/golden digests, exact SQL/indexes, atomic genesis, rollback, corruption/limits, byte-identical read-only loads, no-overwrite races, reserved-name aliases and three real process-exit boundaries are covered. **At TASK-007.3B.2.1, all Gate B source validation/native handlers and later capabilities remain disabled.**
+
+## TASK-007.3B.2.2: nonpersistent native bridge
+
+The release-owned [native catalog](../../grundschutz_ai/v3_native_catalog.py)
+adds exactly two `reader-handler-spec/v1` profiles to the two unchanged A0
+ledger-read profiles. The combined hard ceiling is four; there is no enrollment
+API. The exact twelve-member descriptor shape in section 2 is preserved.
+Capabilities belong to the immutable application catalog entry, **outside** that
+descriptor: the old entries retain only `source_ledger_read`, and new entries
+have only `extract_captured_bytes`. Neither grants source validation authority.
+The original complete implementation descriptor is retained and its tagged hash
+bound as `reader_spec_hash`. This is not permission to execute that descriptor's
+module names or the old writer.
+
+New handler IDs are `a0-docx-native/v1` and `a0-xlsx-native/v1`. Their tagged
+identities, respectively, are
+`fc9914f4189460d53df1d1559c1cf72004de75192bc9a2cff05e4c7a036923a5`
+and `467a24e02832732d0b93e20b63839f344e6020380bbaaa69c2efaa6ef58df5e2`.
+Exact descriptor bytes, BLOB hashes, eleven literal artifact pins, independent
+hash checks and actual test results are recorded in
+[TASK-0073B22-RESULTS](../tasks/TASK-0073B22-RESULTS.md).
+The application catalog itself is the trusted release root, not a self-hashing
+artifact. Artifact drift fails closed rather than generating a new accepted
+identity. Python 3.12.6, SQLite 3.45.3 and the existing Windows fixed-local
+NTFS/ReFS profile are mandatory. Python's executable is additionally pinned;
+this does not authenticate every OS DLL or the complete standard library.
+
+`extract_captured_bytes` takes immutable original bytes, expected original digest
+and length, opaque source ID, exact trusted handler/reader identity, a complete
+frozen A0 policy spec and explicit XLSX sheet selection. Only tightened limits
+are accepted. Policy source-count, history and proposal/scope limits retain
+their identities but do not create a staging session or eligibility check.
+Reader limits and per-call raw/text/manifest budgets are enforced. Current
+staging defaults are not consulted. No original path is accepted or reopened.
+
+The parent creates one unpredictable, exclusively owned temporary directory in
+the checked local OS temp root outside Git. It inherits the existing account's
+temp ACL; no ACL/security configuration is changed. Fixed `captured.docx` or
+`captured.xlsx` is written exclusively and checked for exact bytes, length and
+hash before and after transport. A0 path checks refuse links/reparse points,
+unsafe aliases and hard-linked reader files. Cleanup verifies file/directory
+identity and removes only the known file and empty directory, never recursively.
+Creation, mutation or cleanup failure yields no result. Unexpected replacement
+or extra content is not deleted blindly; it may leave an owned temporary orphan
+for explicit operator inspection. No automatic recovery or hostile-filesystem
+atomicity claim is made.
+
+Parsing runs twice in fresh fixed `python -I -B` workers with a minimal local
+environment, no shell, no document-selected code and no bytecode writes. The
+first produces observations; the second reparses the same bytes and requires
+byte-exact equality with the candidate observations and all derived claims.
+Parent reconstruction checks exact shapes, native dataclass invariants, hashes,
+limits, integration bytes and a context-bound acknowledgement. This detects
+coherently omitted/altered worker observations; two uses of the same pinned
+parser are **not independent semantic implementations** and cannot detect a
+shared reader bug or prove document truth/visual completeness.
+
+The separate `native-request/v1`, `native-observations/v1` and `native-verify/v1`
+wire contracts use canonical UTF-8 JSON, duplicate-key/type/version/shape checks
+and unsigned eight-byte big-endian length framing followed by EOF. Input is
+metadata (64 KiB), original bytes (2 MiB), and, only for verification, a candidate
+(32 MiB). Each output is one frame of at most 32 MiB. The distinct native-wire
+tree limits are depth 32, 500,000 nodes, 20,000 array members and 8 MiB/string;
+the existing ledger codec's 8 MiB/1 MiB limits are unchanged. Native XML/ZIP/text
+limits remain those of the pinned readers; integration manifests are at most
+8 MiB and may be tightened. XLSX native manifest is separately bounded; DOCX
+native-manifest reference remains null. Whitespace/Unicode/cell observations are
+never normalized. Missing cells, BLANK and empty TEXT remain distinct.
+
+The parent enforces one cumulative ten-second deadline across transport,
+reconstruction and both workers, bounded pipe reads/writes, bounded stderr
+(4 KiB; any stderr refuses) and no result before complete verification/EOF/exit.
+Timeout or protocol failure kills and reaps the worker before cleanup. A separate
+two-second reaping grace and short thread joins cannot authorize a late result.
+Limits may only tighten. These are application admission/accounting/deadline
+controls; Windows process termination is OS-enforced, but no Job Object,
+restricted token, CPU/RSS/disk quota or complete OS/network sandbox is installed.
+The worker's Python audit guard refuses socket/SQLite/process creation, writes
+and reads outside the fixed transport/artifact allowlist. It is defense in depth
+for this trusted parser, not protection against a native-code exploit or a
+privileged local attacker. Killing an interrupted parent may leave temp files.
+
+The immutable return carries original bytes, native observations, reader limits,
+policy/handler identity, selection, text/native/integration hashes and reader
+stamp. It has no registration, event, source VALID state, persistent
+`derivation-ref/v2`, proposal eligibility or review decision. Its Python type name
+is not an authentication capability for downstream callers. No SQLite, domain,
+Ollama, network, inventory, Evidence, ReviewRecord or approval operation is
+introduced. Document instructions remain untrusted text. Schema-3 DDL,
+fingerprint, codec and genesis-only store are unchanged. All persistent source
+registration/capture/validation, registry bootstrap, replay and later Gate B
+capabilities remain disabled; this task ends at nonpersistent reader mechanics.
