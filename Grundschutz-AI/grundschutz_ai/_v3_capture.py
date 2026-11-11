@@ -1,11 +1,14 @@
-"""Private capture-only state machine. No reader execution or SQLite writes."""
+"""Private schema-3 history reconstruction; native reads only for VALID events.
+
+No SQL writes, mutable original paths, proposals or human approval authority.
+"""
 from dataclasses import dataclass, replace
 from enum import StrEnum
 
 from . import v3_codec as c, v3_schema as schema, v3_store as foundation
 from . import v2_a0 as a0
 from . import v3_native_catalog as catalog
-from .v3_native_contract import NativeHandlerSpec, policy_config
+from .v3_native_contract import NativeHandlerSpec, NativeBridgeError, policy_config
 
 
 class LedgerError(RuntimeError):
@@ -22,6 +25,13 @@ class LedgerLimitError(LedgerError): pass
 
 class RegistryExhaustedError(LedgerLimitError):
     """A registry.exhausted event actually committed; reload for the new tokens."""
+
+
+class CommitOutcomeUnknownError(LedgerError):
+    """COMMIT durability indeterminate; intent is NOT a committed result."""
+    def __init__(self, intent):
+        self.intent = intent
+        super().__init__("Validation commit outcome unknown; reconcile before retry")
 
 
 def need(condition, message="Invalid capture-ledger history"):
@@ -55,6 +65,7 @@ class LedgerHead:
 class SourceStatus(StrEnum):
     PENDING = "pending"
     FAILED = "failed"
+    VALID = "valid"
 
 
 @dataclass(frozen=True, slots=True)
@@ -114,6 +125,59 @@ class SourceRegistration:
     binary_sha256: str | None = None
     byte_length: int | None = None
     failure_codes: tuple[str, ...] = ()
+    derivation: c.DerivationRef | None = None
+    terminal_event_sequence: int | None = None
+    failure_phase: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class ValidationOutcome:
+    """Committed structural processing metadata, never inventory/review approval."""
+    head: LedgerHead
+    registration: c.SourceRef
+    capture_event_sequence: int
+    terminal_event_sequence: int
+    terminal_event_sha256: str
+    transaction_id: str
+    state: SourceStatus
+    derivation: c.DerivationRef | None
+    failure_phase: str | None
+    issue_codes: tuple[str, ...]
+    source_head_at_completion: c.SourceRef
+    registry: RegistryState
+
+    def __post_init__(self):
+        c.require(type(self.head) is LedgerHead and type(self.registration) is c.SourceRef)
+        c.integer(self.capture_event_sequence); c.integer(self.terminal_event_sequence)
+        c.digest(self.terminal_event_sha256); c.identity(self.transaction_id)
+        c.require(self.terminal_event_sequence == self.head.sequence and
+                  self.terminal_event_sha256 == self.head.event_sha256 and
+                  self.capture_event_sequence < self.head.sequence)
+        c.require(type(self.registry) is RegistryState and type(self.source_head_at_completion) is c.SourceRef)
+        c.require(self.source_head_at_completion.source_id == self.registration.source_id and
+                  self.source_head_at_completion.revision >= self.registration.revision)
+        c.require(type(self.state) is SourceStatus and type(self.issue_codes) is tuple)
+        if self.state is SourceStatus.VALID:
+            c.require(type(self.derivation) is c.DerivationRef and self.failure_phase is None and not self.issue_codes)
+            d = self.derivation.data()
+            c.require(d["registration"] == self.registration.data() and d["store_uuid"] == self.head.store_uuid and
+                      d["registry_id"] == self.registry.registry_id and d["capture_event_sequence"] == self.capture_event_sequence)
+        else:
+            c.require(self.state is SourceStatus.FAILED and self.derivation is None and
+                      self.failure_phase == "validation" and self.issue_codes == ("parse_timeout",))
+
+
+@dataclass(frozen=True, slots=True)
+class _ValidationIntent:
+    """Non-durable intended identifiers, bounded by verified command contracts."""
+    expected: LedgerHead
+    registration: c.SourceRef
+    capture_event_sequence: int
+    binary_sha256: str
+    intended_transaction_id: str
+    intended_event_sha256: str
+    intended_kind: c.EventKind
+    intended_derivation_sha256: str | None
 
 
 @dataclass(frozen=True, slots=True)
@@ -144,15 +208,23 @@ class LedgerState:
         c.text(source_id)
         return next((ref for ref in self.current_heads if ref.source_id == source_id), None)
 
+    def is_current_valid(self, ref):
+        """Native structural applicability only; no inventory/approval meaning."""
+        source = self.registration(ref)
+        reg = self.registry(source.registry_id)
+        return (source.status is SourceStatus.VALID and self.source_head(ref.source_id) == ref and
+                not reg.exhausted and source.policy_revision == reg.policy_revision)
+
 
 class Replay:
-    """Pure all-history reconstruction from verified BLOBs and event contracts.
+    """Complete reconstruction, including fresh native verification of VALID.
 
     Policy table links are untrusted hints, required to equal event-owned rows.
     Stored heads/counters/status mirrors are never inputs to this state machine.
     """
-    def __init__(self, blobs, policy_links, limits):
+    def __init__(self, blobs, policy_links, limits, budget=None):
         self.blobs, self.policy_links, self.limits = blobs, policy_links, limits
+        self.budget = budget
         self.profiles = catalog.native_catalog()
         self.impl_profiles = {p.spec.data()["reader_spec_hash"]: p for p in self.profiles}
         self.handler_profiles = {p.spec.sha256: p for p in self.profiles}
@@ -160,6 +232,7 @@ class Replay:
         self.impl, self.handlers, self.policies = {}, {}, {}
         self.registries, self.sources, self.registrations, self.heads = {}, {}, {}, {}
         self.raw, self.metadata, self.reg_raw = set(), set(), {}
+        self.reg_text, self.reg_manifests = {}, {}
         self.events, self.event_ids, self.transaction_ids = [], set(), set()
         self.envelope_bytes = 0
         self.store_uuid = None
@@ -226,6 +299,9 @@ class Replay:
             self.policies[rid, 1] = PolicyActivation(rid, 1, spec, fingerprint, now)
             self.registries[rid] = RegistryState(rid, p["session_id"], p["kind"], 1, 1, 0, False, 0)
             self.reg_raw[rid] = set()
+            self.reg_text[rid] = set()
+            self.reg_manifests[rid, "native"] = set()
+            self.reg_manifests[rid, "integration"] = set()
             self.rows["policy_specs"].add((key, implementation, blob))
             self.rows["registries"].add((rid, p["kind"], p["session_id"], seq))
             self.rows["policy_activations"].add((rid, 1, key, fingerprint, seq, now))
@@ -259,11 +335,12 @@ class Replay:
         elif kind in (c.EventKind.CAPTURED, c.EventKind.FAILED):
             ref = c.SourceRef.parse(p["registration"])
             previous = self.registrations[ref.registration_id]
-            need(previous.ref == ref and previous.status is SourceStatus.PENDING and previous.binary_sha256 is None)
+            need(previous.ref == ref and previous.status is SourceStatus.PENDING)
             rid = previous.registry_id
             reg = self.active(rid)
             need(reg.policy_revision == previous.policy_revision)
             if kind is c.EventKind.CAPTURED:
+                need(previous.binary_sha256 is None)
                 key = p["blob_sha256"]
                 raw = self.blobs[key]
                 cfg = self.policy(rid).data()["config"]
@@ -277,17 +354,57 @@ class Replay:
                 self.registries[rid] = replace(reg, epoch=reg.epoch + 1, retained_bytes=reg.retained_bytes + extra)
                 self.rows["source_captures"].add((ref.registration_id, seq, key, len(raw)))
             else:
-                need(p["phase"] == "capture" and len(p["issue_codes"]) == 1 and
-                     p["issue_codes"][0] in ("capture_failed", "source_limit", "unsupported_input"))
+                if p["phase"] == "capture":
+                    need(previous.binary_sha256 is None and len(p["issue_codes"]) == 1 and
+                         p["issue_codes"][0] in ("capture_failed", "source_limit", "unsupported_input"))
+                else:
+                    need(p["phase"] == "validation" and p["issue_codes"] == ["parse_timeout"] and
+                         previous.capture_event_sequence is not None and previous.binary_sha256 in self.raw)
                 self.registrations[ref.registration_id] = replace(previous, status=SourceStatus.FAILED,
-                    failure_codes=tuple(p["issue_codes"]))
+                    failure_codes=tuple(p["issue_codes"]), failure_phase=p["phase"], terminal_event_sequence=seq)
                 self.registries[rid] = replace(reg, epoch=reg.epoch + 1)
-                self.rows["source_terminals"].add((ref.registration_id, seq, "failed", None, "capture",
+                self.rows["source_terminals"].add((ref.registration_id, seq, "failed", None, p["phase"],
                                                      c.canonical_dumps(p["issue_codes"])))
+        elif kind is c.EventKind.VALIDATED:
+            from ._v3_validation import derive, derivation_row, retention
+            ref = c.SourceRef.parse(p["registration"])
+            previous = self.registrations[ref.registration_id]
+            need(previous.ref == ref and previous.status is SourceStatus.PENDING and
+                 previous.capture_event_sequence == p["capture_event_sequence"] and previous.binary_sha256 in self.raw)
+            rid = previous.registry_id
+            reg = self.active(rid)
+            need(reg.policy_revision == previous.policy_revision and
+                 p["source_head_at_validation"] == self.heads[ref.source_id].data())
+            need(previous.handler_spec_hash in self.handlers and previous.reader_spec_hash in self.impl)
+            policy = self.policies[rid, previous.policy_revision]
+            reference = c.DerivationRef(self.blobs[p["derivation_blob_sha256"]])
+            need(reference.sha256 == p["derivation_sha256"] and reference.blob_sha256 == p["derivation_blob_sha256"])
+            need(self.budget is not None, "Native verification budget required")
+            try:
+                derived = derive(self.store_uuid, previous, policy, self.blobs[previous.binary_sha256], self.budget)
+            except NativeBridgeError as exc:
+                raise UnsupportedLedgerError("Historical native execution refused") from exc
+            need(reference == derived.reference, "Stored derivation differs from fresh captured-byte extraction")
+            for raw in derived.blobs:
+                key = c.sha256(raw)
+                need(self.blobs[key] == raw, "Stored native content differs from fresh extraction")
+                self.metadata.add(key)
+            cfg = policy.spec.data()["config"]
+            text_chars, manifest_bytes = retention(self, previous, derived)
+            need(text_chars <= cfg["max_retained_text_chars"] and manifest_bytes <= cfg["max_retained_manifest_bytes"])
+            self.reg_text[rid].add(reference.data()["native_text_sha256"])
+            for role, raw in (("native", derived.native_manifest), ("integration", derived.integration)):
+                if raw is not None: self.reg_manifests[rid, role].add(c.sha256(raw))
+            self.registrations[ref.registration_id] = replace(previous, status=SourceStatus.VALID,
+                derivation=reference, terminal_event_sequence=seq)
+            self.registries[rid] = replace(reg, epoch=reg.epoch + 1, retained_text_chars=text_chars,
+                retained_manifest_bytes=manifest_bytes, derivation_count=reg.derivation_count + 1)
+            self.rows["derivations"].add(derivation_row(reference, seq))
+            self.rows["source_terminals"].add((ref.registration_id, seq, "valid", reference.sha256, None, b"[]"))
         elif kind is c.EventKind.EXHAUSTED:
             rid = p["registry_id"]
             reg = self.active(rid)
-            need(p["budget_name"] in ("events", "sources", "history", "raw_bytes", "metadata_bytes"))
+            need(p["budget_name"] in ("events", "sources", "history", "raw_bytes", "metadata_bytes", "policy_capacity"))
             need(len(event.payload.canonical) + len(event.envelope.canonical) <= 1024)
             self.registries[rid] = replace(reg, exhausted=True, epoch=reg.epoch + 1)
         else:
@@ -307,7 +424,8 @@ class Replay:
             self.rows["source_heads"].add((sid, ref.revision, ref.registration_id, start))
         for reg in self.registries.values():
             self.rows["registry_state"].add((reg.registry_id, reg.policy_revision, reg.epoch, reg.history_units,
-                int(reg.exhausted), reg.retained_bytes, 0, 0, 0))
+                int(reg.exhausted), reg.retained_bytes, reg.retained_text_chars,
+                reg.retained_manifest_bytes, reg.derivation_count))
         last = self.events[-1].envelope.data()
         self.rows["store_metadata"].add((1, self.store_uuid, 3, c.EVENT_CODEC, c.SERIALIZATION_VERSION,
                                       c.FEATURE_PROFILE, last["sequence"], last["event_sha256"]))

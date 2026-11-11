@@ -513,3 +513,27 @@ READY FOR CONTRACT REVIEW is the only requested outcome. No production readiness
 Sprint 0 acceptance, BSI normative baseline change or certification claim follows.
 Review this contract before separately authorizing any implementation; stop at
 TASK-007.3B.2.5.0.
+
+## TASK-007.3B.2.5.1 clarification: known commit versus late response
+
+**Independent implementation review required; ADR status remains PROPOSED.**
+The deadline/COMMIT/cleanup interaction in sections 8–9 needs an explicit
+distinction: a COMMIT call that returned successfully establishes a durable
+transaction observation even if its I/O finishes after the admission deadline.
+Do not return a late success, invent rollback, append a failure, or call that
+known commit indeterminate. Raise LedgerLimitError explicitly stating that
+COMMIT completed and requiring reload/reconciliation before another command.
+The committed terminal/reference stays intact. Likewise a subsequent close
+failure reports a LedgerError explicitly stating that validation committed;
+it is not CommitOutcomeUnknownError. A known committed registry.exhausted retains
+its durable RegistryExhaustedError signal even on late cleanup.
+
+CommitOutcomeUnknownError is reserved for a COMMIT exception where neither
+successful commit nor an active transaction followed by confirmed rollback can
+be established. Its frozen intent carries intended identifiers, never a claimed
+committed head/outcome. No new event/state/schema field is introduced by these
+error distinctions. Precommit deadlines still refuse and roll back. A synchronous
+SQLite COMMIT cannot be preempted safely by this Python deadline; the bound is
+result admission, not a hard cancellation or arbitrary hardware-I/O guarantee.
+Focused tests distinguish known rollback, genuinely indeterminate commit,
+known-committed late response and known-committed close failure.

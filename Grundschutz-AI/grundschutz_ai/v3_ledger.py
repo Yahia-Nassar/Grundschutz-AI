@@ -1,4 +1,4 @@
-"""Schema-3 trusted enrollment/registration/capture only. Never parses sources.
+"""Schema-3 explicit capture/native validation and complete trusted replay.
 
 The initialized-only API is unchanged. Every connection is operation-owned;
 there is no public append, descriptor enrollment or writable connection API.
@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import sqlite3
 import stat
+import sys
 from threading import RLock
 import time
 from uuid import uuid4
@@ -20,12 +21,15 @@ from ._v3_capture import (
     StaleWriteError, LedgerBusyError, LedgerLimitError, RegistryExhaustedError,
     LedgerLimits, DEFAULT_LIMITS, LedgerHead, SourceStatus, Blob, RegistryState,
     PolicyActivation, SourceRegistration, LedgerState, Replay, need,
+    ValidationOutcome, CommitOutcomeUnknownError, _ValidationIntent,
 )
+from ._v3_validation import VerificationBudget, derive, derivation_row, retention
 
 __all__ = ("SourceLedger", "load_ledger", "LedgerLimits", "LedgerHead", "LedgerState",
            "RegistryState", "SourceStatus", "SourceRegistration", "SheetSelection",
            "LedgerError", "CorruptLedgerError", "UnsupportedLedgerError", "InvalidCommandError",
-           "StaleWriteError", "LedgerBusyError", "LedgerLimitError", "RegistryExhaustedError")
+           "StaleWriteError", "LedgerBusyError", "LedgerLimitError", "RegistryExhaustedError",
+           "ValidationOutcome", "CommitOutcomeUnknownError")
 
 
 def _deadline(deadline):
@@ -70,7 +74,7 @@ def _connect(path, *, readonly):
         raise
 
 
-def _verify(connection, limits, deadline, *, mirrors=True):
+def _verify(connection, limits, deadline, *, mirrors=True, budget=None):
     _deadline(deadline)
     connection.set_progress_handler(lambda: int(time.monotonic() >= deadline), 1000)
     try:
@@ -82,7 +86,10 @@ def _verify(connection, limits, deadline, *, mirrors=True):
         need(largest <= c.DEFAULT_LIMITS.max_bytes)
         blob_count, total, largest = connection.execute(
             "SELECT count(*),coalesce(sum(byte_length),0),coalesce(max(byte_length),0) FROM content_blobs").fetchone()
-        if (blob_count > 2 * limits.max_events + 8 or
+        roles = dict(connection.execute("SELECT kind,count(*) FROM events GROUP BY kind"))
+        bound = count + sum(roles.get(k, 0) for k in ("implementation.registered", "reader.handler_registered",
+            "registry.created", "policy.activated", "source.captured")) + 4 * roles.get("source.validated", 0)
+        if (blob_count > bound or
                 total > limits.max_original_bytes + limits.max_metadata_bytes or largest > c.DEFAULT_LIMITS.max_bytes):
             raise LedgerLimitError("BLOB admission budget exceeded")
         pages = connection.execute("PRAGMA page_count").fetchone()[0]
@@ -96,7 +103,7 @@ def _verify(connection, limits, deadline, *, mirrors=True):
             blobs[key] = raw
         links = {key: (implementation, blob) for key, implementation, blob in
                  connection.execute("SELECT * FROM policy_specs")}
-        replay = Replay(blobs, links, limits)
+        replay = Replay(blobs, links, limits, budget or VerificationBudget(deadline))
         for row in connection.execute("SELECT * FROM events ORDER BY sequence"):
             _deadline(deadline)
             envelope = c.Envelope(row[-1])
@@ -111,16 +118,20 @@ def _verify(connection, limits, deadline, *, mirrors=True):
                 need(set(connection.execute("SELECT * FROM " + table)) == expected)
         _deadline(deadline)
         return state, replay
+    except sqlite3.Error as exc:
+        if time.monotonic() >= deadline:
+            raise LedgerLimitError("SQL verification cumulative deadline exceeded") from exc
+        raise
     finally:
         connection.set_progress_handler(None, 0)
 
 
-def _read(path, limits, deadline):
+def _read(path, limits, deadline, *, budget=None):
     checked = _checked_path(path, limits)
     connection = _connect(checked, readonly=True)
     try:
         connection.execute("BEGIN")
-        result = _verify(connection, limits, deadline)
+        result = _verify(connection, limits, deadline, budget=budget)
         connection.execute("COMMIT")
         return result
     finally:
@@ -130,6 +141,8 @@ def _read(path, limits, deadline):
 def _error(exc):
     if isinstance(exc, sqlite3.Error) and getattr(exc, "sqlite_errorcode", 0) & 255 in (sqlite3.SQLITE_BUSY, sqlite3.SQLITE_LOCKED):
         return LedgerBusyError("Capture-ledger writer is busy; no automatic retry")
+    if isinstance(exc, (NativeBridgeError, foundation.UnsupportedStoreError)):
+        return UnsupportedLedgerError("Trusted native/store environment unavailable")
     return CorruptLedgerError("Capture ledger refused; no trusted partial result")
 
 
@@ -278,33 +291,34 @@ class SourceLedger:
             if state.source_head(source_id) != expected_source:
                 raise StaleWriteError("Expected highest-started source head is stale")
 
-    def _write(self, expected, actor, prepare, *, registry=None, source_id=None, expected_source=None, deadline=None):
+    def _write(self, expected, actor, prepare, *, registry=None, source_id=None, expected_source=None, deadline=None, budget=None):
         """Private command engine; only fixed named operations supply plans."""
         deadline = deadline if deadline is not None else time.monotonic() + self._limits.max_replay_seconds
+        budget = budget or VerificationBudget(deadline)
         connection = None
         try:
             self._live(); c.text(actor)
-            state, _ = _read(self._path, self._limits, deadline)  # RO before any RW handle.
+            state, _ = _read(self._path, self._limits, deadline, budget=budget)  # RO before any RW handle.
             self._tokens(state, expected, registry, source_id, expected_source)
             connection = _connect(_checked_path(self._path, self._limits), readonly=False)
             connection.execute("BEGIN IMMEDIATE")
-            state, replay = _verify(connection, self._limits, deadline)
+            state, replay = _verify(connection, self._limits, deadline, budget=budget)
             self._tokens(state, expected, registry, source_id, expected_source)
             plan = prepare(state, replay)
             envelope = _envelope(plan.payload, state.head, actor)
             metadata = {key: replay.blobs[key] for key in replay.metadata}
             for raw in (plan.payload.canonical, *plan.metadata):
                 metadata[c.sha256(raw)] = raw
-            budget = None
+            exhaustion_budget_name = None
             if envelope.data()["sequence"] > self._limits.max_events - self._limits.max_registries:
-                budget = "events"
+                exhaustion_budget_name = "events"
             if sum(map(len, metadata.values())) + replay.envelope_bytes + len(envelope.canonical) > self._limits.max_metadata_bytes - 1024 * self._limits.max_registries:
-                budget = "metadata_bytes"
-            if budget and plan.payload.kind is not c.EventKind.EXHAUSTED:
+                exhaustion_budget_name = "metadata_bytes"
+            if exhaustion_budget_name and plan.payload.kind is not c.EventKind.EXHAUSTED:
                 if plan.registry_id is None:
                     raise LedgerLimitError("Normal event/control reserve exhausted; command uncommitted")
                 replay.active(plan.registry_id)
-                plan = _exhaust(plan.registry_id, budget)
+                plan = _exhaust(plan.registry_id, exhaustion_budget_name)
                 envelope = _envelope(plan.payload, state.head, actor)
             for raw in (*plan.metadata, plan.payload.canonical): _blob(connection, raw)
             if plan.raw is not None: _blob(connection, plan.raw)
@@ -315,9 +329,9 @@ class SourceLedger:
             e = envelope.data()
             connection.execute("INSERT INTO events VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 tuple(e[name] for name in foundation._ROW_FIELDS) + (envelope.canonical,))
-            _, rebuilt = _verify(connection, self._limits, deadline, mirrors=False)
+            _, rebuilt = _verify(connection, self._limits, deadline, mirrors=False, budget=budget)
             _mirror(connection, rebuilt)
-            verified, _ = _verify(connection, self._limits, deadline)
+            verified, _ = _verify(connection, self._limits, deadline, budget=budget)
             _deadline(deadline)
             connection.execute("COMMIT")
             if plan.payload.kind is c.EventKind.EXHAUSTED:
@@ -411,9 +425,10 @@ class SourceLedger:
     def capture_source(self, ref, source_path, *, expected, expected_registry, expected_source, actor_id):
         with self._lock:
             deadline = time.monotonic() + self._limits.max_replay_seconds
+            budget = VerificationBudget(deadline)
             try:
                 self._live(); c.text(actor_id); c.require(type(ref) is c.SourceRef)
-                state, _ = _read(self._path, self._limits, deadline)
+                state, _ = _read(self._path, self._limits, deadline, budget=budget)
                 self._tokens(state, expected, expected_registry, ref.source_id, expected_source)
                 previous = state.registration(ref)
                 if type(expected_registry) is not RegistryState or expected_registry.registry_id != previous.registry_id:
@@ -442,6 +457,161 @@ class SourceLedger:
                     return _Plan(c.make_payload(c.EventKind.CAPTURED, registration=ref.data(), blob_sha256=key,
                         byte_length=len(raw), observed_at=c.utc_now()), raw=raw, registry_id=reg.registry_id)
                 return self._write(expected, actor_id, prepare, registry=expected_registry,
-                                   source_id=ref.source_id, expected_source=expected_source, deadline=deadline)
+                                   source_id=ref.source_id, expected_source=expected_source, deadline=deadline, budget=budget)
             except _REFUSALS as exc:
                 raise _error(exc) from exc
+
+    @staticmethod
+    def _validation_target(state, ref, registry):
+        if type(ref) is not c.SourceRef or type(registry) is not RegistryState:
+            raise InvalidCommandError("Exact registration and registry tokens required")
+        source = state.registration(ref)
+        if registry.registry_id != source.registry_id:
+            raise InvalidCommandError("Validation registry does not own the registration")
+        if registry.exhausted:
+            raise RegistryExhaustedError("Verified registry already exhausted")
+        if (source.status is not SourceStatus.PENDING or source.capture_event_sequence is None or
+                source.binary_sha256 is None or source.derivation is not None):
+            raise InvalidCommandError("Validation requires captured nonterminal PENDING")
+        if source.policy_revision != registry.policy_revision:
+            raise InvalidCommandError("Registration policy is no longer active")
+        policy = next(p for p in state.policies if p.registry_id == source.registry_id and
+                      p.revision == source.policy_revision)
+        return source, policy
+
+    def validate_source(self, ref: c.SourceRef, *, expected: LedgerHead,
+                        expected_registry: RegistryState, expected_source: c.SourceRef,
+                        actor_id: str) -> ValidationOutcome:
+        """Explicit native validation of retained bytes; no paths or observations.
+
+        Complete replay is repeated under the write lock. All passes share the
+        same deadline/document allowances; none trusts stored native output.
+        """
+        with self._lock:
+            deadline = time.monotonic() + self._limits.max_replay_seconds
+            budget = VerificationBudget(deadline)
+            connection, committed, control = None, False, False
+            try:
+                self._live(); c.text(actor_id)
+                if type(ref) is not c.SourceRef or type(expected_registry) is not RegistryState or type(expected_source) is not c.SourceRef:
+                    raise InvalidCommandError("Exact validation reference/registry/source tokens required")
+                state, _ = _read(self._path, self._limits, deadline, budget=budget)
+                self._tokens(state, expected, expected_registry, ref.source_id, expected_source)
+                previous, policy = self._validation_target(state, ref, expected_registry)
+                raw = next(b.content for b in state.original_blobs if b.sha256 == previous.binary_sha256)
+                need(len(raw) == previous.byte_length and c.sha256(raw) == previous.binary_sha256)
+                derived = None
+                try:
+                    derived = derive(state.head.store_uuid, previous, policy, raw, budget)
+                except NativeBridgeError as exc:
+                    if exc.code != "worker_timeout":
+                        raise UnsupportedLedgerError("Initial native validation refused; source remains PENDING") from exc
+                    # Only the pinned bridge's timeout with successful cleanup
+                    # and rechecked trust can reach the explicit failure plan.
+                    budget.check()
+                self._live(); budget.check()
+                connection = _connect(_checked_path(self._path, self._limits), readonly=False)
+                connection.execute("BEGIN IMMEDIATE")
+                fresh, replay = _verify(connection, self._limits, deadline, budget=budget)
+                self._tokens(fresh, expected, expected_registry, ref.source_id, expected_source)
+                current, current_policy = self._validation_target(fresh, ref, fresh.registry(previous.registry_id))
+                if current != previous or current_policy != policy:
+                    raise StaleWriteError("Validation target/policy changed during native processing")
+                rid = current.registry_id
+                if derived is None:
+                    payload = c.make_payload(c.EventKind.FAILED, registration=ref.data(), phase="validation",
+                                             issue_codes=["parse_timeout"], observed_at=c.utc_now())
+                else:
+                    payload = c.make_payload(c.EventKind.VALIDATED, registration=ref.data(),
+                        capture_event_sequence=current.capture_event_sequence,
+                        derivation_sha256=derived.reference.sha256,
+                        derivation_blob_sha256=derived.reference.blob_sha256,
+                        source_head_at_validation=fresh.source_head(ref.source_id).data(), observed_at=c.utc_now())
+                envelope = _envelope(payload, fresh.head, actor_id)
+                new_blobs = () if derived is None else derived.blobs
+                metadata = {h: replay.blobs[h] for h in replay.metadata}
+                for value in (payload.canonical, *new_blobs): metadata[c.sha256(value)] = value
+                exhausted = None
+                if derived is not None:
+                    chars, manifests = retention(replay, current, derived)
+                    cfg = policy.spec.data()["config"]
+                    if chars > cfg["max_retained_text_chars"] or manifests > cfg["max_retained_manifest_bytes"]:
+                        exhausted = "policy_capacity"
+                if envelope.data()["sequence"] > self._limits.max_events - self._limits.max_registries:
+                    exhausted = "events"
+                if sum(map(len, metadata.values())) + replay.envelope_bytes + len(envelope.canonical) > self._limits.max_metadata_bytes - 1024 * self._limits.max_registries:
+                    exhausted = "metadata_bytes"
+                if exhausted is not None:
+                    payload = _exhaust(rid, exhausted).payload
+                    envelope = _envelope(payload, fresh.head, actor_id)
+                    new_blobs = ()
+                    control = True
+                    total = replay.metadata_bytes + len(payload.canonical) + len(envelope.canonical)
+                    if envelope.data()["sequence"] > self._limits.max_events or total > self._limits.max_metadata_bytes:
+                        raise LedgerLimitError("Validation control reserve unavailable; no event committed")
+                budget.check()
+                for value in (*new_blobs, payload.canonical): _blob(connection, value)
+                e = envelope.data()
+                if payload.kind is c.EventKind.VALIDATED:
+                    row = derivation_row(derived.reference, e["sequence"])
+                    connection.execute("INSERT INTO derivations VALUES (" + ",".join("?" for _ in row) + ")", row)
+                    connection.execute("INSERT INTO source_terminals VALUES (?,?,?,?,?,?)",
+                        (ref.registration_id, e["sequence"], "valid", derived.reference.sha256, None, b"[]"))
+                elif payload.kind is c.EventKind.FAILED:
+                    connection.execute("INSERT INTO source_terminals VALUES (?,?,?,?,?,?)",
+                        (ref.registration_id, e["sequence"], "failed", None, "validation", c.canonical_dumps(["parse_timeout"])))
+                connection.execute("INSERT INTO events VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                    tuple(e[name] for name in foundation._ROW_FIELDS) + (envelope.canonical,))
+                _, rebuilt = _verify(connection, self._limits, deadline, mirrors=False, budget=budget)
+                _mirror(connection, rebuilt)
+                verified, _ = _verify(connection, self._limits, deadline, budget=budget)
+                budget.check()
+                outcome = None
+                if not control:
+                    terminal = verified.registration(ref)
+                    outcome = ValidationOutcome(verified.head, ref, current.capture_event_sequence,
+                        e["sequence"], e["event_sha256"], e["transaction_id"], terminal.status,
+                        terminal.derivation, terminal.failure_phase, terminal.failure_codes,
+                        verified.source_head(ref.source_id), verified.registry(rid))
+                intent = _ValidationIntent(fresh.head, ref, current.capture_event_sequence, current.binary_sha256,
+                    e["transaction_id"], e["event_sha256"], payload.kind,
+                    derived.reference.sha256 if payload.kind is c.EventKind.VALIDATED else None)
+                try:
+                    connection.execute("COMMIT")
+                except BaseException as exc:
+                    rolled_back = False
+                    try:
+                        if connection.in_transaction:
+                            connection.execute("ROLLBACK")
+                            rolled_back = not connection.in_transaction
+                    except BaseException:
+                        pass
+                    if not rolled_back:
+                        raise CommitOutcomeUnknownError(intent) from exc
+                    raise
+                committed = True
+                if control:
+                    raise RegistryExhaustedError("Registry exhaustion committed; native completion not committed")
+                if time.monotonic() >= deadline:
+                    raise LedgerLimitError("Validation COMMIT completed after deadline; reload before retry")
+                return outcome
+            except _REFUSALS as exc:
+                raise _error(exc) from exc
+            except LedgerError:
+                raise
+            except Exception as exc:
+                raise UnsupportedLedgerError("Native validation could not be verified") from exc
+            finally:
+                if connection is not None:
+                    pending_error = sys.exception()
+                    try:
+                        try:
+                            if connection.in_transaction: connection.execute("ROLLBACK")
+                        finally:
+                            connection.close()
+                    except Exception as exc:
+                        if pending_error is None:
+                            if committed and control:
+                                raise RegistryExhaustedError("Registry exhaustion committed; cleanup refused") from exc
+                            message = "Validation committed; cleanup refused; reload" if committed else "Validation cleanup refused"
+                            raise LedgerError(message) from exc

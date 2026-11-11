@@ -759,7 +759,9 @@ class CustodyProofTests(TrustFixture):
         self.assertEqual(readiness(checkpoint=INCOMPLETE, custody=VERIFIED, writer_control=VERIFIED), INCOMPLETE)
         self.assertEqual(readiness(checkpoint=VERIFIED, custody=UNKNOWN, writer_control=VERIFIED), UNKNOWN)
         self.assertEqual(readiness(checkpoint=CONFLICT, custody=VERIFIED, writer_control=VERIFIED), CONFLICT)
-        self.assertEqual({s.value for s in ledger.SourceStatus}, {"pending", "failed"})
+        # Native VALID was activated separately in TASK-007.3B.2.5.1; these
+        # processing states still grant no recovery permission or human approval.
+        self.assertEqual({s.value for s in ledger.SourceStatus}, {"pending", "failed", "valid"})
 
 
 if __name__ == "__main__":
